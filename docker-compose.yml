@@ -1,0 +1,97 @@
+services:
+  # ── PHP Application ──────────────────────────
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: constellis-app
+    restart: unless-stopped
+    working_dir: /var/www/html
+    volumes:
+      - app-storage:/var/www/html/storage
+      - ./database/database.sqlite:/var/www/html/database/database.sqlite
+    environment:
+      - DB_CONNECTION=${DB_CONNECTION:-mysql}
+      - DB_HOST=${DB_HOST:-mysql}
+      - DB_PORT=${DB_PORT:-3306}
+      - DB_DATABASE=${DB_DATABASE:-constellis}
+      - DB_USERNAME=${DB_USERNAME:-constellis}
+      - DB_PASSWORD=${DB_PASSWORD:-secret}
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - constellis-net
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+
+  # ── Nginx Web Server ─────────────────────────
+  nginx:
+    image: nginx:1.27-alpine
+    container_name: constellis-nginx
+    restart: unless-stopped
+    ports:
+      - "${APP_PORT:-8088}:80"
+    volumes:
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./public:/var/www/html/public:ro
+      - app-storage:/var/www/html/storage:ro
+    depends_on:
+      - app
+    networks:
+      - constellis-net
+    deploy:
+      resources:
+        limits:
+          memory: 64M
+
+  # ── MySQL Database ───────────────────────────
+  mysql:
+    image: mysql:8.0
+    container_name: constellis-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-rootsecret}
+      MYSQL_DATABASE: ${DB_DATABASE:-constellis}
+      MYSQL_USER: ${DB_USERNAME:-constellis}
+      MYSQL_PASSWORD: ${DB_PASSWORD:-secret}
+    volumes:
+      - mysql-data:/var/lib/mysql
+    ports:
+      - "127.0.0.1:3307:3306"
+    networks:
+      - constellis-net
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+
+  # ── Redis (Cache + Sessions) ─────────────────
+  redis:
+    image: redis:7-alpine
+    container_name: constellis-redis
+    restart: unless-stopped
+    command: redis-server --maxmemory 64mb --maxmemory-policy allkeys-lru
+    networks:
+      - constellis-net
+    deploy:
+      resources:
+        limits:
+          memory: 96M
+
+volumes:
+  mysql-data:
+    driver: local
+  app-storage:
+    driver: local
+
+networks:
+  constellis-net:
+    driver: bridge
