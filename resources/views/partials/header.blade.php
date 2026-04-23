@@ -43,15 +43,15 @@
                          class="absolute top-full left-0 pt-2 min-w-[220px] z-50"
                          x-cloak>
                         <div class="bg-black/95 backdrop-blur-xl border border-white/10 rounded-xl shadow-2xl shadow-black/50 py-2">
-                            <a href="#about" @click="aboutOpen = false; $dispatch('set-about-tab', { tab: 'who' })" class="flex items-center gap-3 px-5 py-3 text-white/80 hover:text-white hover:bg-white/10 transition-all text-sm font-semibold">
+                            <a :href="isHome ? '#about' : '/#about'" @click="aboutOpen = false; if(isHome) $dispatch('set-about-tab', { tab: 'who' })" class="flex items-center gap-3 px-5 py-3 text-white/80 hover:text-white hover:bg-white/10 transition-all text-sm font-semibold">
                                 <svg class="w-4 h-4 text-accent-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
                                 <span x-text="$store.lang.current === 'en' ? 'Who We Are' : 'Quiénes Somos'"></span>
                             </a>
-                            <a href="#about" @click="aboutOpen = false; $dispatch('set-about-tab', { tab: 'vision' })" class="flex items-center gap-3 px-5 py-3 text-white/80 hover:text-white hover:bg-white/10 transition-all text-sm font-semibold">
+                            <a :href="isHome ? '#about' : '/#about'" @click="aboutOpen = false; if(isHome) $dispatch('set-about-tab', { tab: 'vision' })" class="flex items-center gap-3 px-5 py-3 text-white/80 hover:text-white hover:bg-white/10 transition-all text-sm font-semibold">
                                 <svg class="w-4 h-4 text-accent-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
                                 <span x-text="$store.lang.current === 'en' ? 'Vision' : 'Visión'"></span>
                             </a>
-                            <a href="#about" @click="aboutOpen = false; $dispatch('set-about-tab', { tab: 'mission' })" class="flex items-center gap-3 px-5 py-3 text-white/80 hover:text-white hover:bg-white/10 transition-all text-sm font-semibold">
+                            <a :href="isHome ? '#about' : '/#about'" @click="aboutOpen = false; if(isHome) $dispatch('set-about-tab', { tab: 'mission' })" class="flex items-center gap-3 px-5 py-3 text-white/80 hover:text-white hover:bg-white/10 transition-all text-sm font-semibold">
                                 <svg class="w-4 h-4 text-accent-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
                                 <span x-text="$store.lang.current === 'en' ? 'Mission' : 'Misión'"></span>
                             </a>
@@ -59,7 +59,7 @@
                     </div>
                 </div>
 
-                <a href="#services" @click.prevent="$store.sections.show('services')"
+                <a :href="isHome ? '#services' : '/#services'" @click="if(isHome) { $event.preventDefault(); $store.sections.show('services') }"
                    class="px-3 py-2 rounded-lg text-sm font-bold text-white hover:bg-white/10 transition-all duration-300">
                     <span x-text="$store.lang.current === 'en' ? 'Services' : 'Servicios'"></span>
                 </a>
@@ -82,7 +82,7 @@
                          class="absolute top-full left-0 pt-2 min-w-[200px] z-50"
                          x-cloak>
                         <div class="bg-black/95 backdrop-blur-xl border border-white/10 rounded-xl shadow-2xl shadow-black/50 py-2">
-                            <a href="#opportunities" @click.prevent="oppsOpen = false; $store.sections.show('opportunities')" class="flex items-center gap-3 px-5 py-3 text-white/80 hover:text-white hover:bg-white/10 transition-all text-sm font-semibold">
+                            <a :href="isHome ? '#opportunities' : '/#opportunities'" @click="oppsOpen = false; if(isHome) { $event.preventDefault(); $store.sections.show('opportunities') }" class="flex items-center gap-3 px-5 py-3 text-white/80 hover:text-white hover:bg-white/10 transition-all text-sm font-semibold">
                                 <svg class="w-4 h-4 text-accent-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
                                 <span x-text="$store.lang.current === 'en' ? 'Positions' : 'Posiciones'"></span>
                             </a>
@@ -94,22 +94,22 @@
                     </div>
                 </div>
 
-                <a href="#events" @click.prevent="$store.sections.show('events')"
+                <a :href="isHome ? '#events' : '/#events'" @click="if(isHome) { $event.preventDefault(); $store.sections.show('events') }"
                    class="px-3 py-2 rounded-lg text-sm font-bold text-white hover:bg-white/10 transition-all duration-300">
                     <span x-text="$store.lang.current === 'en' ? 'Relevant Events' : 'Eventos Relevantes'"></span>
                 </a>
 
-                <a href="#testimonials" @click.prevent="$store.sections.show('testimonials')"
+                <a :href="isHome ? '#testimonials' : '/#testimonials'" @click="if(isHome) { $event.preventDefault(); $store.sections.show('testimonials') }"
                    class="px-3 py-2 rounded-lg text-sm font-bold text-white hover:bg-white/10 transition-all duration-300">
                     <span x-text="$store.lang.current === 'en' ? 'Testimonials' : 'Testimonios'"></span>
                 </a>
 
-                <a href="#clients" @click.prevent="$store.sections.show('clients')"
+                <a :href="isHome ? '#clients' : '/#clients'" @click="if(isHome) { $event.preventDefault(); $store.sections.show('clients') }"
                    class="px-3 py-2 rounded-lg text-sm font-bold text-white hover:bg-white/10 transition-all duration-300">
                     <span x-text="$store.lang.current === 'en' ? 'Clients' : 'Clientes'"></span>
                 </a>
 
-                <a href="#contact" @click.prevent="$store.sections.show('contact')"
+                <a :href="isHome ? '#contact' : '/#contact'" @click="if(isHome) { $event.preventDefault(); $store.sections.show('contact') }"
                    class="px-3 py-2 rounded-lg text-sm font-bold text-white hover:bg-white/10 transition-all duration-300">
                     <span x-text="$store.lang.current === 'en' ? 'Contact Us' : 'Contáctenos'"></span>
                 </a>
@@ -195,12 +195,12 @@
                     <svg class="w-4 h-4 transition-transform" :class="subOpen ? 'rotate-180' : ''" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
                 </button>
                 <div x-show="subOpen" x-transition class="pl-6 space-y-1 mt-1">
-                    <a href="#about" @click="mobileOpen = false; $dispatch('set-about-tab', { tab: 'who' })" class="block px-4 py-2.5 text-white/80 hover:text-white hover:bg-white/10 rounded-lg transition-colors font-semibold text-sm" x-text="$store.lang.current === 'en' ? 'Who We Are' : 'Quiénes Somos'"></a>
-                    <a href="#about" @click="mobileOpen = false; $dispatch('set-about-tab', { tab: 'vision' })" class="block px-4 py-2.5 text-white/80 hover:text-white hover:bg-white/10 rounded-lg transition-colors font-semibold text-sm" x-text="$store.lang.current === 'en' ? 'Vision' : 'Visión'"></a>
-                    <a href="#about" @click="mobileOpen = false; $dispatch('set-about-tab', { tab: 'mission' })" class="block px-4 py-2.5 text-white/80 hover:text-white hover:bg-white/10 rounded-lg transition-colors font-semibold text-sm" x-text="$store.lang.current === 'en' ? 'Mission' : 'Misión'"></a>
+                    <a :href="isHome ? '#about' : '/#about'" @click="mobileOpen = false; if(isHome) $dispatch('set-about-tab', { tab: 'who' })" class="block px-4 py-2.5 text-white/80 hover:text-white hover:bg-white/10 rounded-lg transition-colors font-semibold text-sm" x-text="$store.lang.current === 'en' ? 'Who We Are' : 'Quiénes Somos'"></a>
+                    <a :href="isHome ? '#about' : '/#about'" @click="mobileOpen = false; if(isHome) $dispatch('set-about-tab', { tab: 'vision' })" class="block px-4 py-2.5 text-white/80 hover:text-white hover:bg-white/10 rounded-lg transition-colors font-semibold text-sm" x-text="$store.lang.current === 'en' ? 'Vision' : 'Visión'"></a>
+                    <a :href="isHome ? '#about' : '/#about'" @click="mobileOpen = false; if(isHome) $dispatch('set-about-tab', { tab: 'mission' })" class="block px-4 py-2.5 text-white/80 hover:text-white hover:bg-white/10 rounded-lg transition-colors font-semibold text-sm" x-text="$store.lang.current === 'en' ? 'Mission' : 'Misión'"></a>
                 </div>
             </div>
-            <a href="#services" @click.prevent="mobileOpen = false; $store.sections.show('services')" class="block px-4 py-3 text-white hover:bg-white/10 rounded-lg transition-colors font-bold text-sm" x-text="$store.lang.current === 'en' ? 'Services' : 'Servicios'"></a>
+            <a :href="isHome ? '#services' : '/#services'" @click="mobileOpen = false; if(isHome) { $event.preventDefault(); $store.sections.show('services') }" class="block px-4 py-3 text-white hover:bg-white/10 rounded-lg transition-colors font-bold text-sm" x-text="$store.lang.current === 'en' ? 'Services' : 'Servicios'"></a>
 
             {{-- Opportunities --}}
             <div x-data="{ subOpen: false }">
@@ -209,15 +209,15 @@
                     <svg class="w-4 h-4 transition-transform" :class="subOpen ? 'rotate-180' : ''" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
                 </button>
                 <div x-show="subOpen" x-transition class="pl-6 space-y-1 mt-1">
-                    <a href="#opportunities" @click.prevent="mobileOpen = false; $store.sections.show('opportunities')" class="block px-4 py-2.5 text-white/80 hover:text-white hover:bg-white/10 rounded-lg transition-colors font-semibold text-sm" x-text="$store.lang.current === 'en' ? 'Positions' : 'Posiciones'"></a>
+                    <a :href="isHome ? '#opportunities' : '/#opportunities'" @click="mobileOpen = false; if(isHome) { $event.preventDefault(); $store.sections.show('opportunities') }" class="block px-4 py-2.5 text-white/80 hover:text-white hover:bg-white/10 rounded-lg transition-colors font-semibold text-sm" x-text="$store.lang.current === 'en' ? 'Positions' : 'Posiciones'"></a>
                     <a href="/careers" @click="mobileOpen = false" class="block px-4 py-2.5 text-white/80 hover:text-white hover:bg-white/10 rounded-lg transition-colors font-semibold text-sm" x-text="$store.lang.current === 'en' ? 'Apply' : 'Postular'"></a>
                 </div>
             </div>
 
-            <a href="#events" @click.prevent="mobileOpen = false; $store.sections.show('events')" class="block px-4 py-3 text-white hover:bg-white/10 rounded-lg transition-colors font-bold text-sm" x-text="$store.lang.current === 'en' ? 'Relevant Events' : 'Eventos Relevantes'"></a>
-            <a href="#testimonials" @click.prevent="mobileOpen = false; $store.sections.show('testimonials')" class="block px-4 py-3 text-white hover:bg-white/10 rounded-lg transition-colors font-bold text-sm" x-text="$store.lang.current === 'en' ? 'Testimonials' : 'Testimonios'"></a>
-            <a href="#clients" @click.prevent="mobileOpen = false; $store.sections.show('clients')" class="block px-4 py-3 text-white hover:bg-white/10 rounded-lg transition-colors font-bold text-sm" x-text="$store.lang.current === 'en' ? 'Clients' : 'Clientes'"></a>
-            <a href="#contact" @click.prevent="mobileOpen = false; $store.sections.show('contact')" class="block px-4 py-3 text-white hover:bg-white/10 rounded-lg transition-colors font-bold text-sm" x-text="$store.lang.current === 'en' ? 'Contact Us' : 'Contáctenos'"></a>
+            <a :href="isHome ? '#events' : '/#events'" @click="mobileOpen = false; if(isHome) { $event.preventDefault(); $store.sections.show('events') }" class="block px-4 py-3 text-white hover:bg-white/10 rounded-lg transition-colors font-bold text-sm" x-text="$store.lang.current === 'en' ? 'Relevant Events' : 'Eventos Relevantes'"></a>
+            <a :href="isHome ? '#testimonials' : '/#testimonials'" @click="mobileOpen = false; if(isHome) { $event.preventDefault(); $store.sections.show('testimonials') }" class="block px-4 py-3 text-white hover:bg-white/10 rounded-lg transition-colors font-bold text-sm" x-text="$store.lang.current === 'en' ? 'Testimonials' : 'Testimonios'"></a>
+            <a :href="isHome ? '#clients' : '/#clients'" @click="mobileOpen = false; if(isHome) { $event.preventDefault(); $store.sections.show('clients') }" class="block px-4 py-3 text-white hover:bg-white/10 rounded-lg transition-colors font-bold text-sm" x-text="$store.lang.current === 'en' ? 'Clients' : 'Clientes'"></a>
+            <a :href="isHome ? '#contact' : '/#contact'" @click="mobileOpen = false; if(isHome) { $event.preventDefault(); $store.sections.show('contact') }" class="block px-4 py-3 text-white hover:bg-white/10 rounded-lg transition-colors font-bold text-sm" x-text="$store.lang.current === 'en' ? 'Contact Us' : 'Contáctenos'"></a>
 
             <div class="pt-4 border-t border-white/10 space-y-1">
                 @if(App\Models\SiteSetting::get('store_enabled', 'true') === 'true')
