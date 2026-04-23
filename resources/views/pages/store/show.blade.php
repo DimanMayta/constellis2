@@ -2,7 +2,7 @@
 @section('title', $product->name . ' — Constellis Store')
 
 @section('content')
-<section class="py-8 bg-white -mt-20 pt-28">
+<section class="py-8 bg-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <a href="{{ route('store.index') }}" class="inline-flex items-center gap-2 text-slate-500 hover:text-blue-600 text-sm font-medium mb-8 transition-colors">
             <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
@@ -10,10 +10,30 @@
         </a>
 
         <div class="grid lg:grid-cols-2 gap-12">
-            <div class="aspect-square img-placeholder rounded-3xl relative overflow-hidden">
-                <div class="absolute inset-0 flex items-center justify-center z-10">
-                    <span class="font-display font-bold text-6xl text-white/20">{{ substr($product->name, 0, 2) }}</span>
+            <div class="space-y-3">
+                {{-- Main Image --}}
+                <div class="aspect-square rounded-3xl relative overflow-hidden bg-slate-100">
+                    @if($product->images && count($product->images) > 0)
+                        <img src="{{ asset('storage/' . $product->images[0]) }}"
+                             alt="{{ $product->name }}"
+                             class="w-full h-full object-cover"
+                             id="mainProductImage">
+                    @else
+                        <div class="absolute inset-0 flex items-center justify-center img-placeholder">
+                            <span class="font-display font-bold text-6xl text-white/20">{{ substr($product->name, 0, 2) }}</span>
+                        </div>
+                    @endif
                 </div>
+                {{-- Thumbnail Gallery --}}
+                @if($product->images && count($product->images) > 1)
+                    <div class="grid grid-cols-4 gap-2">
+                        @foreach($product->images as $img)
+                            <button onclick="document.getElementById('mainProductImage').src='{{ asset('storage/' . $img) }}'" class="aspect-square rounded-xl overflow-hidden bg-slate-100 border-2 border-transparent hover:border-blue-500 transition-colors focus:border-blue-600 focus:outline-none">
+                                <img src="{{ asset('storage/' . $img) }}" alt="{{ $product->name }}" class="w-full h-full object-cover">
+                            </button>
+                        @endforeach
+                    </div>
+                @endif
             </div>
             <div>
                 <span class="text-blue-600 text-sm font-semibold">{{ $product->category->name }}</span>
@@ -71,7 +91,13 @@
                 <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
                     @foreach($related as $item)
                         <a href="{{ route('store.show', $item) }}" class="card overflow-hidden group">
-                            <div class="aspect-square img-placeholder relative"><div class="absolute inset-0 flex items-center justify-center z-10"><span class="font-display font-bold text-2xl text-white/30">{{ substr($item->name, 0, 2) }}</span></div></div>
+                            <div class="aspect-square relative overflow-hidden bg-slate-100">
+                            @if($item->images && count($item->images) > 0)
+                                <img src="{{ asset('storage/' . $item->images[0]) }}" alt="{{ $item->name }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                            @else
+                                <div class="absolute inset-0 flex items-center justify-center img-placeholder"><span class="font-display font-bold text-2xl text-white/30">{{ substr($item->name, 0, 2) }}</span></div>
+                            @endif
+                        </div>
                             <div class="p-4">
                                 <h3 class="text-slate-900 font-semibold text-sm group-hover:text-blue-600 transition-colors">{{ $item->name }}</h3>
                                 <p class="text-blue-600 font-bold mt-1">${{ number_format($item->price, 2) }}</p>

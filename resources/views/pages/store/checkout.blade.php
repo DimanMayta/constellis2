@@ -2,7 +2,7 @@
 @section('title', 'Checkout — Constellis Store')
 
 @section('content')
-<section class="py-8 bg-white -mt-20 pt-28">
+<section class="py-8 bg-white">
     <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
         <h1 class="text-3xl font-display font-bold text-slate-900 mb-8">Checkout</h1>
 

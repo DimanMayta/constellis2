@@ -16,6 +16,7 @@ class PartnerResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-building-office';
     protected static ?string $navigationGroup = 'What We Do';
     protected static ?int $navigationSort = 5;
+    protected static bool $shouldRegisterNavigation = false;
 
     public static function form(Form $form): Form
     {
@@ -27,7 +28,7 @@ class PartnerResource extends Resource
                 Forms\Components\Select::make('partnership_type')->options(['strategic' => 'Strategic', 'technology' => 'Technology', 'training' => 'Training']),
                 Forms\Components\Textarea::make('description')->rows(3),
                 Forms\Components\FileUpload::make('logo')->image()->directory('partners'),
-                Forms\Components\TextInput::make('sort_order')->numeric()->default(0),
+                Forms\Components\TextInput::make('sort_order')->numeric()->default(fn () => (\App\Models\Partner::max('sort_order') ?? 0) + 1),
                 Forms\Components\Toggle::make('is_active')->default(true),
             ])->columns(2),
         ]);

@@ -20,6 +20,7 @@ class DivisionResource extends Resource
     protected static ?string $navigationGroup = 'Who We Are';
 
     protected static ?int $navigationSort = 5;
+    protected static bool $shouldRegisterNavigation = false;
 
     public static function form(Form $form): Form
     {
@@ -34,7 +35,7 @@ class DivisionResource extends Resource
                         Forms\Components\Textarea::make('description')->rows(3),
                         Forms\Components\FileUpload::make('logo')->image()->directory('divisions/logos'),
                         Forms\Components\FileUpload::make('image')->image()->directory('divisions'),
-                        Forms\Components\TextInput::make('sort_order')->numeric()->default(0),
+                        Forms\Components\TextInput::make('sort_order')->numeric()->default(fn () => (\App\Models\Division::max('sort_order') ?? 0) + 1),
                         Forms\Components\Toggle::make('is_active')->default(true),
                     ])->columns(2),
                 Forms\Components\Section::make('Content')

@@ -6,6 +6,7 @@ use App\Events\NewIntranetMessage;
 use App\Models\InternalMessage;
 use App\Models\User;
 use Filament\Pages\Page;
+use Filament\Support\Enums\MaxWidth;
 use Illuminate\Support\Str;
 
 class Messages extends Page
@@ -17,6 +18,23 @@ class Messages extends Page
     protected static ?string $navigationGroup = null;
 
     protected static string $view = 'filament.pages.messages';
+
+    protected ?string $maxContentWidth = 'Full';
+
+    public function getMaxContentWidth(): MaxWidth | string | null
+    {
+        return MaxWidth::Full;
+    }
+
+    public function getHeading(): string
+    {
+        return '';
+    }
+
+    public function getSubHeading(): ?string
+    {
+        return null;
+    }
 
     public static function getNavigationBadge(): ?string
     {

@@ -2,7 +2,7 @@
 @section('title', $page->meta_title ?? $page->title . ' — Constellis')
 @section('meta_description', $page->meta_description ?? '')
 @section('content')
-<section class="relative py-28 overflow-hidden -mt-20 pt-40 bg-gradient-to-br from-blue-600 via-blue-700 to-blue-900">
+<section class="relative py-28 overflow-hidden bg-gradient-to-br from-blue-600 via-blue-700 to-blue-900">
     <div class="absolute inset-0 line-grid opacity-20"></div>
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         @if($page->hero_title)<h1 class="section-heading-white mb-6">{!! $page->hero_title !!}</h1>@else<h1 class="section-heading-white mb-6">{{ $page->title }}</h1>@endif

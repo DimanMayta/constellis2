@@ -29,7 +29,10 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->login()
-            ->brandName('Constellis Admin')
+            ->brandName('NSG Admin')
+            ->brandLogo(asset('images/NSG.png'))
+            ->brandLogoHeight('3.5rem')
+            ->darkModeBrandLogo(asset('images/NSG.png'))
             ->colors([
                 'primary' => Color::Blue,
                 'danger' => Color::Rose,
@@ -39,16 +42,24 @@ class AdminPanelProvider extends PanelProvider
                 'warning' => Color::Amber,
             ])
             ->font('Inter')
+            ->favicon(asset('images/NSG.png'))
             ->darkMode(true)
             ->sidebarCollapsibleOnDesktop()
             ->navigationGroups([
                 'Content Management',
                 'Store',
-                'Services',
-                'Training',
-                'Contacts',
+                'Contact Us',
+                'User Management',
                 'System',
             ])
+            ->renderHook(
+                PanelsRenderHook::GLOBAL_SEARCH_BEFORE,
+                fn () => view('filament.hooks.translate-toggle'),
+            )
+            ->renderHook(
+                PanelsRenderHook::GLOBAL_SEARCH_BEFORE,
+                fn () => view('filament.hooks.dark-mode-toggle'),
+            )
             ->renderHook(
                 PanelsRenderHook::BODY_END,
                 fn () => view('filament.hooks.echo-scripts'),

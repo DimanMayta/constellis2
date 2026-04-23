@@ -22,6 +22,7 @@ class TrainingCourseResource extends Resource
     protected static ?int $navigationSort = 2;
 
     protected static ?string $navigationLabel = 'Courses';
+    protected static bool $shouldRegisterNavigation = false;
 
     public static function form(Form $form): Form
     {
@@ -49,7 +50,7 @@ class TrainingCourseResource extends Resource
                             ->maxValue(999999.99),
                         Forms\Components\TextInput::make('registration_url')->url()->maxLength(255),
                         Forms\Components\FileUpload::make('image')->image()->directory('training-courses'),
-                        Forms\Components\TextInput::make('sort_order')->numeric()->default(0),
+                        Forms\Components\TextInput::make('sort_order')->numeric()->default(fn () => (\App\Models\TrainingCourse::max('sort_order') ?? 0) + 1),
                         Forms\Components\Toggle::make('is_active')->default(true),
                     ])->columns(2),
                 Forms\Components\Section::make('Content')

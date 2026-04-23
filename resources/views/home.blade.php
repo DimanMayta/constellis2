@@ -1,679 +1,945 @@
 @extends('layouts.app')
 
-@section('title', 'Constellis — Securing the Future')
-@section('meta_description', 'Our highly trained, impact-driven professionals navigate our customers through diverse environments and guide them to success.')
+@section('title', 'NSG — Global Security & Defense Solutions')
+@section('meta_description', 'A network of over 72,000 professionals working to safeguard freedom, democracy, and the rule of law worldwide.')
 
 @section('content')
 
-{{-- ============================================================
-     HERO SECTION — Blue gradient with wireframe globe
-     ============================================================ --}}
-<section class="relative min-h-[92vh] flex items-center overflow-hidden -mt-20 pt-20" id="hero">
-    {{-- Background --}}
-    <div class="absolute inset-0 bg-hero-blue"></div>
-    <div class="absolute inset-0 line-grid opacity-40"></div>
+    {{-- ============================================================
+    HERO SLIDER — Full-width, dynamic slides, sequential, drag/swipe
+    ============================================================ --}}
+    <section class="relative" id="hero" x-data="heroSlider()" x-init="startAutoPlay()">
+        <div class="relative w-full h-screen min-h-[600px] overflow-hidden" @mouseenter="pauseAutoPlay()"
+            @mouseleave="startAutoPlay()">
 
-    {{-- Wireframe Globe Canvas --}}
-    <canvas id="globe-canvas" class="absolute inset-0 w-full h-full pointer-events-none" style="z-index:5"></canvas>
-
-    {{-- Morphing blobs --}}
-    <div class="blob w-[500px] h-[500px] bg-sky-400/10 top-10 -right-20 animate-morph"></div>
-    <div class="blob w-[400px] h-[400px] bg-blue-300/10 -bottom-20 left-10 animate-morph" style="animation-delay:-4s"></div>
-
-    {{-- Floating geometric shapes --}}
-    <div class="floating-shape top-1/4 right-[15%] w-20 h-20 border-2 border-white/10 rounded-2xl rotate-12"></div>
-    <div class="floating-shape bottom-1/3 right-[25%] w-12 h-12 border border-white/10 rounded-full" style="animation-delay:-3s"></div>
-    <div class="floating-shape top-[40%] left-[8%] w-16 h-16 border-2 border-white/8 rotate-45" style="animation-delay:-5s"></div>
-
-    <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32">
-        <div class="grid lg:grid-cols-2 gap-16 items-center">
-            <div>
-                {{-- Badge --}}
-                <div class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 text-white text-xs font-semibold tracking-wider uppercase mb-8 animate-fade-in">
-                    <span class="w-2 h-2 rounded-full bg-blue-300 animate-pulse"></span>
-                    Global Security Solutions
-                </div>
-
-                <h1 class="text-5xl md:text-6xl lg:text-7xl font-display font-bold text-white leading-[1.08] mb-8 animate-fade-in-up">
-                    Secure<br>
-                    <span class="gradient-text-white">Success</span>
-                </h1>
-
-                <p class="text-xl text-blue-100/90 leading-relaxed mb-12 max-w-lg animate-fade-in-up delay-200">
-                    Our highly trained, impact-driven professionals navigate our customers through diverse environments and guide them to success.
-                </p>
-
-                <div class="flex flex-wrap gap-4 animate-fade-in-up delay-400">
-                    <a href="{{ url('/what-we-do') }}" class="btn-white">
-                        Explore Our Services
-                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
-                    </a>
-                    <a href="{{ url('/contact') }}" class="btn-outline-white">
-                        Get In Touch
-                    </a>
-                </div>
-            </div>
-
-            {{-- Hero visual with cards --}}
-            <div class="relative hidden lg:block animate-fade-in-right delay-300" id="hero-visual">
-                <div class="relative">
-                    {{-- Main image card --}}
-                    <div class="relative rounded-3xl overflow-hidden shadow-2xl shadow-blue-900/30 img-hover-zoom animate-ken-burns" style="animation-duration:25s">
-                        <div class="img-placeholder aspect-[4/3]">
-                            <div class="absolute inset-0 flex items-center justify-center z-10">
-                                <div class="text-center">
-                                    <svg class="w-20 h-20 text-white/30 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="0.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
-                                    <p class="text-white/40 font-display font-semibold text-sm tracking-wider uppercase">Security Operations</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    {{-- Floating stat card --}}
-                    <div class="absolute -bottom-6 -left-6 bg-white rounded-2xl shadow-xl shadow-slate-200/50 p-5 animate-float z-20">
-                        <div class="flex items-center gap-4">
-                            <div class="w-12 h-12 rounded-xl bg-blue-50 flex items-center justify-center text-blue-600">
-                                <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                            </div>
-                            <div>
-                                <p class="text-slate-900 font-display font-bold text-xl">35+</p>
-                                <p class="text-slate-400 text-xs">Countries Served</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    {{-- Floating badge --}}
-                    <div class="absolute -top-4 -right-4 bg-white rounded-2xl shadow-xl shadow-slate-200/50 p-4 animate-float z-20" style="animation-delay:-2s">
-                        <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 rounded-xl bg-green-50 flex items-center justify-center text-green-600">
-                                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-                            </div>
-                            <div>
-                                <p class="text-slate-900 font-semibold text-sm">ISO Certified</p>
-                                <p class="text-slate-400 text-xs">9001 • 14001 • 45001</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    {{-- Wave bottom --}}
-    <div class="absolute bottom-0 left-0 right-0">
-        <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full"><path d="M0 120V60C240 20 480 0 720 20C960 40 1200 60 1440 40V120H0Z" fill="white"/></svg>
-    </div>
-</section>
-
-@push('scripts')
-<script>
-(function() {
-    const canvas = document.getElementById('globe-canvas');
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    let w, h;
-
-    // ── Config ──
-    const SPHERE_DOTS      = 2500;
-    const DOT_BASE_SIZE    = 1.1;
-    const AUTO_ROTATE      = 0.0012;
-    const CONNECT_DIST     = 28;        // max px distance to draw connection lines
-    const CONNECT_ALPHA    = 0.06;      // connection line opacity
-    const ORBIT_PARTICLES  = 35;        // floating particles around the sphere
-    const MOUSE_RADIUS     = 160;       // px — area of mouse influence
-    const MOUSE_STRENGTH   = 55;        // push force
-    const BREATHE_SPEED    = 0.0008;    // subtle pulsing
-    const BREATHE_AMP      = 0.012;     // how much it breathes (fraction of radius)
-
-    // ── State ──
-    let rotY = 0, rotX = 0.32;
-    let mouseX = -9999, mouseY = -9999, mouseActive = false;
-    let time = 0;
-
-    // ── Fibonacci sphere points ──
-    const pts = [];
-    const ga = Math.PI * (3 - Math.sqrt(5));
-    for (let i = 0; i < SPHERE_DOTS; i++) {
-        const yy = 1 - (i / (SPHERE_DOTS - 1)) * 2;
-        const rr = Math.sqrt(1 - yy * yy);
-        const th = ga * i;
-        pts.push({ x: Math.cos(th) * rr, y: yy, z: Math.sin(th) * rr });
-    }
-
-    // ── Orbiting particles (random positions on a slightly larger shell) ──
-    const orbitPts = [];
-    for (let i = 0; i < ORBIT_PARTICLES; i++) {
-        const phi = Math.acos(2 * Math.random() - 1);
-        const theta = Math.random() * Math.PI * 2;
-        const dist = 1.12 + Math.random() * 0.35; // 1.12–1.47 × sphere radius
-        orbitPts.push({
-            x: Math.sin(phi) * Math.cos(theta) * dist,
-            y: Math.cos(phi) * dist,
-            z: Math.sin(phi) * Math.sin(theta) * dist,
-            speed: (0.3 + Math.random() * 0.7) * (Math.random() > 0.5 ? 1 : -1),
-            size: 0.8 + Math.random() * 1.5,
-            alpha: 0.15 + Math.random() * 0.35,
-            trail: Math.random() * 0.4 + 0.1,
-        });
-    }
-
-    function resize() {
-        w = canvas.width = canvas.offsetWidth;
-        h = canvas.height = canvas.offsetHeight;
-    }
-
-    function draw() {
-        ctx.clearRect(0, 0, w, h);
-        time++;
-
-        rotY += AUTO_ROTATE;
-        const breathe = 1 + Math.sin(time * BREATHE_SPEED * 60) * BREATHE_AMP;
-
-        const cosY = Math.cos(rotY), sinY = Math.sin(rotY);
-        const cosX = Math.cos(rotX), sinX = Math.sin(rotX);
-
-        // Globe sizing — large & dramatic, positioned right
-        const radius = Math.min(w, h) * 0.48 * breathe;
-        const cx = w * 0.72;
-        const cy = h * 0.45;
-
-        // ── Project sphere dots ──
-        const projected = [];
-        for (const p of pts) {
-            let x = p.x * cosY - p.z * sinY;
-            let z = p.x * sinY + p.z * cosY;
-            let y = p.y;
-            const y2 = y * cosX - z * sinX;
-            const z2 = y * sinX + z * cosX;
-            y = y2; z = z2;
-
-            const depth = (z + 1) / 2;
-            let sx = cx + x * radius;
-            let sy = cy + y * radius;
-            let distorted = false;
-
-            // Mouse distortion
-            if (mouseActive) {
-                const dx = sx - mouseX, dy = sy - mouseY;
-                const dist = Math.sqrt(dx * dx + dy * dy);
-                if (dist < MOUSE_RADIUS && dist > 0) {
-                    const force = 1 - dist / MOUSE_RADIUS;
-                    const eased = force * force * force;
-                    sx += (dx / dist) * eased * MOUSE_STRENGTH * (0.4 + depth * 0.6);
-                    sy += (dy / dist) * eased * MOUSE_STRENGTH * (0.4 + depth * 0.6);
-                    if (force > 0.15) distorted = true;
-                }
-            }
-
-            projected.push({ sx, sy, depth, distorted });
-        }
-
-        // ── Draw connection lines between nearby dots ──
-        ctx.lineWidth = 0.5;
-        const step = 3; // check every 3rd dot for performance
-        for (let i = 0; i < projected.length; i += step) {
-            const a = projected[i];
-            if (a.depth < 0.35) continue; // skip back-facing dots for connections
-            for (let j = i + step; j < projected.length; j += step) {
-                const b = projected[j];
-                if (b.depth < 0.35) continue;
-                const dx = a.sx - b.sx, dy = a.sy - b.sy;
-                const d = dx * dx + dy * dy;
-                if (d < CONNECT_DIST * CONNECT_DIST) {
-                    const distFactor = 1 - Math.sqrt(d) / CONNECT_DIST;
-                    const avgDepth = (a.depth + b.depth) / 2;
-                    ctx.beginPath();
-                    ctx.moveTo(a.sx, a.sy);
-                    ctx.lineTo(b.sx, b.sy);
-                    ctx.strokeStyle = `rgba(147, 197, 253, ${CONNECT_ALPHA * distFactor * avgDepth})`;
-                    ctx.stroke();
-                }
-            }
-        }
-
-        // ── Draw sphere dots ──
-        for (const d of projected) {
-            const alpha = d.depth * 0.5 + 0.04;
-            const size = DOT_BASE_SIZE * (0.35 + d.depth * 0.85);
-            ctx.beginPath();
-            ctx.arc(d.sx, d.sy, size, 0, Math.PI * 2);
-            ctx.fillStyle = d.distorted
-                ? `rgba(147, 197, 253, ${Math.min(alpha * 1.8, 0.9)})`
-                : `rgba(255, 255, 255, ${alpha})`;
-            ctx.fill();
-
-            // Bloom on distorted particles
-            if (d.distorted) {
-                ctx.beginPath();
-                ctx.arc(d.sx, d.sy, size * 3, 0, Math.PI * 2);
-                ctx.fillStyle = `rgba(147, 197, 253, ${alpha * 0.15})`;
-                ctx.fill();
-            }
-        }
-
-        // ── Orbiting particles ──
-        for (const op of orbitPts) {
-            const angle = rotY * op.speed;
-            const cosA = Math.cos(angle), sinA = Math.sin(angle);
-            let x = op.x * cosA - op.z * sinA;
-            let z = op.x * sinA + op.z * cosA;
-            let y = op.y;
-            const y2 = y * cosX - z * sinX;
-            const z2 = y * sinX + z * cosX;
-            y = y2; z = z2;
-
-            const depth = (z + 1) / 2;
-            const sx = cx + x * radius;
-            const sy = cy + y * radius;
-
-            // Particle
-            ctx.beginPath();
-            ctx.arc(sx, sy, op.size * (0.5 + depth * 0.5), 0, Math.PI * 2);
-            ctx.fillStyle = `rgba(186, 230, 253, ${op.alpha * depth})`;
-            ctx.fill();
-
-            // Subtle trail / glow
-            ctx.beginPath();
-            ctx.arc(sx, sy, op.size * 3, 0, Math.PI * 2);
-            ctx.fillStyle = `rgba(147, 197, 253, ${op.trail * depth * 0.08})`;
-            ctx.fill();
-        }
-
-        // ── Inner core glow ──
-        const coreGlow = ctx.createRadialGradient(cx, cy, 0, cx, cy, radius * 0.65);
-        coreGlow.addColorStop(0, 'rgba(59, 130, 246, 0.06)');
-        coreGlow.addColorStop(0.5, 'rgba(59, 130, 246, 0.03)');
-        coreGlow.addColorStop(1, 'rgba(59, 130, 246, 0)');
-        ctx.fillStyle = coreGlow;
-        ctx.fillRect(cx - radius, cy - radius, radius * 2, radius * 2);
-
-        // ── Outer atmospheric halo ──
-        const halo = ctx.createRadialGradient(cx, cy, radius * 0.9, cx, cy, radius * 1.5);
-        halo.addColorStop(0, 'rgba(96, 165, 250, 0.05)');
-        halo.addColorStop(0.4, 'rgba(59, 130, 246, 0.03)');
-        halo.addColorStop(1, 'rgba(59, 130, 246, 0)');
-        ctx.fillStyle = halo;
-        ctx.fillRect(cx - radius * 1.6, cy - radius * 1.6, radius * 3.2, radius * 3.2);
-
-        // ── Mouse proximity glow ──
-        if (mouseActive) {
-            const mouseGlow = ctx.createRadialGradient(mouseX, mouseY, 0, mouseX, mouseY, MOUSE_RADIUS * 1.2);
-            mouseGlow.addColorStop(0, 'rgba(147, 197, 253, 0.08)');
-            mouseGlow.addColorStop(0.5, 'rgba(96, 165, 250, 0.03)');
-            mouseGlow.addColorStop(1, 'rgba(59, 130, 246, 0)');
-            ctx.fillStyle = mouseGlow;
-            ctx.fillRect(mouseX - MOUSE_RADIUS * 1.5, mouseY - MOUSE_RADIUS * 1.5,
-                         MOUSE_RADIUS * 3, MOUSE_RADIUS * 3);
-        }
-
-        requestAnimationFrame(draw);
-    }
-
-    // ── Mouse tracking ──
-    const hero = document.getElementById('hero');
-    if (hero) {
-        canvas.style.pointerEvents = 'auto';
-        hero.addEventListener('mousemove', (e) => {
-            const rect = canvas.getBoundingClientRect();
-            mouseX = e.clientX - rect.left;
-            mouseY = e.clientY - rect.top;
-            mouseActive = true;
-        });
-        hero.addEventListener('mouseleave', () => {
-            mouseActive = false;
-        });
-    }
-
-    resize();
-    draw();
-    window.addEventListener('resize', resize);
-})();
-</script>
-@endpush
-
-
-
-
-{{-- ============================================================
-     STATS SECTION
-     ============================================================ --}}
-<section class="relative py-20 bg-white" id="stats">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+            {{-- Slides --}}
             @php
-                $stats = [
-                    ['count' => 1500, 'suffix' => 'M+', 'prefix' => '$', 'label' => 'Annual Revenue', 'color' => 'blue'],
-                    ['count' => 35, 'suffix' => '+', 'prefix' => '', 'label' => 'Countries Served', 'color' => 'sky'],
-                    ['count' => 20000, 'suffix' => '+', 'prefix' => '', 'label' => 'Global Workforce', 'color' => 'blue'],
-                    ['count' => 20, 'suffix' => '+', 'prefix' => '', 'label' => 'Years of Excellence', 'color' => 'sky'],
+                $carouselBgs = [
+                    ['url' => asset('images/2 carrusel-special forces.jpg.jpeg'), 'pos' => 'left top', 'size' => 'cover'],
+                    ['url' => asset('images/3carrusel-shaking hands.jpg.jpeg'), 'pos' => 'top', 'size' => 'cover'],
+                    ['url' => asset('images/5carrusel-help.jpg.jpeg'), 'pos' => 'top', 'size' => 'cover'],
+                    ['url' => asset('images/4carrusel-ayuda medica2.jpg.jpeg'), 'pos' => 'top', 'size' => 'cover'],
+                    ['url' => asset('images/carrusel7.png'), 'pos' => 'center 15%', 'size' => 'cover'],
+                    ['url' => asset('images/carrusel8.png'), 'pos' => 'center 15%', 'size' => 'cover'],
+                    ['url' => asset('images/carrusel6.png'), 'pos' => 'center 15%', 'size' => 'cover'],
+                    ['url' => asset('images/carrucel11.jpeg'), 'pos' => 'center 15%', 'size' => 'cover'],
+                    ['url' => asset('images/carrucel12.jpeg'), 'pos' => 'center 15%', 'size' => 'cover'],
+                    ['url' => asset('images/carrucel13.avif'), 'pos' => 'center 15%', 'size' => 'cover'],
+                    ['url' => asset('images/carrucel14.jpeg'), 'pos' => 'center 15%', 'size' => 'cover'],
                 ];
             @endphp
-            @foreach($stats as $stat)
-                <div class="text-center" data-animate>
-                    <p class="text-4xl md:text-5xl font-display font-bold gradient-text mb-2"
-                       data-count="{{ $stat['count'] }}" data-suffix="{{ $stat['suffix'] }}" data-prefix="{{ $stat['prefix'] }}">
-                        {{ $stat['prefix'] }}0{{ $stat['suffix'] }}
-                    </p>
-                    <p class="text-slate-400 text-sm font-medium tracking-wide uppercase">{{ $stat['label'] }}</p>
-                </div>
-            @endforeach
-        </div>
-    </div>
-</section>
-
-{{-- ============================================================
-     ABOUT PREVIEW
-     ============================================================ --}}
-<section class="relative py-28 bg-slate-50 overflow-hidden" id="about-preview">
-    <div class="absolute inset-0 bg-mesh-1"></div>
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-        <div class="grid lg:grid-cols-2 gap-20 items-center">
-            {{-- Image side --}}
-            <div class="relative" data-animate>
-                <div class="relative z-10">
-                    {{-- Main image --}}
-                    <div class="rounded-3xl overflow-hidden shadow-blue-lg img-hover-zoom img-hover-shine">
-                        <div class="img-placeholder aspect-[4/3]">
-                            <div class="absolute inset-0 flex items-center justify-center z-10">
-                                <svg class="w-16 h-16 text-white/30" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="0.5" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
-                            </div>
-                        </div>
-                    </div>
-
-                    {{-- Small overlapping image --}}
-                    <div class="absolute -bottom-8 -right-8 w-48 h-48 rounded-2xl overflow-hidden shadow-xl border-4 border-white img-hover-zoom z-20">
-                        <div class="img-placeholder w-full h-full" style="background: linear-gradient(135deg, #93c5fd, #3b82f6, #1d4ed8)">
-                            <div class="absolute inset-0 flex items-center justify-center z-10">
-                                <svg class="w-10 h-10 text-white/40" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="0.5" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                {{-- Decorative dots --}}
-                <div class="absolute -top-4 -left-4 w-24 h-24 dot-grid rounded-2xl"></div>
-            </div>
-
-            {{-- Text side --}}
-            <div data-animate>
-                <span class="text-blue-600 text-sm font-bold tracking-wider uppercase mb-4 block">About Constellis</span>
-                <h2 class="section-heading mb-8">
-                    A Tradition of <span class="gradient-text">Excellence</span>
-                </h2>
-                <p class="text-slate-600 text-lg leading-relaxed mb-6">
-                    In an ever-changing and complex world, security concerns are paramount. Enhanced security requires education, training and specialized skills.
-                </p>
-                <p class="text-slate-500 leading-relaxed mb-10">
-                    Constellis provides end-to-end risk management and comprehensive security solutions to safeguard people and infrastructure globally. Our team of strategic problem solvers has a steadfast moral compass and unwavering dedication to the success of our customers and partners.
-                </p>
-
-                {{-- Feature list --}}
-                <div class="grid grid-cols-2 gap-4 mb-10">
-                    @foreach(['ISO Certified', 'Global Operations', '20+ Years', 'Expert Teams'] as $feature)
-                        <div class="flex items-center gap-3">
-                            <div class="w-8 h-8 rounded-lg bg-blue-50 flex items-center justify-center text-blue-600">
-                                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-                            </div>
-                            <span class="text-slate-700 font-medium text-sm">{{ $feature }}</span>
-                        </div>
-                    @endforeach
-                </div>
-
-                <a href="{{ url('/who-we-are/leadership') }}" class="btn-primary">
-                    Meet Our Leadership
-                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
-                </a>
-            </div>
-        </div>
-    </div>
-</section>
-
-{{-- ============================================================
-     SERVICES GRID
-     ============================================================ --}}
-<section class="relative py-28 bg-white" id="services">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center mb-16" data-animate>
-            <span class="text-blue-600 text-sm font-bold tracking-wider uppercase mb-4 block">What We Do</span>
-            <h2 class="section-heading mb-6">
-                Global Expertise, <span class="gradient-text">Local Solutions</span>
-            </h2>
-            <p class="section-subheading mx-auto">
-                Comprehensive security, intelligence, and training solutions tailored to your unique operational requirements.
-            </p>
-        </div>
-
-        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            @php
-                $serviceData = [
-                    ['name' => 'Security Services', 'slug' => 'security-services', 'icon' => 'M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z', 'desc' => 'Comprehensive physical security including armed/unarmed personnel and K-9 units.'],
-                    ['name' => 'Intelligence Support', 'slug' => 'intelligence-support', 'icon' => 'M15 12a3 3 0 11-6 0 3 3 0 016 0z M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z', 'desc' => 'Advanced intelligence analysis, risk assessment, and national security.'],
-                    ['name' => 'Technology', 'slug' => 'technology-services', 'icon' => 'M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z', 'desc' => 'Cutting-edge sensors, UAS/cUAS systems, and API platforms.'],
-                    ['name' => 'Contingency Ops', 'slug' => 'contingency-operations', 'icon' => 'M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M21 12a9 9 0 11-18 0 9 9 0 0118 0z', 'desc' => 'Rapid deployment for expeditionary and high-risk environments.'],
-                    ['name' => 'Humanitarian', 'slug' => 'humanitarian', 'icon' => 'M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z', 'desc' => 'UXO mitigation, disaster response, and environmental remediation.'],
-                    ['name' => 'Training', 'slug' => 'training-services', 'icon' => 'M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253', 'desc' => 'World-class training programs at state-of-the-art facilities.'],
-                    ['name' => 'Facilities', 'slug' => 'facilities-base-operations', 'icon' => 'M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4', 'desc' => 'Complete facility management and base operations support.'],
-                    ['name' => 'Emergency', 'slug' => 'emergency-services', 'icon' => 'M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0z', 'desc' => 'Professional firefighting, investigation, and EMS services.'],
-                ];
-            @endphp
-
-            @foreach($serviceData as $i => $svc)
-                <a href="{{ url('/what-we-do/' . $svc['slug']) }}" class="service-card group" data-animate style="animation-delay: {{ $i * 100 }}ms">
-                    <div class="service-icon mb-6">
-                        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="{{ $svc['icon'] }}"/></svg>
-                    </div>
-                    <h3 class="text-slate-900 font-display font-semibold text-lg mb-3 group-hover:text-blue-600 transition-colors">{{ $svc['name'] }}</h3>
-                    <p class="text-slate-400 text-sm leading-relaxed mb-5">{{ $svc['desc'] }}</p>
-                    <span class="inline-flex items-center gap-2 text-blue-600 text-sm font-semibold group-hover:gap-3 transition-all duration-300">
-                        Learn More
-                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
-                    </span>
-                </a>
-            @endforeach
-        </div>
-    </div>
-</section>
-
-{{-- ============================================================
-     IMAGE SHOWCASE — Full-width with parallax
-     ============================================================ --}}
-<section class="relative h-[500px] overflow-hidden img-clip-slant" id="showcase">
-    <div class="absolute inset-0 img-placeholder animate-ken-burns" style="animation-duration: 30s">
-        <div class="absolute inset-0 bg-gradient-to-r from-blue-900/80 via-blue-800/60 to-transparent z-10"></div>
-        <div class="absolute inset-0 flex items-center z-10">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-                <div class="max-w-lg text-white" data-animate>
-                    <h2 class="text-4xl font-display font-bold mb-4">20+ Years of Operational Excellence</h2>
-                    <p class="text-blue-100/90 text-lg mb-8">Trusted by governments, agencies, and organizations in over 35 countries worldwide.</p>
-                    <a href="{{ url('/who-we-are/constellis-history') }}" class="btn-white">Our History</a>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-{{-- ============================================================
-     DIVISIONS
-     ============================================================ --}}
-<section class="relative py-24 bg-white" id="divisions" data-animate>
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center mb-12">
-            <span class="text-slate-400 text-sm font-semibold tracking-wider uppercase">Our Operating Brands</span>
-        </div>
-        <div class="flex flex-wrap justify-center items-center gap-8 md:gap-16">
-            @php /** @var \App\Models\Division $division */ @endphp
-            @forelse($divisions ?? [] as $division)
-                <div class="px-6 py-3 rounded-xl border border-slate-100 text-slate-400 hover:text-blue-600 hover:border-blue-100 hover:bg-blue-50 transition-all duration-300 font-display text-lg font-bold tracking-wide cursor-default">
-                    {{ $division->name }}
-                </div>
-            @empty
-                @foreach(['Triple Canopy', 'Centerra', 'AMK9', 'Olive Group', 'Omniplex', 'TDI', 'Academi'] as $name)
-                    <div class="px-6 py-3 rounded-xl border border-slate-100 text-slate-400 hover:text-blue-600 hover:border-blue-100 hover:bg-blue-50 transition-all duration-300 font-display text-lg font-bold tracking-wide cursor-default">
-                        {{ $name }}
-                    </div>
-                @endforeach
-            @endforelse
-        </div>
-    </div>
-</section>
-
-{{-- ============================================================
-     PLATFORM ACCESS — Complete portal CTA
-     ============================================================ --}}
-<section class="relative py-28 overflow-hidden" id="platform-cta">
-    <div class="absolute inset-0 bg-gradient-to-br from-blue-600 via-blue-700 to-blue-900"></div>
-    <div class="absolute inset-0 line-grid opacity-20"></div>
-    <div class="blob w-[400px] h-[400px] bg-sky-400/10 top-0 right-0 animate-morph"></div>
-    <div class="blob w-[300px] h-[300px] bg-blue-300/10 bottom-0 left-10 animate-morph" style="animation-delay:-3s"></div>
-
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div class="text-center mb-16" data-animate>
-            <span class="text-blue-200 text-sm font-bold tracking-wider uppercase mb-4 block">Explore the Platform</span>
-            <h2 class="section-heading-white mb-6">Your Gateway to Constellis</h2>
-            <p class="text-blue-100/80 text-lg max-w-2xl mx-auto">From career opportunities to project tracking, everything you need in one secure platform.</p>
-        </div>
-
-        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6" data-animate>
-            @php
-                $platformLinks = [
-                    ['title' => 'Career Opportunities', 'desc' => 'Join 20,000+ professionals making a global impact', 'url' => '/careers', 'icon' => 'M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z', 'locked' => false],
-                    ['title' => 'Active Projects', 'desc' => 'Track operations across 35+ countries worldwide', 'url' => '/projects', 'icon' => 'M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4', 'locked' => true],
-                    ['title' => 'Employee Store', 'desc' => 'Exclusive branded merchandise for our team members', 'url' => '/store/login', 'icon' => 'M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z', 'locked' => true],
-                    ['title' => 'Intranet Portal', 'desc' => 'Messaging, documents, and team announcements', 'url' => '/login?redirect=/intranet', 'icon' => 'M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6', 'locked' => true],
-                ];
-            @endphp
-            @foreach($platformLinks as $pl)
-                <a href="{{ url($pl['url']) }}" class="glass-card p-7 text-center group hover:bg-white/20">
-                    <div class="w-14 h-14 rounded-2xl bg-white/10 flex items-center justify-center text-white mx-auto mb-4 group-hover:bg-white/20 transition-all">
-                        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="{{ $pl['icon'] }}"/></svg>
-                    </div>
-                    <h3 class="text-white font-display font-semibold text-lg mb-2">{{ $pl['title'] }}</h3>
-                    <p class="text-blue-200/70 text-sm mb-3">{{ $pl['desc'] }}</p>
-                    @if($pl['locked'])
-                        <span class="inline-flex items-center gap-1.5 text-blue-300 text-xs font-medium">
-                            <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
-                            Requires Login
-                        </span>
-                    @else
-                        <span class="inline-flex items-center gap-1.5 text-blue-200 text-xs font-medium group-hover:gap-2.5 transition-all">
-                            Explore
-                            <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
-                        </span>
-                    @endif
-                </a>
-            @endforeach
-        </div>
-    </div>
-</section>
-
-{{-- ============================================================
-     NEWS SECTION
-     ============================================================ --}}
-<section class="relative py-28 bg-slate-50" id="news">
-    <div class="absolute inset-0 bg-mesh-2"></div>
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-        <div class="flex flex-col md:flex-row items-start md:items-end justify-between mb-14" data-animate>
-            <div>
-                <span class="text-blue-600 text-sm font-bold tracking-wider uppercase mb-4 block">Latest Updates</span>
-                <h2 class="section-heading">News & <span class="gradient-text">Insights</span></h2>
-            </div>
-            <a href="{{ url('/news') }}" class="btn-outline mt-6 md:mt-0">
-                View All News
-                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
-            </a>
-        </div>
-
-        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            @php /** @var \App\Models\NewsArticle $article */ @endphp
-            @forelse($latestNews ?? [] as $i => $article)
-                <a href="{{ url('/news/' . $article->slug) }}" class="news-card group" data-animate style="animation-delay: {{ $i * 150 }}ms">
-                    <div class="overflow-hidden img-hover-shine">
-                        @if($article->featured_image)
-                            <img src="{{ asset('storage/' . $article->featured_image) }}" alt="{{ $article->title }}" class="news-image">
-                        @else
-                            <div class="img-placeholder h-56 relative">
-                                <div class="absolute inset-0 flex items-center justify-center z-10">
-                                    <svg class="w-10 h-10 text-white/30" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="0.5" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/></svg>
-                                </div>
-                            </div>
-                        @endif
-                    </div>
-                    <div class="p-7">
-                        <time class="text-blue-600 text-xs font-bold tracking-wider uppercase">
-                            {{ $article->published_at?->format('M d, Y') ?? 'Recent' }}
-                        </time>
-                        <h3 class="text-slate-900 font-display font-semibold text-lg mt-3 mb-3 leading-snug group-hover:text-blue-600 transition-colors line-clamp-2">
-                            {{ $article->title }}
-                        </h3>
-                        <p class="text-slate-400 text-sm leading-relaxed line-clamp-2">
-                            {{ $article->excerpt ?? Str::limit(strip_tags($article->content), 120) }}
-                        </p>
-                        <span class="inline-flex items-center gap-2 text-blue-600 text-sm font-semibold mt-5 group-hover:gap-3 transition-all">
-                            Read More
-                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
-                        </span>
-                    </div>
-                </a>
-            @empty
+            @foreach($heroSlides as $i => $slide)
                 @php
-                    $fallbackNews = [
-                        ['title' => 'Constellis Strengthens Executive Team with Addition of Joseph Zobro as Chief Legal and Compliance Officer', 'date' => 'Mar 2026'],
-                        ['title' => 'Constellis Appoints Executive Vice President of LEXSO™ to Lead Strategic Growth', 'date' => 'Feb 2026'],
-                        ['title' => 'Constellis\' AMK9 to Donate K9 Officer to Currituck County Sheriff\'s Office', 'date' => 'Jan 2026'],
-                    ];
+                    $bg = $carouselBgs[$i % count($carouselBgs)];
+                    $pos = $slide->bg_position ? 'center ' . $slide->bg_position . '%' : $bg['pos'];
+                    $imgEn = $slide->bg_image ? asset('storage/' . $slide->bg_image) : $bg['url'];
+                    $imgEs = $slide->bg_image_es ? asset('storage/' . $slide->bg_image_es) : null;
                 @endphp
-                @foreach($fallbackNews as $i => $article)
-                    <div class="news-card group" data-animate style="animation-delay: {{ $i * 150 }}ms">
-                        <div class="overflow-hidden img-hover-shine">
-                            <div class="img-placeholder h-56 relative">
-                                <div class="absolute inset-0 flex items-center justify-center z-10">
-                                    <svg class="w-10 h-10 text-white/30" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="0.5" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/></svg>
+                <div class="absolute inset-0 transition-opacity duration-1000 ease-in-out"
+                    :class="currentSlide === {{ $i }} ? 'opacity-100 z-10' : 'opacity-0 z-0'">
+                    {{-- English background (or default if no Spanish version) --}}
+                    <div class="absolute inset-0"
+                        @if($imgEs) x-show="$store.lang.current === 'en'" x-transition.opacity.duration.500ms @endif
+                        style="background-image: url('{{ $imgEn }}'); background-position: {{ $pos }}; background-size: cover; background-repeat: no-repeat;">
+                        <div class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-black/20"></div>
+                    </div>
+                    @if($imgEs)
+                    {{-- Spanish background --}}
+                    <div class="absolute inset-0"
+                        x-show="$store.lang.current === 'es'" x-transition.opacity.duration.500ms x-cloak
+                        style="background-image: url('{{ $imgEs }}'); background-position: {{ $pos }}; background-size: cover; background-repeat: no-repeat;">
+                        <div class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-black/20"></div>
+                    </div>
+                    @endif
+                    <div class="relative z-10 flex items-center h-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20">
+                        <div class="max-w-2xl">
+                            <span
+                                class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent-500/20 border border-accent-500/30 text-accent-400 text-xs font-bold tracking-wider uppercase mb-6">
+                                <span class="w-2 h-2 rounded-full bg-accent-500 animate-pulse"></span>
+                                <span
+                                    x-text="$store.lang.current === 'en' ? '{{ addslashes($slide->badge_en) }}' : '{{ addslashes($slide->badge_es) }}'"></span>
+                            </span>
+                            <h1 class="text-5xl md:text-6xl lg:text-7xl font-display font-bold text-white leading-[1.08] mb-6">
+                                <span
+                                    x-text="$store.lang.current === 'en' ? '{{ addslashes($slide->title_a_en) }}' : '{{ addslashes($slide->title_a_es) }}'"></span><br>
+                                <span class="text-accent-400"
+                                    x-text="$store.lang.current === 'en' ? '{{ addslashes($slide->title_b_en) }}' : '{{ addslashes($slide->title_b_es) }}'"></span>
+                            </h1>
+                            <p class="text-xl text-white/80 leading-relaxed mb-8 max-w-lg"
+                                x-text="$store.lang.current === 'en' ? '{{ addslashes($slide->description_en) }}' : '{{ addslashes($slide->description_es) }}'">
+                            </p>
+                            <a href="{{ $slide->cta_link }}"
+                                class="inline-flex items-center gap-2 px-8 py-4 rounded-xl font-bold text-sm bg-accent-500 text-white hover:bg-accent-600 shadow-lg shadow-accent-500/25 transition-all duration-300 hover:-translate-y-0.5">
+                                <span
+                                    x-text="$store.lang.current === 'en' ? '{{ addslashes($slide->cta_en) }}' : '{{ addslashes($slide->cta_es) }}'"></span>
+                                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+
+            {{-- Dots --}}
+            <div class="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2">
+                @foreach($heroSlides as $i => $slide)
+                    <button @click="goTo({{ $i }})" class="w-2.5 h-2.5 rounded-full transition-all duration-300"
+                        :class="currentSlide === {{ $i }} ? 'bg-white w-8 rounded-full' : 'bg-white/40 hover:bg-white/60'">
+                    </button>
+                @endforeach
+            </div>
+
+            {{-- Arrows --}}
+            <button @click="prev()"
+                class="absolute left-6 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-black/30 backdrop-blur-sm border border-white/10 flex items-center justify-center text-white hover:bg-black/50 transition-all">
+                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                </svg>
+            </button>
+            <button @click="next()"
+                class="absolute right-6 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-black/30 backdrop-blur-sm border border-white/10 flex items-center justify-center text-white hover:bg-black/50 transition-all">
+                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+            </button>
+        </div>
+    </section>
+
+    @push('scripts')
+        <script>
+            function heroSlider() {
+                return {
+                    currentSlide: 0,
+                    totalSlides: {{ $heroSlides->count() }},
+                    interval: null,
+                    startAutoPlay() {
+                        this.stopAutoPlay();
+                        this.interval = setInterval(() => {
+                            this.currentSlide = (this.currentSlide + 1) % this.totalSlides;
+                        }, 4000);
+                    },
+                    pauseAutoPlay() { clearInterval(this.interval); },
+                    stopAutoPlay() { clearInterval(this.interval); },
+                    next() { this.stopAutoPlay(); this.currentSlide = (this.currentSlide + 1) % this.totalSlides; this.startAutoPlay(); },
+                    prev() { this.stopAutoPlay(); this.currentSlide = (this.currentSlide - 1 + this.totalSlides) % this.totalSlides; this.startAutoPlay(); },
+                    goTo(i) { this.stopAutoPlay(); this.currentSlide = i; this.startAutoPlay(); },
+                }
+            }
+        </script>
+    @endpush
+
+
+    {{-- ============================================================
+    ABOUT US - Light Theme
+    ============================================================ --}}
+    <section class="relative py-24 bg-white overflow-hidden" id="about">
+        {{-- Background effects --}}
+        <div class="absolute top-0 left-1/3 w-[500px] h-[500px] bg-accent-500/5 rounded-full blur-[150px]"></div>
+        <div class="absolute bottom-0 right-1/4 w-[400px] h-[400px] bg-blue-500/5 rounded-full blur-[120px]"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+            <div class="text-center mb-16" data-animate>
+                <span class="text-accent-500 text-sm font-bold tracking-wider uppercase mb-4 block"
+                    x-text="$store.lang.current === 'en' ? 'About Us' : 'Sobre Nosotros'"></span>
+                <h2 class="text-4xl md:text-5xl font-display font-bold text-slate-900 leading-tight">
+                    <span x-show="$store.lang.current === 'en'">Who We <span class="text-accent-500">Are</span></span>
+                    <span x-show="$store.lang.current === 'es'" x-cloak>Quiénes <span
+                            class="text-accent-500">Somos</span></span>
+                </h2>
+                <div class="w-20 h-0.5 bg-gradient-to-r from-transparent via-accent-500 to-transparent mx-auto mt-6"></div>
+            </div>
+
+            <div x-data="{ activeTab: 'who' }" @set-about-tab.window="activeTab = $event.detail.tab"
+                class="max-w-5xl mx-auto">
+                {{-- Tab Headers --}}
+                <div class="flex flex-wrap justify-center gap-2 mb-12">
+                    <button @click="activeTab = 'who'"
+                        :class="activeTab === 'who' ? 'bg-accent-500 text-white shadow-lg shadow-accent-500/25' : 'bg-slate-100 text-slate-600 hover:bg-slate-200 hover:text-slate-800 border border-slate-200'"
+                        class="px-6 py-3 rounded-xl font-bold text-sm transition-all duration-300">
+                        <span x-text="$store.lang.current === 'en' ? 'Who We Are' : 'Quiénes Somos'"></span>
+                    </button>
+                    <button @click="activeTab = 'vision'"
+                        :class="activeTab === 'vision' ? 'bg-accent-500 text-white shadow-lg shadow-accent-500/25' : 'bg-slate-100 text-slate-600 hover:bg-slate-200 hover:text-slate-800 border border-slate-200'"
+                        class="px-6 py-3 rounded-xl font-bold text-sm transition-all duration-300">
+                        <span x-text="$store.lang.current === 'en' ? 'Vision' : 'Visión'"></span>
+                    </button>
+                    <button @click="activeTab = 'mission'"
+                        :class="activeTab === 'mission' ? 'bg-accent-500 text-white shadow-lg shadow-accent-500/25' : 'bg-slate-100 text-slate-600 hover:bg-slate-200 hover:text-slate-800 border border-slate-200'"
+                        class="px-6 py-3 rounded-xl font-bold text-sm transition-all duration-300">
+                        <span x-text="$store.lang.current === 'en' ? 'Mission' : 'Misión'"></span>
+                    </button>
+                </div>
+
+                {{-- WHO WE ARE --}}
+                <div x-show="activeTab === 'who'" x-transition:enter="transition ease-out duration-300"
+                    x-transition:enter-start="opacity-0 translate-y-4" x-transition:enter-end="opacity-100 translate-y-0">
+                    <div class="bg-slate-50 rounded-3xl p-8 md:p-12 border border-slate-200 shadow-xl">
+                        <template x-if="$store.lang.current === 'en'">
+                            <div>
+                                <p class="text-slate-800 text-lg leading-relaxed mb-6">We are a network of over <strong
+                                        class="text-accent-500 font-bold">72,000 people</strong> working together to assist in the
+                                    assessment, planification, organization and development of freedom, democracy, rule of
+                                    law, national order, national defense, new international allies and the development of
+                                    third world countries and/or developed nations that are undergoing political duress and
+                                    instability.</p>
+                                <p class="text-slate-600 leading-relaxed mb-8">Our organization alongside our network of
+                                    partner companies has a proven and successful record helping various Host Nations. We do
+                                    this through extremely experienced individuals ranging in various fields such as former
+                                    dignitaries, diplomats, senators, house representatives, federal agents, law enforcement
+                                    professionals, university professors, Supreme Court judges, vast range of experts in the
+                                    field of international law, medical experts, national defense experts, intelligence
+                                    agencies experts, engineers and soldiers.</p>
+                                {{-- Inline Image Carousel --}}
+                                @php
+                                    $whoSection = $aboutSections->firstWhere('tab_key', 'who');
+                                    $whoCarousel = $whoSection && $whoSection->carousel_images ? $whoSection->carousel_images : [];
+                                    if (empty($whoCarousel)) {
+                                        $whoCarousel = ['images/About Us.png', 'images/sobre1.jpeg', 'images/sobre2.png', 'images/sobre3.png', 'images/sobre4.png', 'images/sobre5.png', 'images/sobre6.png', 'images/about us5.png', 'images/about us2.png', 'images/about us3.png', 'images/about us4.png'];
+                                        $whoFromStorage = false;
+                                    } else {
+                                        $whoFromStorage = true;
+                                    }
+                                    $whoCount = count($whoCarousel);
+                                @endphp
+                                <div class="my-8 rounded-2xl overflow-hidden shadow-xl border border-slate-200 relative aspect-video bg-slate-100"
+                                     x-data="{ whoSlide: 0, whoTotal: {{ $whoCount }}, whoInt: null,
+                                         initWho() { this.whoInt = setInterval(() => { this.whoSlide = (this.whoSlide + 1) % this.whoTotal; }, 4000); },
+                                         stopWho() { clearInterval(this.whoInt); },
+                                         startWho() { this.stopWho(); this.whoInt = setInterval(() => { this.whoSlide = (this.whoSlide + 1) % this.whoTotal; }, 4000); }
+                                     }" x-init="initWho()" @mouseenter="stopWho()" @mouseleave="startWho()">
+                                    @foreach($whoCarousel as $wi => $wImg)
+                                        <img src="{{ $whoFromStorage ? asset('storage/' . $wImg) : asset($wImg) }}"
+                                             alt="About NSG {{ $wi + 1 }}"
+                                             class="absolute inset-0 w-full h-full object-contain transition-opacity duration-1000 ease-in-out rounded-2xl"
+                                             :class="whoSlide === {{ $wi }} ? 'opacity-100 z-10' : 'opacity-0 z-0'">
+                                    @endforeach
+                                    {{-- Arrows --}}
+                                    <button @click="stopWho(); whoSlide = (whoSlide - 1 + whoTotal) % whoTotal; startWho()" class="absolute left-3 top-1/2 -translate-y-1/2 z-20 w-9 h-9 rounded-full bg-black/30 backdrop-blur-sm border border-white/10 flex items-center justify-center text-white hover:bg-black/50 transition-all">
+                                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+                                    </button>
+                                    <button @click="stopWho(); whoSlide = (whoSlide + 1) % whoTotal; startWho()" class="absolute right-3 top-1/2 -translate-y-1/2 z-20 w-9 h-9 rounded-full bg-black/30 backdrop-blur-sm border border-white/10 flex items-center justify-center text-white hover:bg-black/50 transition-all">
+                                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                                    </button>
+                                    {{-- Dots --}}
+                                    <div class="absolute bottom-3 left-1/2 -translate-x-1/2 z-20 flex items-center gap-1.5">
+                                        @for($wd = 0; $wd < $whoCount; $wd++)
+                                            <button @click="stopWho(); whoSlide = {{ $wd }}; startWho()" class="w-2 h-2 rounded-full transition-all duration-300"
+                                                :class="whoSlide === {{ $wd }} ? 'bg-white w-5 rounded-full' : 'bg-white/40 hover:bg-white/60'"></button>
+                                        @endfor
+                                    </div>
+                                </div>
+                                <p class="text-slate-600 leading-relaxed">In order to bring the very best in expertise and
+                                    support to our given tasks we contract some of the world's most prestigious
+                                    organizations to work alongside the local residents of Host Nations. We all work
+                                    together to bring freedom, democracy, rule of law, order and development to the
+                                    Oppressed people throughout the world, thus providing new opportunities in the
+                                    development of Host Nations.</p>
+                            </div>
+                        </template>
+                        <template x-if="$store.lang.current === 'es'">
+                            <div>
+                                <p class="text-slate-800 text-lg leading-relaxed mb-6">Somos una red de más de <strong
+                                        class="text-accent-500 font-bold">72,000 personas</strong> que trabajan de manera conjunta
+                                    para asistir en la evaluación, planificación, organización y desarrollo de la libertad,
+                                    la democracia, el estado de derecho, el orden nacional, la defensa nacional, la
+                                    generación de nuevas alianzas internacionales y el desarrollo de países del tercer mundo
+                                    y/o naciones desarrolladas que atraviesan situaciones de presión política e
+                                    inestabilidad.</p>
+                                <p class="text-slate-600 leading-relaxed mb-8">Nuestra organización, junto con nuestra red
+                                    de empresas asociadas, cuenta con un historial comprobado de éxito ayudando a diversos
+                                    países anfitriones. Esto lo logramos a través de profesionales altamente experimentados
+                                    en múltiples campos, tales como ex dignatarios, diplomáticos, senadores, representantes
+                                    legislativos, agentes federales, profesionales de las fuerzas del orden, profesores
+                                    universitarios, jueces de tribunales supremos, expertos en derecho internacional,
+                                    especialistas médicos, expertos en defensa nacional, especialistas en agencias de
+                                    inteligencia, ingenieros y personal militar.</p>
+                                {{-- Inline Image Carousel (same as EN) --}}
+                                <div class="my-8 rounded-2xl overflow-hidden shadow-xl border border-slate-200 relative aspect-video bg-slate-100"
+                                     x-data="{ whoSlideEs: 0, whoTotalEs: {{ $whoCount }}, whoIntEs: null,
+                                         initWhoEs() { this.whoIntEs = setInterval(() => { this.whoSlideEs = (this.whoSlideEs + 1) % this.whoTotalEs; }, 4000); },
+                                         stopWhoEs() { clearInterval(this.whoIntEs); },
+                                         startWhoEs() { this.stopWhoEs(); this.whoIntEs = setInterval(() => { this.whoSlideEs = (this.whoSlideEs + 1) % this.whoTotalEs; }, 4000); }
+                                     }" x-init="initWhoEs()" @mouseenter="stopWhoEs()" @mouseleave="startWhoEs()">
+                                    @foreach($whoCarousel as $wi => $wImg)
+                                        <img src="{{ $whoFromStorage ? asset('storage/' . $wImg) : asset($wImg) }}"
+                                             alt="Sobre NSG {{ $wi + 1 }}"
+                                             class="absolute inset-0 w-full h-full object-contain transition-opacity duration-1000 ease-in-out rounded-2xl"
+                                             :class="whoSlideEs === {{ $wi }} ? 'opacity-100 z-10' : 'opacity-0 z-0'">
+                                    @endforeach
+                                    <button @click="stopWhoEs(); whoSlideEs = (whoSlideEs - 1 + whoTotalEs) % whoTotalEs; startWhoEs()" class="absolute left-3 top-1/2 -translate-y-1/2 z-20 w-9 h-9 rounded-full bg-black/30 backdrop-blur-sm border border-white/10 flex items-center justify-center text-white hover:bg-black/50 transition-all">
+                                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+                                    </button>
+                                    <button @click="stopWhoEs(); whoSlideEs = (whoSlideEs + 1) % whoTotalEs; startWhoEs()" class="absolute right-3 top-1/2 -translate-y-1/2 z-20 w-9 h-9 rounded-full bg-black/30 backdrop-blur-sm border border-white/10 flex items-center justify-center text-white hover:bg-black/50 transition-all">
+                                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                                    </button>
+                                    <div class="absolute bottom-3 left-1/2 -translate-x-1/2 z-20 flex items-center gap-1.5">
+                                        @for($wd = 0; $wd < $whoCount; $wd++)
+                                            <button @click="stopWhoEs(); whoSlideEs = {{ $wd }}; startWhoEs()" class="w-2 h-2 rounded-full transition-all duration-300"
+                                                :class="whoSlideEs === {{ $wd }} ? 'bg-white w-5 rounded-full' : 'bg-white/40 hover:bg-white/60'"></button>
+                                        @endfor
+                                    </div>
+                                </div>
+                                <p class="text-slate-600 leading-relaxed">Con el fin de ofrecer el más alto nivel de
+                                    experiencia y apoyo en nuestras operaciones, contratamos a algunas de las organizaciones
+                                    más prestigiosas del mundo para trabajar junto con las comunidades locales de los países
+                                    anfitriones. Todos colaboramos para promover la libertad, la democracia, el estado de
+                                    derecho, el orden y el desarrollo de los pueblos oprimidos alrededor del mundo,
+                                    generando así nuevas oportunidades para el desarrollo de estas naciones.</p>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+
+                {{-- VISION --}}
+                <div x-show="activeTab === 'vision'" x-transition:enter="transition ease-out duration-300"
+                    x-transition:enter-start="opacity-0 translate-y-4" x-transition:enter-end="opacity-100 translate-y-0"
+                    x-cloak>
+                    <div class="bg-slate-50 rounded-3xl p-6 sm:p-8 md:p-12 border border-slate-200 shadow-xl">
+                        <template x-if="$store.lang.current === 'en'">
+                            <div>
+                                <p class="text-slate-800 text-lg leading-relaxed mb-6">Become a key global partner
+                                    so that all nations may have the best opportunity for a democratic governance
+                                    with rule of law, national order, fair justice, equal opportunities and
+                                    individual as well as global development of their country.</p>
+                                <p class="text-slate-600 leading-relaxed">This in order to create a better platform
+                                    for global peace, unity, financial stability, open and fair trade, better health
+                                    and functional collaboration in all aspects of global issues.</p>
+                            </div>
+                        </template>
+                        <template x-if="$store.lang.current === 'es'">
+                            <div>
+                                <p class="text-slate-800 text-lg leading-relaxed mb-6">Convertirnos en un socio
+                                    global clave para que todas las naciones tengan la mejor oportunidad de alcanzar
+                                    una gobernanza democrática con estado de derecho, orden nacional, justicia
+                                    equitativa, igualdad de oportunidades y desarrollo tanto individual como global.
+                                </p>
+                                <p class="text-slate-600 leading-relaxed">Esto con el propósito de crear una mejor
+                                    plataforma para la paz mundial, la unidad, la estabilidad financiera, el
+                                    comercio abierto y justo, una mejor salud y una colaboración funcional en todos
+                                    los aspectos de los desafíos globales.</p>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+
+                {{-- MISSION --}}
+                <div x-show="activeTab === 'mission'" x-transition:enter="transition ease-out duration-300"
+                    x-transition:enter-start="opacity-0 translate-y-4" x-transition:enter-end="opacity-100 translate-y-0"
+                    x-cloak>
+                    <div class="bg-slate-50 rounded-3xl p-6 sm:p-8 md:p-12 border border-slate-200 shadow-xl">
+                        <template x-if="$store.lang.current === 'en'">
+                            <div>
+                                <p class="text-slate-800 text-lg leading-relaxed mb-6">Use real world expertise in
+                                    order to evaluate, recommend and create solutions as your end-to-end partner,
+                                    while we also help to execute on the recommendations of our team of Global
+                                    Experts.</p>
+                                <p class="text-slate-600 leading-relaxed mb-6">To train and develop custom solutions
+                                    while cultivating education, professionalism, trust, honor and pride thus the
+                                    Host Nations empowerment of common global as well as individual success.</p>
+                                <p class="text-slate-800 font-semibold mb-4">Applying, monitoring and managing
+                                    through our proven Team of Teams Framework:</p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
+                                    @foreach(['Shared Knowledge', 'Common Purpose', 'Accountability', 'Trust', 'Empowerment', 'Continued Assessment', 'Global Development'] as $val)
+                                        <div
+                                            class="flex items-center gap-2 bg-white rounded-lg px-3 py-2 border border-slate-200 shadow-sm">
+                                            <svg class="w-4 h-4 text-accent-500 shrink-0" fill="none"
+                                                viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M5 13l4 4L19 7" />
+                                            </svg>
+                                            <span class="text-slate-700 text-sm font-semibold">{{ $val }}</span>
+                                        </div>
+                                    @endforeach
                                 </div>
                             </div>
+                        </template>
+                        <template x-if="$store.lang.current === 'es'">
+                            <div>
+                                <p class="text-slate-800 text-lg leading-relaxed mb-6">Aplicar experiencia del mundo
+                                    real para evaluar, recomendar y desarrollar soluciones como su socio integral,
+                                    además de colaborar en la ejecución de las recomendaciones de nuestro equipo
+                                    global de expertos.</p>
+                                <p class="text-slate-600 leading-relaxed mb-6">Capacitar y desarrollar soluciones
+                                    personalizadas, fomentando la educación, el profesionalismo, la confianza, el
+                                    honor y el orgullo, promoviendo así el empoderamiento de los países anfitriones
+                                    hacia el éxito global e individual.</p>
+                                <p class="text-slate-800 font-semibold mb-4">Aplicamos, supervisamos y gestionamos
+                                    mediante nuestro marco comprobado de "Equipo de Equipos":</p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
+                                    @foreach(['Conocimiento Compartido', 'Propósito Común', 'Responsabilidad', 'Confianza', 'Empoderamiento', 'Evaluación Continua', 'Desarrollo Global'] as $val)
+                                        <div
+                                            class="flex items-center gap-2 bg-white rounded-lg px-3 py-2 border border-slate-200 shadow-sm">
+                                            <svg class="w-4 h-4 text-accent-500 shrink-0" fill="none"
+                                                viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M5 13l4 4L19 7" />
+                                            </svg>
+                                            <span class="text-slate-700 text-sm font-semibold">{{ $val }}</span>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+
+                {{-- Media: Video for Who, Images for Vision/Mission --}}
+                <div class="mt-12" data-animate>
+                    {{-- Who We Are - Video --}}
+                    <div x-show="activeTab === 'who'" x-transition:enter="transition ease-out duration-500" x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100">
+                        @php
+                            $whoVideo = $whoSection->video_url ?? 'https://www.youtube.com/embed/Tu_3BNY2dGg';
+                            preg_match('/(?:[?&]v=|youtu\.be\/|embed\/|shorts\/)([^?&]+)/', $whoVideo, $whoYtM);
+                            $whoYtId = $whoYtM[1] ?? null;
+                            $whoEmbedUrl = $whoYtId ? 'https://www.youtube.com/embed/' . $whoYtId : $whoVideo;
+                        @endphp
+                        <div class="relative rounded-2xl overflow-hidden shadow-2xl shadow-black/10 aspect-video">
+                            <iframe class="w-full h-full" src="{{ $whoEmbedUrl }}" title="About NSG"
+                                frameborder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowfullscreen></iframe>
                         </div>
-                        <div class="p-7">
-                            <time class="text-blue-600 text-xs font-bold tracking-wider uppercase">{{ $article['date'] }}</time>
-                            <h3 class="text-slate-900 font-display font-semibold text-lg mt-3 mb-3 leading-snug line-clamp-2">{{ $article['title'] }}</h3>
-                            <span class="inline-flex items-center gap-2 text-blue-600 text-sm font-semibold mt-2">
-                                Read More <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
-                            </span>
+                    </div>
+
+                    {{-- Vision - Image --}}
+                    @php $visionSection = $aboutSections->firstWhere('tab_key', 'vision'); @endphp
+                    <div x-show="activeTab === 'vision'" x-transition:enter="transition ease-out duration-500" x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100" x-cloak>
+                        <div class="relative rounded-2xl overflow-hidden shadow-2xl shadow-black/10 aspect-video">
+                            <img src="{{ $visionSection && $visionSection->image ? asset('storage/' . $visionSection->image) : asset('images/3carrusel-shaking hands.jpg.jpeg') }}" alt="Global Partnerships" class="w-full h-full object-cover object-center">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>
+                            <div class="absolute bottom-0 left-0 right-0 p-6 md:p-8">
+                                <p class="text-white text-lg md:text-2xl font-display font-semibold max-w-xl" x-text="$store.lang.current === 'en' ? 'A key global partner for democratic governance and world peace.' : 'Un socio global clave para la gobernanza democrática y la paz mundial.'"></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- Mission - Single Image --}}
+                    @php $missionSection = $aboutSections->firstWhere('tab_key', 'mission'); @endphp
+                    <div x-show="activeTab === 'mission'" x-transition:enter="transition ease-out duration-500" x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100" x-cloak>
+                        <div class="relative rounded-2xl overflow-hidden shadow-2xl shadow-black/10 aspect-video">
+                            <img src="{{ $missionSection && $missionSection->image ? asset('storage/' . $missionSection->image) : asset('images/mision.jpg.jpeg') }}" alt="NSG Mission" class="w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+                            <div class="absolute bottom-0 left-0 right-0 p-8 z-20">
+                                <p class="text-white text-xl md:text-2xl font-display font-semibold max-w-xl" x-text="$store.lang.current === 'en' ? 'Real world expertise. Custom solutions. Team of Teams.' : 'Experiencia real. Soluciones personalizadas. Equipo de Equipos.'"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    {{-- ============================================================
+    SERVICES
+    ============================================================ --}}
+    <section class="relative py-24 bg-black text-white" id="services"
+             x-data x-show="$store.sections.active === 'services'"
+             x-transition:enter="transition ease-out duration-700"
+             x-transition:enter-start="opacity-0 translate-y-8"
+             x-transition:enter-end="opacity-100 translate-y-0"
+             x-cloak>
+        <div class="absolute inset-0 line-grid opacity-10"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+            <div class="text-center mb-16" data-animate>
+                <h2 class="text-4xl md:text-5xl font-display font-bold text-white leading-tight mb-4">
+                    <span x-show="$store.lang.current === 'en'">Our <span class="text-accent-400">Services</span></span>
+                    <span x-show="$store.lang.current === 'es'" x-cloak>Nuestros <span
+                            class="text-accent-400">Servicios</span></span>
+                </h2>
+                <span class="text-accent-400 text-sm font-bold tracking-wider uppercase block"
+                    x-text="$store.lang.current === 'en' ? 'What We Do' : 'Lo Que Hacemos'"></span>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4" data-animate data-stagger>
+                @foreach($services as $svc)
+                    <div
+                        class="group bg-white/5 hover:bg-white/10 border border-white/10 hover:border-accent-500/30 rounded-xl p-5 transition-all duration-300 hover:-translate-y-1 cursor-default">
+                        <div
+                            class="w-10 h-10 rounded-lg bg-accent-500/10 flex items-center justify-center text-accent-400 mb-3 group-hover:bg-accent-500 group-hover:text-white transition-all duration-300">
+                            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                    d="{{ $svc->icon_svg }}" />
+                            </svg>
+                        </div>
+                        <h3 class="text-white font-semibold text-sm leading-snug"
+                            x-text="$store.lang.current === 'en' ? '{{ addslashes($svc->name_en) }}' : '{{ addslashes($svc->name_es) }}'">
+                        </h3>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+    </section>
+
+
+    {{-- ============================================================
+    OPPORTUNITIES
+    ============================================================ --}}
+    <section class="relative py-24 bg-white" id="opportunities"
+             x-data x-show="$store.sections.active === 'opportunities'"
+             x-transition:enter="transition ease-out duration-700"
+             x-transition:enter-start="opacity-0 translate-y-8"
+             x-transition:enter-end="opacity-100 translate-y-0"
+             x-cloak>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16" data-animate>
+                <span class="text-accent-500 text-lg font-bold tracking-wider uppercase mb-4 block"
+                    x-text="$store.lang.current === 'en' ? 'Opportunities' : 'Oportunidades'"></span>
+                <h2 class="text-4xl md:text-5xl font-display font-bold text-slate-900 leading-tight mb-4">
+                    <span x-show="$store.lang.current === 'en'">Positions <span
+                            class="text-accent-500">Available</span></span>
+                    <span x-show="$store.lang.current === 'es'" x-cloak>Posiciones <span
+                            class="text-accent-500">Disponibles</span></span>
+                </h2>
+            </div>
+
+            @php
+                $positionImages = [
+                    'Law and Government' => ['law and government.jpg'],
+                    'Ley y Gobierno' => ['law and government.jpg'],
+                    'Intelligence' => ['intelligence.jpg'],
+                    'Inteligencia' => ['intelligence.jpg'],
+                    'Law Enforcement' => ['law enfrocement.jpg'],
+                    'Cumplimiento de la Ley' => ['law enfrocement.jpg'],
+                    'Aircraft Operations & Transportation' => ['aircraft operations.jpg'],
+                    'Operaciones Aéreas y Transporte' => ['aircraft operations.jpg'],
+                    'Construction & Civil Engineering' => ['construction and civil engineering.jpg'],
+                    'Construcción e Ingeniería Civil' => ['construction and civil engineering.jpg'],
+                    'Emergency Services' => ['emergency services.jpg'],
+                    'Servicios de Emergencia' => ['emergency services.jpg'],
+                    'Healthcare' => ['health care.jpg'],
+                    'Salud' => ['health care.jpg'],
+                    'Communications' => ['communications.jpg'],
+                    'Comunicaciones' => ['communications.jpg'],
+                    'Security, Protection & Military' => ['security, protection and military.jpg', 'security, protection and military2.jpg', 'security, protection and military3.jpg'],
+                    'Seguridad, Protección y Militar' => ['security, protection and military.jpg', 'security, protection and military2.jpg', 'security, protection and military3.jpg'],
+                    'Finances' => ['finance.jpg'],
+                    'Finanzas' => ['finance.jpg'],
+                ];
+            @endphp
+
+            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6" data-animate data-stagger>
+                @foreach($positionCategories as $pos)
+                    @php
+                        $imgs = $positionImages[$pos->name_en] ?? $positionImages[$pos->name_es] ?? null;
+                        $img = $imgs ? $imgs[0] : null;
+                    @endphp
+                    <a href="/careers"
+                        class="group relative overflow-hidden rounded-2xl cursor-pointer transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl h-64"
+                        @if($imgs && count($imgs) > 1)
+                            x-data="{ slide: 0, images: {{ json_encode(array_map(fn($i) => asset('images/' . $i), $imgs)) }}, init() { setInterval(() => { this.slide = (this.slide + 1) % this.images.length }, 2000) } }"
+                        @endif
+                        >
+                        {{-- Background Image --}}
+                        @if($imgs && count($imgs) > 1)
+                            {{-- Multi-image carousel --}}
+                            @foreach($imgs as $idx => $imgFile)
+                                <div class="absolute inset-0 bg-cover bg-center transition-all duration-1000 group-hover:scale-110"
+                                     :class="slide === {{ $idx }} ? 'opacity-100' : 'opacity-0'"
+                                     style="background-image: url('{{ asset('images/' . $imgFile) }}');"></div>
+                            @endforeach
+                        @elseif($img)
+                            <div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
+                                 style="background-image: url('{{ asset('images/' . $img) }}');"></div>
+                        @else
+                            <div class="absolute inset-0 bg-gradient-to-br from-blue-900 to-slate-900"></div>
+                        @endif
+                        {{-- Overlay --}}
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/10 group-hover:from-black/90 group-hover:via-black/50 transition-all duration-500"></div>
+                        {{-- Icon + Text --}}
+                        <div class="relative z-10 flex flex-col justify-end h-full p-6">
+                            <div class="w-12 h-12 rounded-xl bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center text-white mb-4 group-hover:bg-accent-500 group-hover:border-accent-500 transition-all duration-300">
+                                <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                        d="{{ $pos->icon_svg }}" />
+                                </svg>
+                            </div>
+                            <h3 class="font-display font-bold text-lg text-white leading-snug"
+                                x-text="$store.lang.current === 'en' ? '{{ addslashes($pos->name_en) }}' : '{{ addslashes($pos->name_es) }}'">
+                            </h3>
+                            <div class="mt-3 flex items-center gap-2 text-accent-400 text-sm font-semibold opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300">
+                                <span x-text="$store.lang.current === 'en' ? 'View Positions' : 'Ver Posiciones'"></span>
+                                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+                            </div>
+                        </div>
+                    </a>
+                @endforeach
+            </div>
+        </div>
+    </section>
+
+
+    {{-- ============================================================
+    RELEVANT EVENTS
+    ============================================================ --}}
+    <section class="relative py-24 bg-slate-50" id="events"
+             x-data x-show="$store.sections.active === 'events'"
+             x-transition:enter="transition ease-out duration-700"
+             x-transition:enter-start="opacity-0 translate-y-8"
+             x-transition:enter-end="opacity-100 translate-y-0"
+             x-cloak>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16" data-animate>
+                <span class="text-accent-500 text-sm font-bold tracking-wider uppercase mb-4 block"
+                    x-text="$store.lang.current === 'en' ? 'Where We Operate' : 'Donde Operamos'"></span>
+                <h2 class="text-4xl md:text-5xl font-display font-bold text-slate-900 leading-tight">
+                    <span x-show="$store.lang.current === 'en'">Relevant <span class="text-accent-500">Events</span></span>
+                    <span x-show="$store.lang.current === 'es'" x-cloak>Eventos <span
+                            class="text-accent-500">Relevantes</span></span>
+                </h2>
+            </div>
+
+            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6" data-animate data-stagger
+                 x-data="{ mediaOpen: false, mediaType: '', mediaUrl: '', mediaTitle: '' }">
+                @foreach($events as $event)
+                    <div
+                        @if($event->media_type !== 'none' && $event->media_url)
+                            @click="mediaType = '{{ $event->media_type }}'; mediaUrl = '{{ $event->media_type === 'youtube' ? $event->media_url : asset('storage/' . $event->media_url) }}'; mediaTitle = $store.lang.current === 'en' ? '{{ addslashes($event->name_en) }}' : '{{ addslashes($event->name_es) }}'; mediaOpen = true"
+                        @endif
+                        class="group relative overflow-hidden rounded-2xl cursor-pointer transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl">
+                        <div class="{{ $event->gradient_classes }} h-72 flex items-end p-6 relative overflow-hidden">
+                            @if($event->media_type === 'image' && $event->media_url)
+                                <img src="{{ asset('storage/' . $event->media_url) }}" alt="{{ $event->name_en }}"
+                                     class="absolute inset-0 w-full h-full object-cover">
+                            @elseif($event->media_type === 'youtube' && $event->media_url)
+                                @php
+                                    preg_match('/(?:[?&]v=|youtu\.be\/|embed\/|shorts\/)([^?&]+)/', $event->media_url, $ytMatch);
+                                    $ytId = $ytMatch[1] ?? null;
+                                @endphp
+                                @if($ytId)
+                                    <img src="https://img.youtube.com/vi/{{ $ytId }}/hqdefault.jpg" alt="{{ $event->name_en }}"
+                                         class="absolute inset-0 w-full h-full object-cover">
+                                @endif
+                            @endif
+                            <div class="absolute top-4 right-4 text-4xl z-20">{{ $event->emoji }}</div>
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
+                            @if($event->media_type !== 'none' && $event->media_url)
+                                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                    <div class="w-16 h-16 rounded-full bg-white/20 backdrop-blur-sm border border-white/30 flex items-center justify-center">
+                                        @if($event->media_type === 'image')
+                                            <svg class="w-7 h-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                                        @else
+                                            <svg class="w-8 h-8 text-white ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                                        @endif
+                                    </div>
+                                </div>
+                            @endif
+                            <div class="relative z-10">
+                                <h3 class="text-white font-display font-bold text-2xl"
+                                    x-text="$store.lang.current === 'en' ? '{{ addslashes($event->name_en) }}' : '{{ addslashes($event->name_es) }}'">
+                                </h3>
+                            </div>
                         </div>
                     </div>
                 @endforeach
-            @endforelse
-        </div>
-    </div>
-</section>
 
-{{-- ============================================================
-     FINAL CTA
-     ============================================================ --}}
-<section class="relative py-28 bg-white overflow-hidden" id="cta">
-    <div class="absolute inset-0 bg-mesh-1"></div>
-    <div class="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-blue-200 to-transparent"></div>
+                {{-- Media Modal --}}
+                <div x-show="mediaOpen" x-transition:enter="transition ease-out duration-300"
+                     x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+                     x-transition:leave="transition ease-in duration-200"
+                     x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
+                     class="fixed inset-0 z-[9999] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4"
+                     @click.self="mediaOpen = false; mediaUrl = ''" @keydown.escape.window="mediaOpen = false; mediaUrl = ''"
+                     x-cloak>
+                    <div class="relative w-full max-w-4xl bg-black rounded-2xl overflow-hidden shadow-2xl"
+                         x-transition:enter="transition ease-out duration-300"
+                         x-transition:enter-start="opacity-0 scale-95"
+                         x-transition:enter-end="opacity-100 scale-100">
+                        {{-- Close button --}}
+                        <button @click="mediaOpen = false; mediaUrl = ''"
+                                class="absolute top-4 right-4 z-50 w-10 h-10 rounded-full bg-black/50 backdrop-blur-sm border border-white/20 flex items-center justify-center text-white hover:bg-black/70 transition-all">
+                            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                        </button>
+                        {{-- Title --}}
+                        <div class="bg-gradient-to-b from-black/90 to-transparent absolute top-0 left-0 right-0 p-5 z-40">
+                            <h3 class="text-white font-display font-bold text-xl" x-text="mediaTitle"></h3>
+                        </div>
+                        {{-- YouTube --}}
+                        <template x-if="mediaType === 'youtube' && mediaOpen">
+                            <div class="aspect-video">
+                                <iframe :src="(() => {
+                                    let url = mediaUrl;
+                                    let id = '';
+                                    let m = url.match(/[?&]v=([^&]+)/) || url.match(/youtu\.be\/([^?&]+)/) || url.match(/embed\/([^?&]+)/) || url.match(/shorts\/([^?&]+)/);
+                                    if (m) id = m[1];
+                                    return id ? 'https://www.youtube.com/embed/' + id + '?autoplay=1' : url;
+                                })()"
+                                        class="w-full h-full" frameborder="0"
+                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                        allowfullscreen></iframe>
+                            </div>
+                        </template>
+                        {{-- Video --}}
+                        <template x-if="mediaType === 'video' && mediaOpen">
+                            <div class="aspect-video">
+                                <video :src="mediaUrl" controls autoplay class="w-full h-full object-contain bg-black"></video>
+                            </div>
+                        </template>
+                        {{-- Image --}}
+                        <template x-if="mediaType === 'image' && mediaOpen">
+                            <div class="flex items-center justify-center min-h-[300px] max-h-[80vh]">
+                                <img :src="mediaUrl" :alt="mediaTitle" class="max-w-full max-h-[80vh] object-contain">
+                            </div>
+                        </template>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative text-center" data-animate>
-        <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 text-blue-600 text-xs font-bold tracking-wider uppercase mb-8">
-            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-            Get Started Today
+
+    {{-- ============================================================
+    TESTIMONIALS
+    ============================================================ --}}
+    <section class="relative py-24 bg-white overflow-hidden" id="testimonials"
+             x-data x-show="$store.sections.active === 'testimonials'"
+             x-transition:enter="transition ease-out duration-700"
+             x-transition:enter-start="opacity-0 translate-y-8"
+             x-transition:enter-end="opacity-100 translate-y-0"
+             x-cloak>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16" data-animate>
+                <span class="text-accent-500 text-lg font-bold tracking-wider uppercase mb-4 block"
+                    x-text="$store.lang.current === 'en' ? 'Testimonials' : 'Testimonios'"></span>
+                <p class="text-slate-500 text-lg max-w-2xl mx-auto"
+                    x-text="$store.lang.current === 'en' ? 'A few of our beneficiaries in our global operations to free the oppressed and save the innocent.' : 'Algunos de nuestros beneficiarios en operaciones globales para liberar a los oprimidos y proteger a los inocentes.'">
+                </p>
+            </div>
+
+            @foreach($testimonials as $testimonial)
+                <div class="max-w-4xl mx-auto mb-8" data-animate="scale">
+                    <div class="relative bg-slate-50 rounded-3xl p-8 md:p-12 border border-slate-100">
+                        <div class="absolute -top-6 left-8">
+                            <div
+                                class="w-12 h-12 rounded-2xl bg-accent-500 flex items-center justify-center shadow-lg shadow-accent-500/30">
+                                <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                    <path
+                                        d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10H14.017zM0 21v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151C7.563 6.068 6 8.789 6 11h4v10H0z" />
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <span
+                                class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent-500/10 text-accent-500 text-xs font-bold uppercase tracking-wider mb-6">{{ $testimonial->country_emoji }}
+                                {{ $testimonial->country_en }}</span>
+                            <template x-if="$store.lang.current === 'en'">
+                                <div class="prose prose-slate max-w-none">{!! $testimonial->content_en !!}</div>
+                            </template>
+                            <template x-if="$store.lang.current === 'es'">
+                                <div class="prose prose-slate max-w-none">{!! $testimonial->content_es !!}</div>
+                            </template>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
         </div>
-        <h2 class="section-heading mb-6">
-            Ready to Secure <span class="gradient-text">Your Future</span>?
-        </h2>
-        <p class="section-subheading mx-auto mb-10">
-            Contact our team to discuss how Constellis can provide customized security, intelligence, and training solutions for your organization.
-        </p>
-        <div class="flex flex-wrap justify-center gap-4">
-            <a href="{{ url('/contact') }}" class="btn-primary text-base px-10 py-4">
-                Get Started
-                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
-            </a>
-            <a href="tel:18663491506" class="btn-outline text-base px-10 py-4">
-                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
-                Call Us Now
-            </a>
+    </section>
+
+
+    {{-- ============================================================
+    CLIENTS - Redesigned Premium Layout
+    ============================================================ --}}
+    <section class="relative py-24 bg-gradient-to-b from-[#0a0a0a] via-[#111111] to-[#0a0a0a] text-white overflow-hidden" id="clients"
+             x-data x-show="$store.sections.active === 'clients'"
+             x-transition:enter="transition ease-out duration-700"
+             x-transition:enter-start="opacity-0 translate-y-8"
+             x-transition:enter-end="opacity-100 translate-y-0"
+             x-cloak>
+        {{-- Background effects --}}
+        <div class="absolute inset-0">
+            <div class="absolute top-1/4 left-1/4 w-[600px] h-[600px] bg-accent-500/5 rounded-full blur-[150px]"></div>
+            <div class="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-blue-500/5 rounded-full blur-[120px]"></div>
         </div>
-    </div>
-</section>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+            {{-- Section Header --}}
+            <div class="text-center mb-20" data-animate="fade-up">
+                <h2 class="text-4xl md:text-5xl font-display font-bold text-white leading-tight mb-4">
+                    <span x-show="$store.lang.current === 'en'">Proud to <span class="text-accent-400">Work With</span></span>
+                    <span x-show="$store.lang.current === 'es'" x-cloak>Orgullosos de <span class="text-accent-400">Trabajar Con</span></span>
+                </h2>
+                <span class="text-blue-400 text-sm font-bold tracking-wider uppercase block mb-6">
+                    <span x-show="$store.lang.current === 'en'"><span class="text-white">★</span> Support of the Following <span class="text-white">★</span></span>
+                    <span x-show="$store.lang.current === 'es'" x-cloak><span class="text-white">★</span> Apoyo a los Siguientes <span class="text-white">★</span></span>
+                </span>
+                <div class="w-20 h-0.5 bg-gradient-to-r from-transparent via-accent-500 to-transparent mx-auto"></div>
+            </div>
+
+            @php
+                $insignias = [
+                    0 => '1.png', 1 => '2.jpg', 2 => '3.png', 3 => '4.png', 4 => '5.png',
+                    5 => '6.png', 6 => '7.png', 7 => '8.png', 8 => '9.png', 9 => '10.jpg',
+                    10 => '11.png', 11 => '12.png', 12 => '13.png', 13 => '14.png', 14 => '15.png',
+                    15 => '16.jpg', 16 => '17.png', 17 => '18.png', 18 => '19.png', 19 => '20.png',
+                ];
+            @endphp
+
+            {{-- Client Grid --}}
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-5" data-animate data-stagger>
+                @foreach($clients as $index => $client)
+                    <div class="group relative bg-white/[0.03] hover:bg-white/[0.08] border border-white/[0.06] hover:border-accent-500/30 rounded-2xl p-5 text-center transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_60px_-15px_rgba(220,50,50,0.15)]">
+                        <div class="relative w-20 h-20 md:w-24 md:h-24 mx-auto mb-4 flex items-center justify-center">
+                            @if(isset($insignias[$index]))
+                                <img src="{{ asset('images/' . $insignias[$index]) }}" alt="{{ $client->name_en }}" class="max-w-full max-h-full object-contain filter drop-shadow-lg group-hover:scale-110 transition-transform duration-500">
+                            @else
+                                <div class="w-16 h-16 rounded-full bg-accent-500/10 flex items-center justify-center text-accent-400 group-hover:bg-accent-500 group-hover:text-white transition-all duration-300">
+                                    <svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+                                </div>
+                            @endif
+                        </div>
+                        <p class="text-white/80 group-hover:text-white text-xs md:text-sm font-semibold leading-snug transition-colors duration-300" x-text="$store.lang.current === 'en' ? '{{ addslashes($client->name_en) }}' : '{{ addslashes($client->name_es) }}'"></p>
+                        <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 group-hover:w-3/4 h-[2px] bg-gradient-to-r from-transparent via-accent-500 to-transparent transition-all duration-500"></div>
+                    </div>
+                @endforeach
+            </div>
+
+            {{-- Bottom text + NSG Logo --}}
+            <div class="mt-20 text-center" data-animate="scale">
+                <p class="text-white/60 text-lg max-w-3xl mx-auto leading-relaxed" x-text="$store.lang.current === 'en' ? 'We are proud to provide world-class multidiscipline, multi-echelon trained talent to the U.S. Military and State Department, Law Enforcement, the Private Security Detail Sector, OGA Specialty Operator Teams as well as International Allied Forces.' : 'Nos enorgullece proporcionar talento de clase mundial, altamente capacitado en múltiples disciplinas y niveles, al Departamento de Defensa y al Departamento de Estado de EE.UU., a las fuerzas del orden, al sector de seguridad privada, a equipos especializados de operadores de agencias gubernamentales, así como a fuerzas aliadas internacionales.'"></p>
+            </div>
+        </div>
+    </section>
+
+
+
+
+    {{-- ============================================================
+    CONTACT US
+    ============================================================ --}}
+    <section class="relative py-24 bg-white overflow-hidden" id="contact"
+             x-data x-show="$store.sections.active === 'contact'"
+             x-transition:enter="transition ease-out duration-700"
+             x-transition:enter-start="opacity-0 translate-y-8"
+             x-transition:enter-end="opacity-100 translate-y-0"
+             x-cloak>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16" data-animate>
+                <span class="text-accent-500 text-sm font-bold tracking-wider uppercase mb-4 block"
+                    x-text="$store.lang.current === 'en' ? 'Contact Us' : 'Contáctenos'"></span>
+                <h2 class="text-4xl md:text-5xl font-display font-bold text-slate-900 leading-tight mb-6">
+                    <span x-show="$store.lang.current === 'en'">Get In <span class="text-accent-500">Touch</span></span>
+                    <span x-show="$store.lang.current === 'es'" x-cloak>Ponte en <span
+                            class="text-accent-500">Contacto</span></span>
+                </h2>
+                <p class="text-slate-500 text-lg max-w-xl mx-auto"
+                    x-text="$store.lang.current === 'en' ? 'To help us improve and serve you better, please drop us a line.' : 'Para ayudarnos a mejorar y brindarle un mejor servicio, por favor contáctenos.'">
+                </p>
+            </div>
+
+            @php $hasOffices = isset($offices) && $offices->count() > 0; @endphp
+
+            <div class="{{ $hasOffices ? 'grid lg:grid-cols-5 gap-12' : 'max-w-2xl mx-auto' }}" data-animate>
+                {{-- Contact Form --}}
+                <div class="{{ $hasOffices ? 'lg:col-span-3' : '' }}">
+                    @if(session('success'))
+                        <div class="bg-green-50 border border-green-200 rounded-2xl p-6 mb-8">
+                            <div class="flex items-center gap-3">
+                                <svg class="w-6 h-6 text-green-600 shrink-0" fill="none" viewBox="0 0 24 24"
+                                    stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                                <p class="text-green-800 font-medium">{{ session('success') }}</p>
+                            </div>
+                        </div>
+                    @endif
+
+                    <form action="{{ route('contact.submit') }}" method="POST"
+                        class="space-y-6 {{ !$hasOffices ? 'text-center' : '' }}" id="homepage-contact-form">
+                        @csrf
+                        <div class="grid sm:grid-cols-2 gap-6">
+                            <div class="text-left">
+                                <label for="hp_name" class="block text-slate-700 text-sm font-semibold mb-2">
+                                    <span x-show="$store.lang.current === 'en'">Full Name *</span>
+                                    <span x-show="$store.lang.current === 'es'" x-cloak>Nombre Completo *</span>
+                                </label>
+                                <input type="text" id="hp_name" name="name" required value="{{ old('name') }}"
+                                    class="w-full px-4 py-3.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 focus:border-accent-500 focus:ring-2 focus:ring-accent-500/20 focus:bg-white focus:outline-none transition-all">
+                                @error('name') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+                            </div>
+                            <div class="text-left">
+                                <label for="hp_email" class="block text-slate-700 text-sm font-semibold mb-2">
+                                    <span x-show="$store.lang.current === 'en'">Email *</span>
+                                    <span x-show="$store.lang.current === 'es'" x-cloak>Correo Electrónico *</span>
+                                </label>
+                                <input type="email" id="hp_email" name="email" required value="{{ old('email') }}"
+                                    class="w-full px-4 py-3.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 focus:border-accent-500 focus:ring-2 focus:ring-accent-500/20 focus:bg-white focus:outline-none transition-all">
+                                @error('email') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+                            </div>
+                        </div>
+                        <div class="text-left">
+                            <label for="hp_message" class="block text-slate-700 text-sm font-semibold mb-2">
+                                <span x-show="$store.lang.current === 'en'">Message *</span>
+                                <span x-show="$store.lang.current === 'es'" x-cloak>Mensaje *</span>
+                            </label>
+                            <textarea id="hp_message" name="message" rows="5" required
+                                class="w-full px-4 py-3.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 focus:border-accent-500 focus:ring-2 focus:ring-accent-500/20 focus:bg-white focus:outline-none transition-all resize-none">{{ old('message') }}</textarea>
+                            @error('message') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+                        </div>
+                        <div>
+                            <button type="submit"
+                                class="inline-flex items-center gap-2 px-10 py-4 rounded-xl font-bold text-base bg-black text-white hover:bg-slate-800 shadow-lg transition-all duration-300 hover:-translate-y-0.5">
+                                <span x-show="$store.lang.current === 'en'">Send Message</span>
+                                <span x-show="$store.lang.current === 'es'" x-cloak>Enviar Mensaje</span>
+                                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                                </svg>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                {{-- Office Details Sidebar (only if offices are active) --}}
+                @if($hasOffices)
+                    <div class="lg:col-span-2 space-y-6">
+                        @foreach($offices as $office)
+                            <div class="bg-slate-50 rounded-2xl p-6 border border-slate-100">
+                                <h3 class="text-slate-900 font-display font-semibold text-lg mb-1">{{ $office->name }}</h3>
+                                @if($office->country)
+                                    <span
+                                        class="text-accent-500 text-xs font-semibold tracking-wide uppercase mb-4 block">{{ $office->country }}</span>
+                                @else
+                                    <div class="mb-4"></div>
+                                @endif
+                                <ul class="space-y-4">
+                                    @if($office->address)
+                                        <li class="flex items-start gap-3 text-slate-500">
+                                            <svg class="w-5 h-5 text-accent-500 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24"
+                                                stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                            </svg>
+                                            <span class="text-sm">{{ $office->address }}</span>
+                                        </li>
+                                    @endif
+                                    @if($office->phone)
+                                        <li><a href="tel:{{ preg_replace('/[^0-9+]/', '', $office->phone) }}"
+                                                class="flex items-center gap-3 text-slate-500 hover:text-accent-500 transition-colors text-sm"><svg
+                                                    class="w-5 h-5 text-accent-500 shrink-0" fill="none" viewBox="0 0 24 24"
+                                                    stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                                        d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                                                </svg>{{ $office->phone }}</a></li>
+                                    @endif
+                                    @if($office->email)
+                                        <li><a href="mailto:{{ $office->email }}"
+                                                class="flex items-center gap-3 text-slate-500 hover:text-accent-500 transition-colors text-sm"><svg
+                                                    class="w-5 h-5 text-accent-500 shrink-0" fill="none" viewBox="0 0 24 24"
+                                                    stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                                        d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                                                </svg>{{ $office->email }}</a></li>
+                                    @endif
+                                </ul>
+                            </div>
+                        @endforeach
+                    </div>
+                @endif
+            </div>
+        </div>
+    </section>
 
 @endsection

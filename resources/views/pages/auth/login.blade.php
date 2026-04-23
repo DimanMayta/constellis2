@@ -2,13 +2,14 @@
 @section('title', 'Login — Constellis')
 
 @section('content')
-<section class="relative min-h-[80vh] flex items-center justify-center overflow-hidden -mt-20 pt-20 bg-gradient-to-br from-slate-800 via-slate-900 to-blue-900">
+<section class="relative min-h-[80vh] flex items-center justify-center overflow-hidden bg-gradient-to-br from-slate-800 via-slate-900 to-blue-900">
     <div class="absolute inset-0 line-grid opacity-10"></div>
     <div class="max-w-md w-full mx-auto px-4 relative z-10">
         <div class="text-center mb-8">
             <a href="{{ url('/') }}" class="inline-flex items-center gap-3 mb-6">
-                <svg class="w-10 h-10 text-blue-400" viewBox="0 0 40 40" fill="none"><path d="M20 2L36 11V29L20 38L4 29V11L20 2Z" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M20 8L30 14V26L20 32L10 26V14L20 8Z" fill="currentColor" fill-opacity="0.15" stroke="currentColor" stroke-width="1"/><circle cx="20" cy="20" r="4" fill="currentColor"/></svg>
-                <span class="font-display text-2xl font-bold text-white"><span class="text-blue-400">C</span>ONSTELLIS</span>
+                <img src="{{ asset('images/NSG.png') }}"
+                     alt="National Security Group"
+                     class="h-16 w-auto drop-shadow-lg">
             </a>
             <h1 class="text-2xl font-display font-bold text-white mb-2">Sign In</h1>
             <p class="text-slate-400 text-sm">Access your account to use protected features</p>

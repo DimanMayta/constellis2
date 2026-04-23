@@ -2,7 +2,7 @@
 @section('title', 'Constellis Store')
 
 @section('content')
-<section class="relative py-16 overflow-hidden -mt-20 pt-32 bg-gradient-to-br from-slate-800 via-slate-900 to-blue-900">
+<section class="relative py-16 overflow-hidden bg-gradient-to-br from-slate-800 via-slate-900 to-blue-900">
     <div class="absolute inset-0 line-grid opacity-10"></div>
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div class="flex items-center justify-between">
@@ -44,10 +44,16 @@
         <div class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             @foreach($products as $product)
                 <div class="card overflow-hidden group">
-                    <div class="aspect-square img-placeholder relative">
-                        <div class="absolute inset-0 flex items-center justify-center z-10">
-                            <span class="font-display font-bold text-3xl text-white/30">{{ substr($product->name, 0, 2) }}</span>
-                        </div>
+                    <div class="aspect-square relative overflow-hidden bg-slate-100">
+                        @if($product->images && count($product->images) > 0)
+                            <img src="{{ asset('storage/' . $product->images[0]) }}"
+                                 alt="{{ $product->name }}"
+                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                        @else
+                            <div class="absolute inset-0 flex items-center justify-center img-placeholder">
+                                <span class="font-display font-bold text-3xl text-white/30">{{ substr($product->name, 0, 2) }}</span>
+                            </div>
+                        @endif
                     </div>
                     <div class="p-5">
                         <p class="text-xs text-blue-600 font-medium mb-1">{{ $product->category->name }}</p>

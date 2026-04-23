@@ -51,7 +51,19 @@ class SiteSettingResource extends Resource
                             ->placeholder('e.g. general, contact, social'),
                         Forms\Components\Textarea::make('value')
                             ->rows(3)
-                            ->columnSpanFull(),
+                            ->columnSpanFull()
+                            ->visible(fn (Forms\Get $get) => $get('type') !== 'boolean'),
+                        Forms\Components\Toggle::make('value_boolean')
+                            ->label('Enabled')
+                            ->columnSpanFull()
+                            ->visible(fn (Forms\Get $get) => $get('type') === 'boolean')
+                            ->afterStateHydrated(function (Forms\Components\Toggle $component, $record) {
+                                if ($record) {
+                                    $component->state($record->value === 'true');
+                                }
+                            })
+                            ->dehydrateStateUsing(fn ($state) => $state ? 'true' : 'false')
+                            ->dehydrated(fn (Forms\Get $get) => $get('type') === 'boolean'),
                     ])->columns(2),
             ]);
     }

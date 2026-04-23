@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('title', 'Training — Constellis')
 @section('content')
-<section class="relative py-28 overflow-hidden -mt-20 pt-40 bg-gradient-to-br from-blue-600 via-blue-700 to-blue-900">
+<section class="relative py-28 overflow-hidden bg-gradient-to-br from-blue-600 via-blue-700 to-blue-900">
     <div class="absolute inset-0 line-grid opacity-20"></div>
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <span class="text-blue-200 text-sm font-bold tracking-wider uppercase mb-4 block">Training Center</span>

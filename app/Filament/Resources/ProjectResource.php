@@ -16,6 +16,7 @@ class ProjectResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
     protected static ?string $navigationGroup = 'What We Do';
     protected static ?int $navigationSort = 1;
+    protected static bool $shouldRegisterNavigation = false;
 
     public static function form(Form $form): Form
     {
@@ -35,7 +36,7 @@ class ProjectResource extends Resource
                 Forms\Components\Textarea::make('description')->rows(3),
                 Forms\Components\MarkdownEditor::make('details'),
                 Forms\Components\TextInput::make('access_code')->password()->dehydrateStateUsing(fn ($state) => $state ? $state : null),
-                Forms\Components\TextInput::make('sort_order')->numeric()->default(0),
+                Forms\Components\TextInput::make('sort_order')->numeric()->default(fn () => (\App\Models\Project::max('sort_order') ?? 0) + 1),
                 Forms\Components\Toggle::make('is_active')->default(true),
             ])->columns(2),
         ]);

@@ -2,7 +2,7 @@
 @section('title', 'Announcements — Constellis Intranet')
 
 @section('content')
-<section class="py-8 bg-slate-50 min-h-screen -mt-20 pt-28">
+<section class="py-8 bg-slate-50 min-h-screen">
     <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         <a href="{{ route('intranet.dashboard') }}" class="text-blue-600 text-sm font-medium hover:text-blue-700">← Dashboard</a>
         <h1 class="text-2xl font-display font-bold text-slate-900 mt-4 mb-8">Announcements</h1>

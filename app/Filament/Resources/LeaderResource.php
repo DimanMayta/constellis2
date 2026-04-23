@@ -18,6 +18,7 @@ class LeaderResource extends Resource
     protected static ?string $navigationGroup = 'Who We Are';
     protected static ?int $navigationSort = 3;
     protected static ?string $navigationLabel = 'Leadership';
+    protected static bool $shouldRegisterNavigation = false;
 
     public static function form(Form $form): Form
     {
@@ -48,7 +49,7 @@ class LeaderResource extends Resource
                             ->imageResizeTargetHeight('400'),
                         Forms\Components\TextInput::make('sort_order')
                             ->numeric()
-                            ->default(0),
+                            ->default(fn () => (\App\Models\Leader::max('sort_order') ?? 0) + 1),
                         Forms\Components\Toggle::make('is_active')
                             ->default(true),
                     ])->columns(2),

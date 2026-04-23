@@ -88,8 +88,9 @@ COPY --from=frontend /app/public/build ./public/build
 RUN composer dump-autoload --optimize \
     && php artisan package:discover --ansi || true
 
-# Create storage directories and set permissions
-RUN mkdir -p storage/framework/{sessions,views,cache} \
+# Create required directories
+RUN mkdir -p /var/log/supervisor \
+    && mkdir -p storage/framework/{sessions,views,cache} \
     && mkdir -p storage/logs \
     && mkdir -p bootstrap/cache \
     && chown -R www-data:www-data storage bootstrap/cache \

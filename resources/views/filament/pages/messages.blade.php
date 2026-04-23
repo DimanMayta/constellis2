@@ -1,34 +1,50 @@
 <x-filament-panels::page>
-    <div x-data="adminChat()" x-init="init()" class="h-[calc(100vh-180px)] flex rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900">
+    <style>
+        /* Remove Filament page padding and prevent outer scroll */
+        .fi-page > .fi-page-content { padding: 0 !important; }
+        .fi-main { overflow: hidden !important; }
+    </style>
+    <div x-data="adminChat()" x-init="init()" class="flex overflow-hidden" style="height: calc(100vh - 4rem); margin: -1.5rem;">
 
         {{-- ═══ Contact List ═══ --}}
-        <div class="w-80 border-r border-gray-200 dark:border-gray-700 flex flex-col shrink-0 bg-gray-50 dark:bg-gray-800">
-            {{-- Search --}}
-            <div class="p-3 border-b border-gray-200 dark:border-gray-700">
-                <input type="text" x-model="searchQuery" placeholder="Search contacts..."
-                       class="w-full px-3 py-2 rounded-lg bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-600 text-sm text-gray-900 dark:text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
+        <div class="w-80 flex flex-col shrink-0" style="background: linear-gradient(180deg, #f7f8fa 0%, #ffffff 100%); border-right: 1px solid #e2e5ed;">
+            {{-- Header --}}
+            <div class="p-3" style="background: linear-gradient(135deg, #1d345d 0%, #0f1c33 100%); border-bottom: 1px solid rgba(255,255,255,0.08);">
+                <div class="relative">
+                    <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                    <input type="text" x-model="searchQuery" placeholder="Search contacts..."
+                           class="w-full pl-10 pr-4 py-2.5 rounded-xl text-white placeholder-gray-400 text-sm transition-all border-0"
+                           style="background: rgba(255,255,255,0.1); outline: none;"
+                           onfocus="this.style.background='rgba(255,255,255,0.18)'; this.style.boxShadow='0 0 0 2px rgba(255,255,255,0.15)'"
+                           onblur="this.style.background='rgba(255,255,255,0.1)'; this.style.boxShadow='none'">
+                </div>
             </div>
 
             {{-- Contacts --}}
             <div class="flex-1 overflow-y-auto">
                 <template x-for="contact in filteredContacts" :key="contact.id">
                     <button @click="openChat(contact)"
-                            :class="activeChat === contact.id ? 'bg-primary-50 dark:bg-primary-900/30 border-l-4 border-l-primary-500' : 'border-l-4 border-l-transparent'"
-                            class="w-full flex items-center gap-3 px-3 py-3 hover:bg-gray-100 dark:hover:bg-gray-700/50 transition-colors text-left border-b border-gray-100 dark:border-gray-700">
+                            :class="activeChat === contact.id ? 'border-l-4' : 'border-l-4 border-l-transparent'"
+                            :style="activeChat === contact.id ? 'background: #eff6ef; border-left-color: #e7333e' : ''"
+                            class="w-full flex items-center gap-3 px-3 py-3.5 hover:bg-gray-50 transition-all text-left border-b border-gray-100">
                         <div class="relative shrink-0">
-                            <div class="w-10 h-10 rounded-full bg-primary-500 flex items-center justify-center text-white font-bold text-xs" x-text="contact.initial"></div>
-                            <span class="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full border-2 border-white dark:border-gray-800 transition-colors"
-                                  :style="onlineUsers.has(contact.id) ? 'background-color: #22c55e' : 'background-color: #d1d5db'"></span>
+                            <div class="w-11 h-11 rounded-full flex items-center justify-center text-white font-bold text-xs shadow-md"
+                                 :style="activeChat === contact.id ? 'background: linear-gradient(135deg, #e7333e, #d41e2a)' : 'background: linear-gradient(135deg, #1d345d, #2d5287)'"
+                                 x-text="contact.initial"></div>
+                            <span class="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full border-2 border-white transition-colors"
+                                  :style="onlineUsers.has(contact.id) ? 'background-color: #22c55e' : 'background-color: #9298af'"></span>
                         </div>
                         <div class="flex-1 min-w-0">
                             <div class="flex items-center justify-between">
-                                <span class="text-gray-900 dark:text-gray-100 font-semibold text-sm truncate" x-text="contact.name"></span>
-                                <span class="text-gray-400 text-[10px] shrink-0 ml-1" x-text="contact.last_message_time || ''"></span>
+                                <span class="font-semibold text-sm truncate" :style="activeChat === contact.id ? 'color: #1d345d' : 'color: #3a3d4d'" x-text="contact.name"></span>
+                                <span class="text-[10px] shrink-0 ml-1" style="color: #9298af" x-text="contact.last_message_time || ''"></span>
                             </div>
                             <div class="flex items-center justify-between mt-0.5">
-                                <p class="text-gray-400 dark:text-gray-500 text-xs truncate" x-text="contact.last_message || 'No messages yet'"></p>
+                                <p class="text-xs truncate" style="color: #9298af" x-text="contact.last_message || 'No messages yet'"></p>
                                 <template x-if="contact.unread > 0">
-                                    <span class="shrink-0 ml-1 w-5 h-5 rounded-full bg-primary-500 text-white text-[10px] font-bold flex items-center justify-center" x-text="contact.unread"></span>
+                                    <span class="shrink-0 ml-1 w-5 h-5 rounded-full text-white text-[10px] font-bold flex items-center justify-center shadow-sm"
+                                          style="background: linear-gradient(135deg, #e7333e, #d41e2a); box-shadow: 0 2px 6px rgba(231,51,62,0.3)"
+                                          x-text="contact.unread"></span>
                                 </template>
                             </div>
                         </div>
@@ -38,16 +54,16 @@
         </div>
 
         {{-- ═══ Chat Panel ═══ --}}
-        <div class="flex-1 flex flex-col">
+        <div class="flex-1 flex flex-col" style="background: #eff6ef">
             {{-- Empty State --}}
             <template x-if="!activeChat">
-                <div class="flex-1 flex items-center justify-center">
+                <div class="flex-1 flex items-center justify-center" style="background: linear-gradient(180deg, #eff6ef 0%, #e4ede4 50%, #eff6ef 100%)">
                     <div class="text-center">
-                        <div class="w-20 h-20 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center mx-auto mb-4">
-                            <svg class="w-10 h-10 text-gray-300 dark:text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+                        <div class="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-5" style="background: rgba(29,52,93,0.08); border: 2px solid rgba(29,52,93,0.12)">
+                            <svg class="w-10 h-10" style="color: #9298af" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
                         </div>
-                        <h3 class="text-gray-900 dark:text-gray-100 font-bold text-lg mb-1">Admin Messenger</h3>
-                        <p class="text-gray-400 dark:text-gray-500 text-sm">Select a contact to manage conversations</p>
+                        <h3 class="font-bold text-lg mb-2" style="color: #1d345d">Admin Messenger</h3>
+                        <p class="text-sm max-w-xs" style="color: #9298af">Select a contact to manage conversations.<br>Messages are delivered in real-time.</p>
                     </div>
                 </div>
             </template>
@@ -55,18 +71,18 @@
             {{-- Active Chat --}}
             <template x-if="activeChat">
                 <div class="flex flex-col h-full">
-                    {{-- Header with Online Presence --}}
-                    <div class="px-5 py-3 border-b border-gray-200 dark:border-gray-700 flex items-center gap-3 bg-white dark:bg-gray-900 shrink-0">
+                    {{-- Header --}}
+                    <div class="px-5 py-3 flex items-center gap-3 shrink-0 shadow-md" style="background: linear-gradient(135deg, #1d345d 0%, #2d5287 100%)">
                         <div class="relative">
-                            <div class="w-9 h-9 rounded-full bg-primary-500 flex items-center justify-center text-white font-bold text-xs" x-text="activeName?.charAt(0)"></div>
-                            <span class="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full border-2 border-white dark:border-gray-900 transition-colors"
-                                  :style="onlineUsers.has(activeChat) ? 'background-color: #22c55e' : 'background-color: #d1d5db'"></span>
+                            <div class="w-10 h-10 rounded-full flex items-center justify-center text-white font-bold text-xs shadow-md" style="background: linear-gradient(135deg, #e7333e, #d41e2a)" x-text="activeName?.charAt(0)"></div>
+                            <span class="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full border-2 transition-colors" style="border-color: #1d345d"
+                                  :style="'border-color: #1d345d; background-color:' + (onlineUsers.has(activeChat) ? '#22c55e' : '#9298af')"></span>
                         </div>
                         <div class="flex-1">
-                            <p class="text-gray-900 dark:text-gray-100 font-semibold text-sm" x-text="activeName"></p>
-                            <p class="text-xs text-gray-400 dark:text-gray-500">
-                                <span x-show="onlineUsers.has(activeChat)" class="inline-flex items-center gap-1 font-medium" style="color: #22c55e;">
-                                    <span class="w-1.5 h-1.5 rounded-full animate-pulse" style="background-color: #22c55e;"></span> Online
+                            <p class="text-white font-semibold text-sm" x-text="activeName"></p>
+                            <p class="text-xs" style="color: #9298af">
+                                <span x-show="onlineUsers.has(activeChat)" class="inline-flex items-center gap-1 font-medium" style="color: #4ade80">
+                                    <span class="w-1.5 h-1.5 rounded-full animate-pulse" style="background: #4ade80"></span> Online
                                 </span>
                                 <span x-show="!onlineUsers.has(activeChat)" x-text="activeRole + (activeDept ? ' · ' + activeDept : '')"></span>
                             </p>
@@ -74,32 +90,37 @@
                     </div>
 
                     {{-- Messages --}}
-                    <div class="flex-1 overflow-y-auto px-5 py-4 space-y-1 bg-gray-50 dark:bg-gray-800/50" x-ref="chatPanel">
+                    <div class="flex-1 overflow-y-auto px-5 py-4 space-y-1" x-ref="chatPanel"
+                         style="background: linear-gradient(180deg, #eff6ef 0%, #deedde 40%, #eff6ef 100%); background-image: url('data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2760%27 height=%2760%27 viewBox=%270 0 60 60%27%3E%3Cg fill=%27none%27 stroke=%27%239298af%27 stroke-width=%270.3%27 opacity=%270.12%27%3E%3Cpath d=%27M0 30h60M30 0v60%27/%3E%3C/g%3E%3C/svg%3E')">
                         <template x-if="loading">
                             <div class="flex items-center justify-center py-20">
-                                <x-filament::loading-indicator class="h-6 w-6" />
+                                <div class="w-8 h-8 border-2 border-t-transparent rounded-full animate-spin" style="border-color: #e7333e; border-top-color: transparent"></div>
                             </div>
                         </template>
                         <template x-if="!loading && messages.length === 0">
                             <div class="text-center py-16">
-                                <p class="text-gray-400 text-sm">No messages yet. Start a conversation below.</p>
+                                <div class="w-16 h-16 rounded-xl flex items-center justify-center mx-auto mb-3 shadow-md" style="background: linear-gradient(135deg, #1d345d, #2d5287)">
+                                    <svg class="w-8 h-8 text-white/70" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"/></svg>
+                                </div>
+                                <p class="text-sm font-medium" style="color: #747b94">No messages yet. Start a conversation below. 👋</p>
                             </div>
                         </template>
                         <template x-for="(msg, idx) in messages" :key="msg.id">
                             <div>
                                 <template x-if="idx === 0 || messages[idx-1]?.date !== msg.date">
-                                    <div class="flex items-center justify-center my-3">
-                                        <span class="px-3 py-1 rounded-full bg-white dark:bg-gray-700 text-gray-400 text-[10px] font-medium shadow-sm" x-text="msg.date"></span>
+                                    <div class="flex items-center justify-center my-4">
+                                        <span class="px-4 py-1.5 rounded-full text-[10px] font-semibold tracking-wide uppercase shadow-sm" style="background: linear-gradient(135deg, #1d345d, #2d5287); color: #d1d4df" x-text="msg.date"></span>
                                     </div>
                                 </template>
                                 <div class="flex mb-1" :class="msg.is_mine ? 'justify-end' : 'justify-start'">
                                     <div class="max-w-[70%] rounded-2xl px-4 py-2.5 shadow-sm"
-                                         :class="msg.is_mine ? 'bg-primary-500 text-white rounded-br-md' : 'bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-bl-md'">
+                                         :class="msg.is_mine ? 'text-white rounded-br-md' : 'rounded-bl-md'"
+                                         :style="msg.is_mine ? 'background: linear-gradient(135deg, #1d345d, #2d5287)' : 'background: #ffffff; color: #3a3d4d; border: 1px solid #e2e5ed'">
                                         <p class="text-[13px] leading-relaxed whitespace-pre-wrap break-words" x-text="msg.body"></p>
                                         <div class="flex items-center justify-end gap-1 mt-1">
                                             <span class="text-[10px] opacity-60" x-text="msg.time"></span>
                                             <template x-if="msg.is_mine">
-                                                <svg class="w-3 h-3" :class="msg.read ? 'text-sky-200' : 'opacity-40'" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                                                <svg class="w-3 h-3" :class="msg.read ? 'text-green-300' : 'opacity-40'" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
                                             </template>
                                         </div>
                                     </div>
@@ -109,16 +130,19 @@
                     </div>
 
                     {{-- Input --}}
-                    <div class="px-4 py-3 bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700 shrink-0">
+                    <div class="px-4 py-3 shrink-0" style="background: linear-gradient(180deg, #ffffff 0%, #f7f8fa 100%); border-top: 1px solid #e2e5ed">
                         <div class="flex items-end gap-3">
                             <textarea x-model="newMessage" x-ref="msgInput"
                                       @keydown.enter.prevent="if(!$event.shiftKey) sendMsg()"
                                       @input="$event.target.style.height='40px';$event.target.style.height=Math.min($event.target.scrollHeight,120)+'px'"
                                       rows="1" placeholder="Type a message..."
-                                      class="flex-1 px-4 py-2.5 rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-600 text-gray-900 dark:text-gray-100 placeholder-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 resize-none"
-                                      style="min-height:40px;max-height:120px"></textarea>
+                                      class="flex-1 px-4 py-2.5 rounded-xl text-sm resize-none focus:outline-none focus:ring-2 transition-all"
+                                      style="background: #eff6ef; border: 1px solid #d1d4df; color: #3a3d4d; min-height:40px; max-height:120px"
+                                      onfocus="this.style.borderColor='#e7333e'; this.style.boxShadow='0 0 0 3px rgba(231,51,62,0.12)'"
+                                      onblur="this.style.borderColor='#d1d4df'; this.style.boxShadow='none'"></textarea>
                             <button @click="sendMsg()" :disabled="!newMessage.trim() || sending"
-                                    class="w-10 h-10 rounded-full bg-primary-500 text-white flex items-center justify-center hover:bg-primary-600 transition-colors disabled:opacity-40 shrink-0 mb-0.5">
+                                    class="w-10 h-10 rounded-full text-white flex items-center justify-center transition-all disabled:opacity-40 shrink-0 mb-0.5 shadow-lg hover:shadow-xl hover:-translate-y-0.5"
+                                    style="background: linear-gradient(135deg, #e7333e, #d41e2a)">
                                 <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
                             </button>
                         </div>

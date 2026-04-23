@@ -19,6 +19,7 @@ class CertificationResource extends Resource
     protected static ?string $navigationGroup = 'Who We Are';
 
     protected static ?int $navigationSort = 6;
+    protected static bool $shouldRegisterNavigation = false;
 
     public static function form(Form $form): Form
     {
@@ -30,7 +31,7 @@ class CertificationResource extends Resource
                         Forms\Components\Textarea::make('description')->rows(3),
                         Forms\Components\TextInput::make('document_url')->url()->maxLength(255),
                         Forms\Components\FileUpload::make('logo')->image()->directory('certifications'),
-                        Forms\Components\TextInput::make('sort_order')->numeric()->default(0),
+                        Forms\Components\TextInput::make('sort_order')->numeric()->default(fn () => (\App\Models\Certification::max('sort_order') ?? 0) + 1),
                         Forms\Components\Toggle::make('is_active')->default(true),
                     ])->columns(2),
             ]);

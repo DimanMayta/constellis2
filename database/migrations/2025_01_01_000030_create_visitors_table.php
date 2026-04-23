@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\DB;
 
 return new class extends Migration
 {
@@ -33,7 +34,7 @@ return new class extends Migration
             $table->index('country');
             $table->index('browser');
             $table->index('device_type');
-            $table->index('url');
+            $table->index([DB::raw('url(191)')]);
         });
     }
 

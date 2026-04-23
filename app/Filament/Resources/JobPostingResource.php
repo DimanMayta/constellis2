@@ -14,14 +14,17 @@ class JobPostingResource extends Resource
 {
     protected static ?string $model = JobPosting::class;
     protected static ?string $navigationIcon = 'heroicon-o-briefcase';
-    protected static ?string $navigationGroup = 'Careers';
-    protected static ?int $navigationSort = 2;
+    protected static ?string $navigationGroup = 'Content Management';
+    protected static ?int $navigationSort = 6;
+    protected static ?string $navigationLabel = 'Job Postings';
 
     public static function form(Form $form): Form
     {
         return $form->schema([
             Forms\Components\Section::make()->schema([
-                Forms\Components\TextInput::make('title')->required(),
+                Forms\Components\TextInput::make('title')->required()
+                    ->live(onBlur: true)
+                    ->afterStateUpdated(fn (Forms\Set $set, ?string $state) => $state ? $set('slug', \Illuminate\Support\Str::slug($state)) : null),
                 Forms\Components\TextInput::make('slug')->required()->unique(ignoreRecord: true),
                 Forms\Components\Select::make('employment_type')->options(['full-time' => 'Full-Time', 'part-time' => 'Part-Time', 'contract' => 'Contract']),
                 Forms\Components\TextInput::make('location'),
@@ -34,6 +37,7 @@ class JobPostingResource extends Resource
                 Forms\Components\MarkdownEditor::make('requirements'),
                 Forms\Components\MarkdownEditor::make('responsibilities'),
                 Forms\Components\DateTimePicker::make('expires_at'),
+                Forms\Components\TextInput::make('sort_order')->numeric()->default(fn () => (JobPosting::max('sort_order') ?? 0) + 1),
                 Forms\Components\Toggle::make('is_active')->default(true),
             ])->columns(2),
         ]);
@@ -47,7 +51,17 @@ class JobPostingResource extends Resource
             Tables\Columns\TextColumn::make('location'),
             Tables\Columns\TextColumn::make('applications_count')->counts('applications')->label('Applications'),
             Tables\Columns\IconColumn::make('is_active')->boolean(),
-        ])->defaultSort('sort_order');
+        ])
+        ->actions([
+            Tables\Actions\EditAction::make(),
+            Tables\Actions\DeleteAction::make(),
+        ])
+        ->bulkActions([
+            Tables\Actions\BulkActionGroup::make([
+                Tables\Actions\DeleteBulkAction::make(),
+            ]),
+        ])
+        ->defaultSort('sort_order');
     }
 
     public static function getPages(): array

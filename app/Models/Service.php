@@ -11,8 +11,10 @@ class Service extends Model
     use HasFactory;
 
     protected $fillable = [
-        'service_category_id', 'name', 'slug', 'short_description',
-        'content', 'image', 'icon', 'meta_title', 'meta_description',
+        'service_category_id', 'name', 'name_en', 'name_es',
+        'slug', 'short_description', 'content',
+        'image', 'icon', 'icon_svg',
+        'meta_title', 'meta_description',
         'sort_order', 'is_active',
     ];
 
@@ -28,6 +30,11 @@ class Service extends Model
     public function scopeActive($query)
     {
         return $query->where('is_active', true);
+    }
+
+    public function scopeOrdered($query)
+    {
+        return $query->orderBy('sort_order');
     }
 
     public function getRouteKeyName(): string

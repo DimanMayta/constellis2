@@ -22,6 +22,7 @@ class TrainingCategoryResource extends Resource
     protected static ?int $navigationSort = 1;
 
     protected static ?string $navigationLabel = 'Categories';
+    protected static bool $shouldRegisterNavigation = false;
 
     public static function form(Form $form): Form
     {
@@ -37,7 +38,7 @@ class TrainingCategoryResource extends Resource
                         Forms\Components\TextInput::make('anchor_id')->maxLength(100),
                         Forms\Components\TextInput::make('icon')->maxLength(100),
                         Forms\Components\FileUpload::make('image')->image()->directory('training-categories'),
-                        Forms\Components\TextInput::make('sort_order')->numeric()->default(0),
+                        Forms\Components\TextInput::make('sort_order')->numeric()->default(fn () => (\App\Models\TrainingCategory::max('sort_order') ?? 0) + 1),
                         Forms\Components\Toggle::make('is_active')->default(true),
                     ])->columns(2),
                 Forms\Components\Section::make('Content')

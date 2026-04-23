@@ -36,7 +36,7 @@ class ContactOfficeResource extends Resource
                         Forms\Components\TextInput::make('email')->email()->maxLength(255),
                         Forms\Components\TextInput::make('fax')->maxLength(50),
                         Forms\Components\Textarea::make('additional_info')->rows(2),
-                        Forms\Components\TextInput::make('sort_order')->numeric()->default(0),
+                        Forms\Components\TextInput::make('sort_order')->numeric()->default(fn () => (\App\Models\ContactOffice::max('sort_order') ?? 0) + 1),
                         Forms\Components\Toggle::make('is_active')->default(true),
                     ])->columns(2),
             ]);
@@ -59,6 +59,9 @@ class ContactOfficeResource extends Resource
             ->defaultSort('sort_order')
             ->reorderable('sort_order');
     }
+
+
+
 
     public static function getPages(): array
     {

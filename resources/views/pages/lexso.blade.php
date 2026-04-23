@@ -7,7 +7,7 @@
 {{-- ============================================================
      HERO — LEXSO Brand Hero
      ============================================================ --}}
-<section class="relative min-h-[70vh] flex items-center overflow-hidden -mt-20 pt-20" id="lexso-hero">
+<section class="relative min-h-[70vh] flex items-center overflow-hidden" id="lexso-hero">
     <div class="absolute inset-0 bg-gradient-to-br from-blue-950 via-blue-900 to-blue-800"></div>
     <div class="absolute inset-0 line-grid opacity-30"></div>
 

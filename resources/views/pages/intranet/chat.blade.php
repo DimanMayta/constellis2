@@ -2,33 +2,33 @@
 @section('title', 'Chat — Constellis Intranet')
 
 @section('content')
-<section class="min-h-screen bg-slate-100 -mt-20 pt-20" x-data="chatApp()" x-init="init()">
-    <div class="h-[calc(100vh-80px)] flex">
+<section class="fixed inset-0 z-40 overflow-hidden" style="top: 5.5rem; background: linear-gradient(135deg, #eff6ef 0%, #e8eaef 50%, #eff6ef 100%)" x-data="chatApp()" x-init="init()">
+    <div class="h-full flex overflow-hidden shadow-2xl">
 
         {{-- ═══ LEFT SIDEBAR — Contacts ═══ --}}
-        <div class="w-80 lg:w-96 bg-white border-r border-slate-200 flex flex-col shrink-0" :class="{ 'hidden md:flex': activeChat }">
+        <div class="w-80 lg:w-96 flex flex-col shrink-0 border-r border-steel-200" :class="{ 'hidden md:flex': activeChat }" style="background: linear-gradient(180deg, #f4f5f7 0%, #ffffff 100%)">
 
             {{-- Header --}}
-            <div class="p-4 border-b border-slate-100 bg-gradient-to-r from-blue-600 to-blue-700">
+            <div class="p-4 border-b border-blue-800/20" style="background: linear-gradient(135deg, #1d345d 0%, #0f1c33 100%)">
                 <div class="flex items-center justify-between mb-3">
                     <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center text-white font-bold text-sm">
+                        <div class="w-10 h-10 rounded-full flex items-center justify-center text-white font-bold text-sm" style="background: linear-gradient(135deg, #e7333e, #d41e2a)">
                             {{ substr(auth()->user()->name, 0, 1) }}
                         </div>
                         <div>
-                            <p class="text-white font-semibold text-sm">{{ auth()->user()->name }}</p>
-                            <p class="text-blue-200 text-xs capitalize">{{ auth()->user()->role }}</p>
+                            <p class="text-white font-semibold text-sm font-display">{{ auth()->user()->name }}</p>
+                            <p class="text-steel-400 text-xs capitalize">{{ auth()->user()->role }}</p>
                         </div>
                     </div>
-                    <a href="{{ route('intranet.dashboard') }}" class="text-white/70 hover:text-white transition-colors" title="Back to Dashboard">
+                    <a href="{{ route('intranet.dashboard') }}" class="text-steel-400 hover:text-white transition-colors" title="Back to Dashboard">
                         <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
                     </a>
                 </div>
                 {{-- Search --}}
                 <div class="relative">
-                    <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-blue-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                    <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-steel-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
                     <input type="text" x-model="searchQuery" placeholder="Search contacts..."
-                           class="w-full pl-10 pr-4 py-2.5 rounded-xl bg-white/10 text-white placeholder-blue-200 text-sm focus:outline-none focus:bg-white/20 transition-colors border-0">
+                           class="w-full pl-10 pr-4 py-2.5 rounded-xl bg-white/10 text-white placeholder-steel-400 text-sm focus:outline-none focus:bg-white/20 focus:ring-1 focus:ring-accent-500/50 transition-all border-0">
                 </div>
             </div>
 
@@ -36,32 +36,33 @@
             <div class="flex-1 overflow-y-auto">
                 @forelse($contacts as $contact)
                     <button @click="openChat({{ $contact->id }}, '{{ addslashes($contact->name) }}', '{{ $contact->role }}')"
-                            :class="{ 'bg-blue-50 border-l-4 border-l-blue-600': activeChat === {{ $contact->id }} }"
-                            class="w-full flex items-center gap-3 px-4 py-3.5 hover:bg-slate-50 transition-colors text-left border-b border-slate-50"
+                            :class="{ 'bg-mint-100 border-l-4 border-l-accent-500': activeChat === {{ $contact->id }} }"
+                            class="w-full flex items-center gap-3 px-4 py-3.5 hover:bg-mint-50 transition-all text-left border-b border-steel-100/50"
                             x-show="!searchQuery || '{{ strtolower($contact->name) }}'.includes(searchQuery.toLowerCase())">
                         <div class="relative shrink-0">
-                            <div class="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center text-white font-bold text-sm">
+                            <div class="w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-sm shadow-md"
+                                 :class="activeChat === {{ $contact->id }} ? 'bg-gradient-to-br from-accent-500 to-accent-600' : 'bg-gradient-to-br from-blue-600 to-blue-700'">
                                 {{ substr($contact->name, 0, 1) }}
                             </div>
-                            <span class="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 rounded-full border-2 border-white transition-colors" :class="onlineUsers.has({{ $contact->id }}) ? 'bg-green-500' : 'bg-slate-300'" id="status-{{ $contact->id }}"></span>
+                            <span class="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 rounded-full border-2 border-white transition-colors" :class="onlineUsers.has({{ $contact->id }}) ? 'bg-green-500' : 'bg-steel-300'" id="status-{{ $contact->id }}"></span>
                         </div>
                         <div class="flex-1 min-w-0">
                             <div class="flex items-center justify-between">
-                                <span class="text-slate-900 font-semibold text-sm truncate">{{ $contact->name }}</span>
+                                <span class="font-semibold text-sm truncate" :class="activeChat === {{ $contact->id }} ? 'text-blue-900' : 'text-slate-800'">{{ $contact->name }}</span>
                                 @if($contact->last_message)
-                                    <span class="text-slate-400 text-[10px] shrink-0 ml-2">{{ $contact->last_message->created_at->format('g:i A') }}</span>
+                                    <span class="text-steel-400 text-[10px] shrink-0 ml-2">{{ $contact->last_message->created_at->format('g:i A') }}</span>
                                 @endif
                             </div>
                             <div class="flex items-center justify-between mt-0.5">
-                                <p class="text-slate-400 text-xs truncate">
+                                <p class="text-steel-400 text-xs truncate">
                                     @if($contact->last_message)
                                         {{ \Str::limit($contact->last_message->body, 35) }}
                                     @else
-                                        <span class="text-slate-300 italic">No messages yet</span>
+                                        <span class="text-steel-300 italic">No messages yet</span>
                                     @endif
                                 </p>
                                 @if($contact->unread_from > 0)
-                                    <span class="shrink-0 ml-2 w-5 h-5 rounded-full bg-blue-600 text-white text-[10px] font-bold flex items-center justify-center" id="badge-{{ $contact->id }}">
+                                    <span class="shrink-0 ml-2 w-5 h-5 rounded-full bg-accent-500 text-white text-[10px] font-bold flex items-center justify-center shadow-sm shadow-accent-500/30" id="badge-{{ $contact->id }}">
                                         {{ $contact->unread_from }}
                                     </span>
                                 @endif
@@ -70,23 +71,23 @@
                     </button>
                 @empty
                     <div class="p-8 text-center">
-                        <p class="text-slate-400 text-sm">No contacts available.</p>
+                        <p class="text-steel-400 text-sm">No contacts available.</p>
                     </div>
                 @endforelse
             </div>
         </div>
 
         {{-- ═══ RIGHT PANEL — Chat Thread ═══ --}}
-        <div class="flex-1 flex flex-col bg-slate-50" :class="{ 'hidden md:flex': !activeChat }">
+        <div class="flex-1 flex flex-col" :class="{ 'hidden md:flex': !activeChat }" style="background: #eff6ef">
 
             {{-- Empty State --}}
-            <div x-show="!activeChat" class="flex-1 flex items-center justify-center">
+            <div x-show="!activeChat" class="flex-1 flex items-center justify-center" style="background: linear-gradient(180deg, #eff6ef 0%, #deedde 100%)">
                 <div class="text-center">
-                    <div class="w-24 h-24 rounded-full bg-blue-50 flex items-center justify-center mx-auto mb-6">
-                        <svg class="w-12 h-12 text-blue-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+                    <div class="w-28 h-28 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-lg" style="background: linear-gradient(135deg, #1d345d, #2d5287)">
+                        <svg class="w-14 h-14 text-white/80" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
                     </div>
-                    <h3 class="text-slate-900 font-display font-bold text-xl mb-2">Constellis Messenger</h3>
-                    <p class="text-slate-400 text-sm max-w-xs">Select a contact to start a conversation.<br>Messages are delivered in real-time.</p>
+                    <h3 class="text-blue-900 font-display font-bold text-2xl mb-2">NSG Messenger</h3>
+                    <p class="text-steel-400 text-sm max-w-xs">Select a contact to start a conversation.<br>Messages are delivered in real-time.</p>
                 </div>
             </div>
 
@@ -94,55 +95,57 @@
             <div x-show="activeChat" x-cloak class="flex flex-col h-full">
 
                 {{-- Chat Header --}}
-                <div class="px-5 py-3.5 bg-white border-b border-slate-200 flex items-center gap-4 shrink-0">
-                    <button @click="closeChat()" class="md:hidden text-slate-400 hover:text-slate-600 mr-1">
+                <div class="px-5 py-3.5 flex items-center gap-4 shrink-0 shadow-md" style="background: linear-gradient(135deg, #1d345d 0%, #2d5287 100%)">
+                    <button @click="closeChat()" class="md:hidden text-white/60 hover:text-white mr-1">
                         <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
                     </button>
-                    <div class="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center text-white font-bold text-sm" x-text="activeName ? activeName.charAt(0) : ''"></div>
+                    <div class="w-10 h-10 rounded-full flex items-center justify-center text-white font-bold text-sm shadow-md" style="background: linear-gradient(135deg, #e7333e, #d41e2a)" x-text="activeName ? activeName.charAt(0) : ''"></div>
                     <div class="flex-1 min-w-0">
-                        <p class="text-slate-900 font-semibold text-sm truncate" x-text="activeName"></p>
-                        <p class="text-slate-400 text-xs capitalize" x-text="activeRole"></p>
+                        <p class="text-white font-display font-semibold text-sm truncate" x-text="activeName"></p>
+                        <p class="text-steel-300 text-xs capitalize" x-text="activeRole"></p>
                     </div>
                     <div class="flex items-center gap-2">
-                        <span x-show="onlineUsers.has(activeChat)" class="inline-flex items-center gap-1.5 text-green-600 text-xs font-medium">
-                            <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+                        <span x-show="onlineUsers.has(activeChat)" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-green-500/20 text-green-300 text-xs font-medium">
+                            <span class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span>
                             Online
                         </span>
-                        <span x-show="!onlineUsers.has(activeChat)" class="inline-flex items-center gap-1.5 text-slate-400 text-xs font-medium">
-                            <span class="w-2 h-2 rounded-full bg-slate-300"></span>
+                        <span x-show="!onlineUsers.has(activeChat)" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/10 text-steel-300 text-xs font-medium">
+                            <span class="w-2 h-2 rounded-full bg-steel-400"></span>
                             Offline
                         </span>
                     </div>
                 </div>
 
-                {{-- Messages --}}
-                <div class="flex-1 overflow-y-auto px-5 py-4 space-y-1" id="chat-messages" x-ref="chatMessages">
+                {{-- Messages Area --}}
+                <div class="flex-1 overflow-y-auto px-5 py-4 space-y-1" id="chat-messages" x-ref="chatMessages"
+                     style="background: linear-gradient(180deg, #eff6ef 0%, #deedde 40%, #eff6ef 100%); background-image: url('data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2760%27 height=%2760%27 viewBox=%270 0 60 60%27%3E%3Cg fill=%27none%27 stroke=%27%239298af%27 stroke-width=%270.3%27 opacity=%270.15%27%3E%3Cpath d=%27M0 30h60M30 0v60%27/%3E%3C/g%3E%3C/svg%3E')">
                     <div x-show="loading" class="flex items-center justify-center py-20">
-                        <div class="w-8 h-8 border-2 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+                        <div class="w-8 h-8 border-2 border-accent-500 border-t-transparent rounded-full animate-spin"></div>
                     </div>
                     <div x-show="!loading && messages.length === 0" class="text-center py-16">
-                        <div class="w-16 h-16 rounded-full bg-blue-50 flex items-center justify-center mx-auto mb-4">
-                            <svg class="w-8 h-8 text-blue-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"/></svg>
+                        <div class="w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-md" style="background: linear-gradient(135deg, #1d345d, #2d5287)">
+                            <svg class="w-10 h-10 text-white/70" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"/></svg>
                         </div>
-                        <p class="text-slate-400 text-sm">No messages yet. Say hello! 👋</p>
+                        <p class="text-steel-500 text-sm font-medium">No messages yet. Say hello! 👋</p>
                     </div>
                     <template x-for="(msg, idx) in messages" :key="msg.id">
                         <div>
                             {{-- Date separator --}}
                             <template x-if="idx === 0 || messages[idx-1]?.date !== msg.date">
                                 <div class="flex items-center justify-center my-4">
-                                    <span class="px-3 py-1 rounded-full bg-white text-slate-400 text-[10px] font-medium shadow-sm" x-text="msg.date"></span>
+                                    <span class="px-4 py-1.5 rounded-full text-[10px] font-semibold tracking-wide uppercase shadow-sm" style="background: linear-gradient(135deg, #1d345d, #2d5287); color: #d1d4df" x-text="msg.date"></span>
                                 </div>
                             </template>
                             {{-- Message bubble --}}
                             <div class="flex mb-1" :class="msg.is_mine ? 'justify-end' : 'justify-start'">
                                 <div class="max-w-[75%] lg:max-w-[60%] rounded-2xl px-4 py-2.5 shadow-sm relative"
-                                     :class="msg.is_mine ? 'bg-blue-600 text-white rounded-br-md' : 'bg-white text-slate-800 rounded-bl-md'">
+                                     :class="msg.is_mine ? 'text-white rounded-br-md' : 'bg-white text-slate-800 rounded-bl-md border border-steel-100'"
+                                     :style="msg.is_mine ? 'background: linear-gradient(135deg, #1d345d, #2d5287)' : ''">
                                     <p class="text-[13px] leading-relaxed whitespace-pre-wrap break-words" x-text="msg.body"></p>
                                     <div class="flex items-center justify-end gap-1.5 mt-1">
                                         <span class="text-[10px] opacity-60" x-text="msg.time"></span>
                                         <template x-if="msg.is_mine">
-                                            <svg class="w-3.5 h-3.5" :class="msg.read ? 'text-sky-200' : 'opacity-40'" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                                            <svg class="w-3.5 h-3.5" :class="msg.read ? 'text-green-300' : 'opacity-40'" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
                                         </template>
                                     </div>
                                 </div>
@@ -152,28 +155,31 @@
                 </div>
 
                 {{-- Typing Indicator --}}
-                <div x-show="isTyping" x-transition class="px-5 pb-1">
-                    <div class="inline-flex items-center gap-1 px-3 py-2 rounded-xl bg-white text-slate-400 text-xs shadow-sm">
-                        <span class="w-1.5 h-1.5 rounded-full bg-slate-400 animate-bounce" style="animation-delay:0ms"></span>
-                        <span class="w-1.5 h-1.5 rounded-full bg-slate-400 animate-bounce" style="animation-delay:150ms"></span>
-                        <span class="w-1.5 h-1.5 rounded-full bg-slate-400 animate-bounce" style="animation-delay:300ms"></span>
+                <div x-show="isTyping" x-transition class="px-5 pb-1" style="background: #eff6ef">
+                    <div class="inline-flex items-center gap-1 px-3 py-2 rounded-xl bg-white text-steel-500 text-xs shadow-sm border border-steel-100">
+                        <span class="w-1.5 h-1.5 rounded-full bg-accent-400 animate-bounce" style="animation-delay:0ms"></span>
+                        <span class="w-1.5 h-1.5 rounded-full bg-accent-400 animate-bounce" style="animation-delay:150ms"></span>
+                        <span class="w-1.5 h-1.5 rounded-full bg-accent-400 animate-bounce" style="animation-delay:300ms"></span>
                         <span class="ml-1" x-text="activeName + ' is typing...'"></span>
                     </div>
                 </div>
 
                 {{-- Input Bar --}}
-                <div class="px-4 py-3 bg-white border-t border-slate-200 shrink-0">
+                <div class="px-4 py-3 shrink-0 border-t" style="background: linear-gradient(180deg, #ffffff 0%, #f4f5f7 100%); border-color: #d1d4df">
                     <form @submit.prevent="send()" class="flex items-end gap-3">
                         <div class="flex-1 relative">
                             <textarea x-model="newMessage" @keydown.enter.prevent="if(!$event.shiftKey) send()"
                                       rows="1" x-ref="messageInput"
                                       @input="autoResize($event.target)"
                                       placeholder="Type a message..."
-                                      class="w-full px-4 py-3 rounded-2xl bg-slate-50 border border-slate-200 text-slate-900 placeholder-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none transition-all text-sm resize-none max-h-32 leading-relaxed"
-                                      style="min-height:44px"></textarea>
+                                      class="w-full px-4 py-3 rounded-2xl border text-slate-900 placeholder-steel-400 focus:ring-2 focus:outline-none transition-all text-sm resize-none max-h-32 leading-relaxed"
+                                      style="background: #eff6ef; border-color: #d1d4df; min-height:44px"
+                                      onfocus="this.style.borderColor='#e7333e'; this.style.boxShadow='0 0 0 3px rgba(231,51,62,0.15)'"
+                                      onblur="this.style.borderColor='#d1d4df'; this.style.boxShadow='none'"></textarea>
                         </div>
                         <button type="submit" :disabled="!newMessage.trim() || sending"
-                                class="w-11 h-11 rounded-full bg-blue-600 text-white flex items-center justify-center hover:bg-blue-700 transition-colors disabled:opacity-40 disabled:cursor-not-allowed shrink-0 mb-0.5">
+                                class="w-11 h-11 rounded-full text-white flex items-center justify-center transition-all disabled:opacity-40 disabled:cursor-not-allowed shrink-0 mb-0.5 shadow-lg hover:shadow-xl hover:-translate-y-0.5"
+                                style="background: linear-gradient(135deg, #e7333e, #d41e2a)">
                             <svg x-show="!sending" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
                             <div x-show="sending" class="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
                         </button>

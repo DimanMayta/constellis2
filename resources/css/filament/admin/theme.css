@@ -1,0 +1,77 @@
+@import '/vendor/filament/filament/resources/css/theme.css';
+
+/* ─── Subtle color accents — reduce white feel ─── */
+
+/* Body: light blue-gray tint instead of pure white */
+.fi-body {
+    background: #f0f4f8 !important;
+}
+
+/* Sidebar: very light blue tint */
+.fi-sidebar {
+    background: #f7f9fc !important;
+    border-right: 1px solid #e2e8f0 !important;
+}
+
+/* Topbar: subtle bottom border */
+.fi-topbar {
+    border-bottom: 1px solid #e2e8f0 !important;
+}
+
+/* Stat cards: subtle blue border */
+.fi-wi-stats-overview-stat {
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 1rem !important;
+}
+
+/* Chart card */
+.fi-wi-chart {
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 1rem !important;
+}
+
+/* Sections/Cards */
+.fi-section {
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 1rem !important;
+}
+
+/* Account widget */
+.fi-account-widget {
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 1rem !important;
+}
+
+/* Table container */
+.fi-ta-ctn {
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 1rem !important;
+    overflow: hidden;
+}
+
+/* Table header row */
+.fi-ta-header-cell {
+    background: #f7f9fc !important;
+}
+
+/* ─── Dark mode adjustments ─── */
+.dark .fi-body {
+    background: #0f1117 !important;
+}
+
+.dark .fi-sidebar {
+    background: #141720 !important;
+    border-right: 1px solid rgba(255,255,255,0.06) !important;
+}
+
+.dark .fi-wi-stats-overview-stat,
+.dark .fi-wi-chart,
+.dark .fi-section,
+.dark .fi-account-widget,
+.dark .fi-ta-ctn {
+    border-color: rgba(255,255,255,0.06) !important;
+}
+
+.dark .fi-ta-header-cell {
+    background: rgba(255,255,255,0.03) !important;
+}

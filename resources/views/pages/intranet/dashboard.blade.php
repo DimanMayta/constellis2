@@ -2,7 +2,7 @@
 @section('title', 'Intranet — Constellis')
 
 @section('content')
-<section class="py-8 bg-slate-50 min-h-screen -mt-20 pt-28">
+<section class="py-8 bg-slate-50 min-h-screen">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {{-- Header --}}
         <div class="flex items-center justify-between mb-8">

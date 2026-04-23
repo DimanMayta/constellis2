@@ -2,7 +2,7 @@
 @section('title', 'Employee Store — Constellis')
 
 @section('content')
-<section class="relative py-28 overflow-hidden -mt-20 pt-40 bg-gradient-to-br from-slate-800 via-slate-900 to-blue-900">
+<section class="relative py-28 overflow-hidden bg-gradient-to-br from-slate-800 via-slate-900 to-blue-900">
     <div class="absolute inset-0 line-grid opacity-10"></div>
     <div class="max-w-xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
         <div class="w-20 h-20 rounded-3xl bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center text-white mx-auto mb-8">

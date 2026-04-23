@@ -2,7 +2,7 @@
 @section('title', 'Cart — Constellis Store')
 
 @section('content')
-<section class="py-8 bg-white -mt-20 pt-28">
+<section class="py-8 bg-white">
     <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         <a href="{{ route('store.index') }}" class="inline-flex items-center gap-2 text-slate-500 hover:text-blue-600 text-sm font-medium mb-8 transition-colors">
             <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
@@ -21,7 +21,13 @@
             <div class="space-y-4 mb-8">
                 @foreach($products as $item)
                     <div class="card p-6 flex items-center gap-6">
-                        <div class="w-20 h-20 rounded-xl img-placeholder shrink-0 relative"><div class="absolute inset-0 flex items-center justify-center z-10"><span class="text-white/30 font-bold text-xs">{{ substr($item['product']->name, 0, 2) }}</span></div></div>
+                        <div class="w-20 h-20 rounded-xl shrink-0 relative overflow-hidden bg-slate-100">
+                            @if($item['product']->images && count($item['product']->images) > 0)
+                                <img src="{{ asset('storage/' . $item['product']->images[0]) }}" alt="{{ $item['product']->name }}" class="w-full h-full object-cover">
+                            @else
+                                <div class="absolute inset-0 flex items-center justify-center img-placeholder"><span class="text-white/30 font-bold text-xs">{{ substr($item['product']->name, 0, 2) }}</span></div>
+                            @endif
+                        </div>
                         <div class="flex-1 min-w-0">
                             <h3 class="text-slate-900 font-semibold truncate">{{ $item['product']->name }}</h3>
                             <p class="text-slate-400 text-sm">Qty: {{ $item['quantity'] }}{{ $item['size'] ? ' · ' . $item['size'] : '' }}{{ $item['color'] ? ' · ' . $item['color'] : '' }}</p>

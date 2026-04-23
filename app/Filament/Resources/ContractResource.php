@@ -20,6 +20,7 @@ class ContractResource extends Resource
     protected static ?string $navigationGroup = 'Contracts';
 
     protected static ?int $navigationSort = 4;
+    protected static bool $shouldRegisterNavigation = false;
 
     public static function form(Form $form): Form
     {
@@ -47,7 +48,7 @@ class ContractResource extends Resource
                             ->maxLength(255),
                         Forms\Components\TextInput::make('sort_order')
                             ->numeric()
-                            ->default(0),
+                            ->default(fn () => (\App\Models\Contract::max('sort_order') ?? 0) + 1),
                         Forms\Components\Toggle::make('is_active')
                             ->default(true),
                     ])->columns(2),

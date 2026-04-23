@@ -1,5 +1,26 @@
 <?php
+
 namespace App\Filament\Resources\StoreOrderResource\Pages;
+
 use App\Filament\Resources\StoreOrderResource;
+use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
-class EditStoreOrder extends EditRecord { protected static string $resource = StoreOrderResource::class; }
+
+class EditStoreOrder extends EditRecord
+{
+    protected static string $resource = StoreOrderResource::class;
+
+    protected function getHeaderActions(): array
+    {
+        return [
+            Actions\ViewAction::make()
+                ->icon('heroicon-o-eye'),
+            Actions\DeleteAction::make(),
+        ];
+    }
+
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('view', ['record' => $this->getRecord()]);
+    }
+}

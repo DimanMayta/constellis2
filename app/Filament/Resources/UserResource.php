@@ -86,11 +86,17 @@ class UserResource extends Resource
                                 ->prefixIcon('heroicon-o-lock-closed')
                                 ->helperText(fn (string $operation) => $operation === 'edit' ? 'Leave blank to keep current password.' : null),
 
-                            Forms\Components\TextInput::make('avatar')
-                                ->maxLength(255)
-                                ->placeholder('URL or file path')
-                                ->prefixIcon('heroicon-o-photo')
-                                ->helperText('Avatar image URL (optional).'),
+                            Forms\Components\FileUpload::make('avatar')
+                                ->image()
+                                ->avatar()
+                                ->directory('avatars')
+                                ->maxSize(2048)
+                                ->imageResizeMode('cover')
+                                ->imageCropAspectRatio('1:1')
+                                ->imageResizeTargetWidth('200')
+                                ->imageResizeTargetHeight('200')
+                                ->alignCenter()
+                                ->helperText('Upload avatar image (optional, max 2MB).'),
                         ]),
                     ]),
 
@@ -110,6 +116,24 @@ class UserResource extends Resource
                                 ->required()
                                 ->native(false)
                                 ->default('employee')
+                                ->live()
+                                ->afterStateUpdated(function (Forms\Set $set, ?string $state) {
+                                    if ($state) {
+                                        $prefix = match ($state) {
+                                            'admin' => 'CON-ADMIN',
+                                            'employee' => 'CON-EMP',
+                                            'contractor' => 'CON-CTR',
+                                            default => 'CON-USR',
+                                        };
+                                        $lastCode = User::where('employee_code', 'like', $prefix . '-%')
+                                            ->orderByDesc('employee_code')
+                                            ->value('employee_code');
+                                        $nextNum = $lastCode
+                                            ? (int) substr($lastCode, strrpos($lastCode, '-') + 1) + 1
+                                            : 1;
+                                        $set('employee_code', $prefix . '-' . str_pad($nextNum, 3, '0', STR_PAD_LEFT));
+                                    }
+                                })
                                 ->helperText('Determines sidebar access and capabilities.'),
 
                             Forms\Components\Select::make('access_level')
@@ -145,10 +169,21 @@ class UserResource extends Resource
 
                             Forms\Components\TextInput::make('employee_code')
                                 ->maxLength(255)
-                                ->placeholder('e.g. CON-EMP-001')
+                                ->placeholder('Select a role to generate')
                                 ->prefixIcon('heroicon-o-identification')
                                 ->unique(ignoreRecord: true)
-                                ->helperText('Unique employee/contractor identifier.'),
+                                ->readOnly()
+                                ->default(function () {
+                                    $prefix = 'CON-EMP';
+                                    $lastCode = User::where('employee_code', 'like', $prefix . '-%')
+                                        ->orderByDesc('employee_code')
+                                        ->value('employee_code');
+                                    $nextNum = $lastCode
+                                        ? (int) substr($lastCode, strrpos($lastCode, '-') + 1) + 1
+                                        : 1;
+                                    return $prefix . '-' . str_pad($nextNum, 3, '0', STR_PAD_LEFT);
+                                })
+                                ->helperText('Auto-generated from selected role.'),
                         ]),
                     ]),
             ]);

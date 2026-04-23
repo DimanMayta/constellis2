@@ -22,6 +22,7 @@ class ServiceCategoryResource extends Resource
     protected static ?int $navigationSort = 1;
 
     protected static ?string $navigationLabel = 'Categories';
+    protected static bool $shouldRegisterNavigation = false;
 
     public static function form(Form $form): Form
     {
@@ -48,7 +49,7 @@ class ServiceCategoryResource extends Resource
                             ->directory('service-categories'),
                         Forms\Components\TextInput::make('sort_order')
                             ->numeric()
-                            ->default(0),
+                            ->default(fn () => (\App\Models\ServiceCategory::max('sort_order') ?? 0) + 1),
                         Forms\Components\Toggle::make('is_active')
                             ->default(true),
                     ])->columns(2),

@@ -2,7 +2,7 @@
 @section('title', 'Message — Constellis Intranet')
 
 @section('content')
-<section class="py-8 bg-slate-50 min-h-screen -mt-20 pt-28">
+<section class="py-8 bg-slate-50 min-h-screen">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <a href="{{ route('intranet.inbox') }}" class="text-blue-600 text-sm font-medium hover:text-blue-700">← Back to Inbox</a>
         <div class="card p-8 mt-4">

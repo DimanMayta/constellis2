@@ -12,7 +12,6 @@ use App\Http\Controllers\PageController;
 use App\Http\Controllers\PartnerController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\JobController;
-use App\Http\Controllers\SurveyController;
 use App\Http\Controllers\StoreController;
 use App\Http\Controllers\IntranetController;
 use App\Http\Controllers\ExperienceController;
@@ -107,12 +106,10 @@ Route::prefix('news')->name('news.')->group(function () {
     Route::get('/{article}', [NewsController::class, 'show'])->name('show');
 });
 
-// ──────────────────────────────────────────────
-// Contact + Survey
+// Contact
 // ──────────────────────────────────────────────
 Route::get('/contact', [ContactController::class, 'show'])->name('contact.show');
 Route::post('/contact', [ContactController::class, 'submit'])->name('contact.submit');
-Route::post('/survey', [SurveyController::class, 'store'])->name('survey.store');
 
 // ──────────────────────────────────────────────
 // Employee Store (Protected)
