@@ -57,19 +57,51 @@ class AboutSectionResource extends Resource
                             ->visible(fn (Forms\Get $get) => $get('tab_key') === 'who')
                             ->columnSpanFull(),
 
+                        // --- Mission: single image EN + ES ---
                         Forms\Components\FileUpload::make('image')
-                            ->label('Section Image')
+                            ->label('Section Image (English)')
                             ->directory('about-sections')
                             ->previewable(false)
                             ->deletable()
-                            ->helperText(fn (Forms\Get $get) => match($get('tab_key')) {
-                                'vision' => 'The image shown below the Vision text.',
-                                'mission' => 'The image shown below the Mission text.',
-                                default => 'Section image.',
-                            })
-                            ->visible(fn (Forms\Get $get) => in_array($get('tab_key'), ['vision', 'mission']))
+                            ->helperText('The image shown below the Mission text.')
+                            ->visible(fn (Forms\Get $get) => $get('tab_key') === 'mission')
                             ->columnSpanFull(),
 
+                        Forms\Components\FileUpload::make('image_es')
+                            ->label('Section Image (Spanish) — Optional')
+                            ->helperText('If set, this image will show when the site is in Spanish. Leave empty to use the same image.')
+                            ->directory('about-sections')
+                            ->previewable(false)
+                            ->deletable()
+                            ->visible(fn (Forms\Get $get) => $get('tab_key') === 'mission')
+                            ->columnSpanFull(),
+
+                        // --- Vision: carousel positions ---
+                        Forms\Components\Placeholder::make('vision_carousel_info')
+                            ->label('🖼️ Vision Carousel — English Images (fixed)')
+                            ->content(new \Illuminate\Support\HtmlString(
+                                '<div style="display:flex;gap:24px;flex-wrap:wrap;">' .
+                                '<div style="text-align:center;"><strong>Position 1</strong><br><img src="' . asset('images/carrusel7.png') . '" style="width:180px;height:100px;object-fit:cover;border-radius:8px;border:2px solid #cbd5e1;" /><br><span style="font-size:12px;color:#64748b;">carrusel7.png</span></div>' .
+                                '<div style="text-align:center;"><strong>Position 2</strong><br><img src="' . asset('images/carrusel8.png') . '" style="width:180px;height:100px;object-fit:cover;border-radius:8px;border:2px solid #cbd5e1;" /><br><span style="font-size:12px;color:#64748b;">carrusel8.png</span></div>' .
+                                '<div style="text-align:center;"><strong>Position 3</strong><br><img src="' . asset('images/carrusel6.png') . '" style="width:180px;height:100px;object-fit:cover;border-radius:8px;border:2px solid #cbd5e1;" /><br><span style="font-size:12px;color:#64748b;">carrusel6.png</span></div>' .
+                                '</div>'
+                            ))
+                            ->visible(fn (Forms\Get $get) => $get('tab_key') === 'vision')
+                            ->columnSpanFull(),
+
+                        Forms\Components\FileUpload::make('carousel_images_es')
+                            ->label('🇪🇸 Spanish Carousel Images (upload in same order: Position 1, 2, 3)')
+                            ->helperText('Upload 3 images in the same order as above. Drag to reorder. When the site is in Spanish, these replace the English carousel.')
+                            ->directory('about-sections/vision-es')
+                            ->previewable(false)
+                            ->deletable()
+                            ->multiple()
+                            ->reorderable()
+                            ->maxFiles(3)
+                            ->visible(fn (Forms\Get $get) => $get('tab_key') === 'vision')
+                            ->columnSpanFull(),
+
+                        // --- Who We Are: inline carousel ---
                         Forms\Components\FileUpload::make('carousel_images')
                             ->label('Carousel Images')
                             ->directory('about-sections/who')
@@ -95,6 +127,21 @@ class AboutSectionResource extends Resource
                             ->label('Content (Spanish)')
                             ->columnSpanFull(),
                     ]),
+
+                Forms\Components\Section::make('Image Caption')
+                    ->description('Text that appears over the image/carousel at the bottom')
+                    ->schema([
+                        Forms\Components\TextInput::make('caption_en')
+                            ->label('Caption (English)')
+                            ->placeholder('e.g. Transforming nations through development, opportunity, and global collaboration.')
+                            ->maxLength(255),
+                        Forms\Components\TextInput::make('caption_es')
+                            ->label('Caption (Spanish)')
+                            ->placeholder('e.g. Transformando naciones a través del desarrollo, la oportunidad y la colaboración global.')
+                            ->maxLength(255),
+                    ])
+                    ->visible(fn (Forms\Get $get) => in_array($get('tab_key'), ['vision', 'mission']))
+                    ->columns(1),
             ]);
     }
 

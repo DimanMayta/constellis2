@@ -260,6 +260,15 @@ class UserResource extends Resource
                     ->trueColor('success')
                     ->falseColor('danger'),
 
+                Tables\Columns\IconColumn::make('is_locked')
+                    ->label('Locked')
+                    ->boolean()
+                    ->sortable()
+                    ->trueIcon('heroicon-o-lock-closed')
+                    ->falseIcon('heroicon-o-lock-open')
+                    ->trueColor('danger')
+                    ->falseColor('success'),
+
                 Tables\Columns\TextColumn::make('last_seen_at')
                     ->label('Status')
                     ->sortable()
@@ -323,6 +332,15 @@ class UserResource extends Resource
                         ->color(fn (User $record) => $record->is_active ? 'danger' : 'success')
                         ->requiresConfirmation()
                         ->action(fn (User $record) => $record->update(['is_active' => !$record->is_active])),
+                    Tables\Actions\Action::make('unlockAccount')
+                        ->label('Unlock Account')
+                        ->icon('heroicon-o-lock-open')
+                        ->color('warning')
+                        ->requiresConfirmation()
+                        ->modalHeading('Unlock User Account')
+                        ->modalDescription('This will reset the login attempts counter and unlock the account, allowing the user to log in again.')
+                        ->visible(fn (User $record) => $record->is_locked)
+                        ->action(fn (User $record) => $record->unlockAccount()),
                     Tables\Actions\DeleteAction::make(),
                 ]),
             ])

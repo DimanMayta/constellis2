@@ -12,8 +12,14 @@ class JobController extends Controller
     {
         $query = JobPosting::active()->ordered()->with('project');
 
-        if ($request->filled('location')) {
-            $query->where('location', 'like', '%' . $request->location . '%');
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('title', 'like', '%' . $search . '%')
+                  ->orWhere('description', 'like', '%' . $search . '%')
+                  ->orWhere('department', 'like', '%' . $search . '%')
+                  ->orWhere('location', 'like', '%' . $search . '%');
+            });
         }
         if ($request->filled('type')) {
             $query->where('employment_type', $request->type);

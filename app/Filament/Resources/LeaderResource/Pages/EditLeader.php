@@ -7,4 +7,9 @@ class EditLeader extends EditRecord
 {
     protected static string $resource = LeaderResource::class;
     protected function getHeaderActions(): array { return [Actions\DeleteAction::make()]; }
+
+    protected function getRedirectUrl(): string
+    {
+        return static::getResource()::getUrl('index');
+    }
 }

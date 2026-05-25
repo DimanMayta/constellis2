@@ -16,7 +16,7 @@ class JobApplicationResource extends Resource
 {
     protected static ?string $model = JobApplication::class;
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
-    protected static ?string $navigationGroup = 'Content Management';
+    protected static ?string $navigationGroup = 'Recruitment';
     protected static ?int $navigationSort = 7;
     protected static ?string $navigationLabel = 'Job Applications';
     protected static ?string $modelLabel = 'Application';

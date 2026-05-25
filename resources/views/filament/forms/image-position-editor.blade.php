@@ -106,7 +106,7 @@
                 <span style="color:rgba(255,255,255,0.6); font-size:10px; font-weight:600;">Services</span>
                 <span style="color:rgba(255,255,255,0.6); font-size:10px; font-weight:600;">Opportunities</span>
                 <span style="color:rgba(255,255,255,0.6); font-size:10px; font-weight:600;">Events</span>
-                <span style="color:rgba(255,255,255,0.6); font-size:10px; font-weight:600;">Clients</span>
+                <span style="color:rgba(255,255,255,0.6); font-size:10px; font-weight:600;">Our Partners</span>
                 <span style="color:rgba(255,255,255,0.6); font-size:10px; font-weight:600;">Contact</span>
             </div>
         </div>

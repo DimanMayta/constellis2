@@ -7,4 +7,9 @@ class EditDivision extends EditRecord
 {
     protected static string $resource = DivisionResource::class;
     protected function getHeaderActions(): array { return [Actions\DeleteAction::make()]; }
+
+    protected function getRedirectUrl(): string
+    {
+        return static::getResource()::getUrl('index');
+    }
 }

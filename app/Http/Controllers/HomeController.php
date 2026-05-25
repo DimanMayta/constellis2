@@ -11,6 +11,7 @@ use App\Models\HomepageClient;
 use App\Models\Service;
 use App\Models\PositionCategory;
 use App\Models\SupportedProject;
+use App\Models\CurrentProject;
 
 class HomeController extends Controller
 {
@@ -24,6 +25,7 @@ class HomeController extends Controller
         $clients = HomepageClient::where('is_active', true)->orderBy('sort_order')->get();
         $positionCategories = PositionCategory::where('is_active', true)->orderBy('sort_order')->get();
         $supportedProjects = SupportedProject::where('is_active', true)->orderBy('sort_order')->get();
+        $currentProjects = CurrentProject::where('is_active', true)->orderBy('sort_order')->get();
         $primaryOffice = ContactOffice::active()->ordered()->first();
         $offices = ContactOffice::active()->ordered()->get();
 
@@ -36,6 +38,7 @@ class HomeController extends Controller
             'clients',
             'positionCategories',
             'supportedProjects',
+            'currentProjects',
             'primaryOffice',
             'offices',
         ));

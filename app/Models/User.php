@@ -14,7 +14,8 @@ class User extends Authenticatable implements FilamentUser
 
     protected $fillable = [
         'name', 'email', 'password', 'role', 'department',
-        'employee_code', 'access_level', 'avatar', 'is_active', 'last_seen_at',
+        'employee_code', 'access_level', 'avatar', 'is_active',
+        'login_attempts', 'is_locked', 'locked_at', 'last_seen_at',
     ];
 
     protected $hidden = ['password', 'remember_token'];
@@ -25,8 +26,48 @@ class User extends Authenticatable implements FilamentUser
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
             'is_active' => 'boolean',
+            'is_locked' => 'boolean',
+            'locked_at' => 'datetime',
             'last_seen_at' => 'datetime',
         ];
+    }
+
+    const MAX_LOGIN_ATTEMPTS = 3;
+
+    /**
+     * Reset login attempts and unlock the account.
+     */
+    public function unlockAccount(): void
+    {
+        $this->update([
+            'login_attempts' => 0,
+            'is_locked' => false,
+            'locked_at' => null,
+        ]);
+    }
+
+    /**
+     * Increment failed login attempts and lock if threshold reached.
+     */
+    public function incrementLoginAttempts(): void
+    {
+        $this->increment('login_attempts');
+        $this->refresh();
+
+        if ($this->login_attempts >= self::MAX_LOGIN_ATTEMPTS) {
+            $this->update([
+                'is_locked' => true,
+                'locked_at' => now(),
+            ]);
+        }
+    }
+
+    /**
+     * Get remaining login attempts.
+     */
+    public function getRemainingAttemptsAttribute(): int
+    {
+        return max(0, self::MAX_LOGIN_ATTEMPTS - $this->login_attempts);
     }
 
     /**

@@ -90,6 +90,19 @@ class HomepageEventResource extends Resource
                             ->visible(fn (Forms\Get $get) => in_array($get('media_type'), ['video', 'image']))
                             ->columnSpanFull(),
                     ])->columns(2),
+
+                Forms\Components\Section::make('Card Thumbnail')
+                    ->description('Upload a custom image to display on the event card. If set, this image will be shown instead of the auto-generated video/YouTube thumbnail.')
+                    ->schema([
+                        Forms\Components\FileUpload::make('thumbnail_image')
+                            ->label('Thumbnail Image')
+                            ->directory('events/thumbnails')
+                            ->previewable(false)
+                            ->deletable()
+                            ->helperText('Upload a JPG, PNG, or WebP image to use as the card preview. The video will still play when clicked.'),
+                    ])
+                    ->visible(fn (Forms\Get $get) => in_array($get('media_type'), ['youtube', 'video']))
+                    ->collapsible(),
             ]);
     }
 

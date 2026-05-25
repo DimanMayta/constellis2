@@ -84,17 +84,11 @@ class StoreOrderResource extends Resource
                                 ->prefixIcon('heroicon-o-signal'),
                         ]),
 
-                        Forms\Components\Grid::make(3)->schema([
+                        Forms\Components\Grid::make(2)->schema([
                             Forms\Components\TextInput::make('subtotal')
                                 ->disabled()
                                 ->prefix('$')
                                 ->prefixIcon('heroicon-o-currency-dollar')
-                                ->dehydrated(false),
-
-                            Forms\Components\TextInput::make('tax')
-                                ->disabled()
-                                ->prefix('$')
-                                ->prefixIcon('heroicon-o-receipt-percent')
                                 ->dehydrated(false),
 
                             Forms\Components\TextInput::make('total')
@@ -184,15 +178,11 @@ class StoreOrderResource extends Resource
                 // ── Financial ──
                 Infolists\Components\Section::make('Financial Summary')
                     ->icon('heroicon-o-currency-dollar')
-                    ->columns(3)
+                    ->columns(2)
                     ->schema([
                         Infolists\Components\TextEntry::make('subtotal')
                             ->money('usd')
                             ->icon('heroicon-o-calculator'),
-
-                        Infolists\Components\TextEntry::make('tax')
-                            ->money('usd')
-                            ->icon('heroicon-o-receipt-percent'),
 
                         Infolists\Components\TextEntry::make('total')
                             ->money('usd')
@@ -206,10 +196,11 @@ class StoreOrderResource extends Resource
                 Infolists\Components\Section::make('Order Items')
                     ->icon('heroicon-o-shopping-cart')
                     ->schema([
-                        Infolists\Components\TextEntry::make('items')
+                        Infolists\Components\TextEntry::make('order_number')
                             ->label('')
-                            ->formatStateUsing(function ($state) {
-                                if (!is_array($state) || empty($state)) {
+                            ->formatStateUsing(function ($state, $record) {
+                                $items = $record->items;
+                                if (!is_array($items) || empty($items)) {
                                     return 'No items';
                                 }
 
@@ -224,7 +215,7 @@ class StoreOrderResource extends Resource
                                 $html .= '<th class="text-right py-2 px-3 font-semibold text-gray-600 dark:text-gray-400">Subtotal</th>';
                                 $html .= '</tr></thead><tbody>';
 
-                                foreach ($state as $item) {
+                                foreach ($items as $item) {
                                     $name = $item['name'] ?? 'Unknown';
                                     $price = number_format($item['price'] ?? 0, 2);
                                     $qty = $item['quantity'] ?? 1;

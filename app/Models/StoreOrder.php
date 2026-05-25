@@ -26,6 +26,10 @@ class StoreOrder extends Model
 
     public static function generateOrderNumber(): string
     {
-        return 'CON-' . date('Ymd') . '-' . str_pad(random_int(0, 9999), 4, '0', STR_PAD_LEFT);
+        do {
+            $number = 'CON-' . date('Ymd') . '-' . str_pad(random_int(0, 9999), 4, '0', STR_PAD_LEFT);
+        } while (self::where('order_number', $number)->exists());
+
+        return $number;
     }
 }

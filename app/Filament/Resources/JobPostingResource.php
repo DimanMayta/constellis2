@@ -14,7 +14,7 @@ class JobPostingResource extends Resource
 {
     protected static ?string $model = JobPosting::class;
     protected static ?string $navigationIcon = 'heroicon-o-briefcase';
-    protected static ?string $navigationGroup = 'Content Management';
+    protected static ?string $navigationGroup = 'Recruitment';
     protected static ?int $navigationSort = 6;
     protected static ?string $navigationLabel = 'Job Postings';
 

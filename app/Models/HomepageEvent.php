@@ -9,7 +9,7 @@ class HomepageEvent extends Model
     protected $fillable = [
         'name_en', 'name_es',
         'emoji', 'gradient_classes',
-        'media_type', 'media_url',
+        'media_type', 'media_url', 'thumbnail_image',
         'sort_order', 'is_active',
     ];
 

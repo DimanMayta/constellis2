@@ -16,7 +16,7 @@ class HomepageClientResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-building-office';
     protected static ?string $navigationGroup = 'Content Management';
     protected static ?int $navigationSort = 9;
-    protected static ?string $navigationLabel = 'Clients';
+    protected static ?string $navigationLabel = 'Our Partners';
     protected static ?string $modelLabel = 'Client';
 
     public static function form(Form $form): Form

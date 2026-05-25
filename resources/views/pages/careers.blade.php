@@ -4,31 +4,97 @@
     <template x-if="$store.lang.current === 'es'">Carreras — Constellis</template>
 @endsection
 @section('content')
-<section class="relative py-28 overflow-hidden bg-gradient-to-br from-[#1d345d] via-[#253d6a] to-[#1d345d]">
-    <div class="absolute inset-0 line-grid opacity-20"></div>
-    <div class="blob w-[400px] h-[400px] bg-[#9298af]/10 top-0 right-0 animate-morph"></div>
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <span class="text-[#9298af] text-sm font-bold tracking-wider uppercase mb-4 block"
-              x-text="$store.lang.current === 'en' ? 'Join Our Team' : 'Únete a Nuestro Equipo'"></span>
-        <h1 class="section-heading-white mb-6"
-            x-text="$store.lang.current === 'en' ? 'Build Your Career' : 'Construye Tu Carrera'"></h1>
-        <p class="section-subheading-white mb-10"
-           x-text="$store.lang.current === 'en' ? 'Join over 20,000 professionals worldwide in a mission-driven organization dedicated to security excellence.' : 'Únete a más de 20,000 profesionales en todo el mundo en una organización orientada a la misión dedicada a la excelencia en seguridad.'"></p>
-        <a href="https://myjobs.adp.com/constelliscareers/" target="_blank" rel="noopener" class="btn-white">
-            <span x-text="$store.lang.current === 'en' ? 'Search Open Positions' : 'Buscar Posiciones Abiertas'"></span>
-            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
-        </a>
+
+{{-- ============================================================
+HERO — Careers with Background Image Watermark
+============================================================ --}}
+<section class="relative min-h-[520px] flex items-center overflow-hidden">
+    {{-- Background image — subtle watermark --}}
+    <div class="absolute inset-0">
+        <img src="{{ asset('images/careers.jpeg') }}" alt=""
+             class="absolute inset-0 w-full h-full object-cover object-center"
+             loading="eager">
+        {{-- Heavy overlay for watermark effect --}}
+        <div class="absolute inset-0 bg-gradient-to-r from-[#0f1f3d]/95 via-[#1d345d]/90 to-[#1d345d]/85"></div>
+        <div class="absolute inset-0 bg-gradient-to-b from-[#1d345d]/40 via-transparent to-[#1d345d]/60"></div>
     </div>
-    <div class="absolute bottom-0 left-0 right-0"><svg viewBox="0 0 1440 80" fill="none" class="w-full"><path d="M0,80 L0,40 Q360,0 720,40 Q1080,80 1440,30 L1440,80 Z" fill="#eff6ef"/></svg></div>
+
+    {{-- Subtle grid pattern --}}
+    <div class="absolute inset-0 line-grid opacity-[0.06]"></div>
+
+    {{-- Decorative accents --}}
+    <div class="absolute top-20 right-[15%] w-72 h-72 bg-[#e7333e]/8 rounded-full blur-[100px]"></div>
+    <div class="absolute bottom-10 left-[10%] w-60 h-60 bg-[#9298af]/10 rounded-full blur-[80px]"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 py-28 w-full">
+        <div class="max-w-2xl">
+            {{-- Eyebrow --}}
+            <div class="flex items-center gap-3 mb-6">
+                <div class="w-10 h-[2px] bg-[#e7333e]"></div>
+                <span class="text-[#e7333e] text-xs font-bold tracking-[0.2em] uppercase"
+                      x-text="$store.lang.current === 'en' ? 'Join Our Team' : 'Únete a Nuestro Equipo'"></span>
+            </div>
+
+            {{-- Title --}}
+            <h1 class="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-white leading-[1.1] mb-6">
+                <span x-show="$store.lang.current === 'en'">Build Your <span class="text-[#e7333e]">Career</span></span>
+                <span x-show="$store.lang.current === 'es'" x-cloak>Construye Tu <span class="text-[#e7333e]">Carrera</span></span>
+            </h1>
+
+            {{-- Description --}}
+            <p class="text-white/60 text-lg leading-relaxed mb-10 max-w-xl"
+               x-text="$store.lang.current === 'en' ? 'Join over 20,000 professionals worldwide in a mission-driven organization dedicated to security excellence.' : 'Únete a más de 20,000 profesionales en todo el mundo en una organización orientada a la misión dedicada a la excelencia en seguridad.'"></p>
+
+            {{-- CTA Buttons --}}
+            <div class="flex flex-wrap gap-4">
+                <a href="https://myjobs.adp.com/constelliscareers/" target="_blank" rel="noopener"
+                   class="inline-flex items-center gap-2 bg-[#e7333e] hover:bg-[#d42d37] text-white font-semibold px-8 py-4 rounded-xl transition-all duration-300 shadow-lg shadow-[#e7333e]/25 hover:shadow-xl hover:shadow-[#e7333e]/30 hover:-translate-y-0.5">
+                    <span x-text="$store.lang.current === 'en' ? 'Search Open Positions' : 'Buscar Posiciones Abiertas'"></span>
+                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                </a>
+                <a href="#why-constellis"
+                   class="inline-flex items-center gap-2 bg-white/10 hover:bg-white/15 text-white font-semibold px-8 py-4 rounded-xl border border-white/15 hover:border-white/25 transition-all duration-300 backdrop-blur-sm">
+                    <span x-text="$store.lang.current === 'en' ? 'Learn More' : 'Conoce Más'"></span>
+                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                </a>
+            </div>
+        </div>
+
+        {{-- Stats row --}}
+        <div class="mt-16 pt-10 border-t border-white/[0.08]">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
+                @php $stats = [
+                    ['num' => '20,000+', 'label_en' => 'Professionals', 'label_es' => 'Profesionales'],
+                    ['num' => '35+', 'label_en' => 'Countries', 'label_es' => 'Países'],
+                    ['num' => '24/7', 'label_en' => 'Operations', 'label_es' => 'Operaciones'],
+                    ['num' => '100%', 'label_en' => 'Mission Focus', 'label_es' => 'Enfoque en la Misión'],
+                ]; @endphp
+                @foreach($stats as $stat)
+                    <div class="text-center md:text-left">
+                        <p class="text-2xl md:text-3xl font-display font-bold text-white mb-1">{{ $stat['num'] }}</p>
+                        <p class="text-white/40 text-sm font-medium"
+                           x-text="$store.lang.current === 'en' ? '{{ $stat['label_en'] }}' : '{{ $stat['label_es'] }}'"></p>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+    </div>
+
+    {{-- Bottom wave --}}
+    <div class="absolute bottom-0 left-0 right-0 z-10"><svg viewBox="0 0 1440 60" fill="none" class="w-full"><path d="M0,60 L0,30 Q360,0 720,30 Q1080,60 1440,20 L1440,60 Z" fill="#eff6ef"/></svg></div>
 </section>
 
-<section class="py-20 bg-[#eff6ef]">
+{{-- ============================================================
+WHY CONSTELLIS — Benefits Grid
+============================================================ --}}
+<section class="py-20 bg-[#eff6ef]" id="why-constellis">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-16" data-animate>
             <h2 class="text-3xl md:text-4xl font-display font-bold text-[#1d345d] mb-4">
                 <span x-text="$store.lang.current === 'en' ? 'Why' : '¿Por qué'"></span>
                 <span class="text-[#e7333e]">Constellis</span><span x-text="$store.lang.current === 'en' ? '?' : '?'"></span>
             </h2>
+            <div class="w-16 h-[2px] bg-[#e7333e] mx-auto mt-4 mb-5"></div>
             <p class="text-[#9298af] text-lg max-w-2xl mx-auto"
                x-text="$store.lang.current === 'en' ? 'We offer competitive benefits and a supportive work environment.' : 'Ofrecemos beneficios competitivos y un entorno laboral de apoyo.'"></p>
         </div>
@@ -68,13 +134,25 @@
     </div>
 </section>
 
-<section class="py-20 bg-gradient-to-br from-[#1d345d] via-[#253d6a] to-[#1d345d]">
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center" data-animate>
-        <h2 class="text-3xl font-display font-bold text-white mb-6"
+{{-- ============================================================
+CTA — Bottom Section with Background Image Watermark
+============================================================ --}}
+<section class="relative py-24 overflow-hidden">
+    {{-- Background image watermark --}}
+    <div class="absolute inset-0">
+        <img src="{{ asset('images/careers.jpeg') }}" alt=""
+             class="absolute inset-0 w-full h-full object-cover"
+             loading="lazy">
+        <div class="absolute inset-0 bg-gradient-to-r from-[#1d345d]/95 via-[#1d345d]/92 to-[#1d345d]/88"></div>
+    </div>
+
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10" data-animate>
+        <h2 class="text-3xl md:text-4xl font-display font-bold text-white mb-6"
             x-text="$store.lang.current === 'en' ? 'Ready to Make an Impact?' : '¿Listo para Generar un Impacto?'"></h2>
-        <p class="text-[#9298af] text-lg mb-8"
+        <p class="text-white/50 text-lg mb-10 max-w-2xl mx-auto"
            x-text="$store.lang.current === 'en' ? 'Explore our current openings and take the first step toward a rewarding career.' : 'Explora nuestras oportunidades actuales y da el primer paso hacia una carrera gratificante.'"></p>
-        <a href="https://myjobs.adp.com/constelliscareers/" target="_blank" rel="noopener" class="inline-flex items-center gap-2 bg-[#e7333e] hover:bg-[#d42d37] text-white font-semibold px-10 py-4 rounded-xl transition-all duration-300 shadow-lg shadow-[#e7333e]/25 hover:shadow-xl hover:shadow-[#e7333e]/30">
+        <a href="https://myjobs.adp.com/constelliscareers/" target="_blank" rel="noopener"
+           class="inline-flex items-center gap-2 bg-[#e7333e] hover:bg-[#d42d37] text-white font-semibold px-10 py-4 rounded-xl transition-all duration-300 shadow-lg shadow-[#e7333e]/25 hover:shadow-xl hover:shadow-[#e7333e]/30 hover:-translate-y-0.5">
             <span x-text="$store.lang.current === 'en' ? 'View All Open Positions' : 'Ver Todas las Posiciones Abiertas'"></span>
             <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
         </a>

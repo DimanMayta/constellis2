@@ -7,4 +7,9 @@ class EditNewsArticle extends EditRecord
 {
     protected static string $resource = NewsArticleResource::class;
     protected function getHeaderActions(): array { return [Actions\DeleteAction::make()]; }
+
+    protected function getRedirectUrl(): string
+    {
+        return static::getResource()::getUrl('index');
+    }
 }

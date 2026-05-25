@@ -16,6 +16,8 @@ class SupportedProject extends Model
         'website_url',
         'sort_order',
         'is_active',
+        'section_en',
+        'section_es',
     ];
 
     protected $casts = [

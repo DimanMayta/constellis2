@@ -64,6 +64,21 @@ class SupportedProjectResource extends Resource
                             ->placeholder('https://www.example.org/'),
                     ])->columns(1),
 
+                Forms\Components\Section::make('Section / Group')
+                    ->description('Assign this project to a section. Projects with the same section name will be grouped together on the website with a title header.')
+                    ->schema([
+                        Forms\Components\TextInput::make('section_en')
+                            ->label('Section Title (English)')
+                            ->placeholder('e.g. Bolivia Foundations')
+                            ->helperText('Leave empty for the default (ungrouped) section.')
+                            ->datalist(fn () => \App\Models\SupportedProject::whereNotNull('section_en')->distinct()->pluck('section_en')->toArray()),
+                        Forms\Components\TextInput::make('section_es')
+                            ->label('Section Title (Spanish)')
+                            ->placeholder('e.g. Fundaciones de Bolivia')
+                            ->datalist(fn () => \App\Models\SupportedProject::whereNotNull('section_es')->distinct()->pluck('section_es')->toArray()),
+                    ])->columns(2)
+                    ->collapsible(),
+
                 Forms\Components\Section::make('Settings')
                     ->schema([
                         Forms\Components\TextInput::make('sort_order')
@@ -97,6 +112,12 @@ class SupportedProjectResource extends Resource
                     ->label('Website')
                     ->limit(40)
                     ->url(fn ($record) => $record->website_url, shouldOpenInNewTab: true),
+                Tables\Columns\TextColumn::make('section_en')
+                    ->label('Section')
+                    ->badge()
+                    ->color('info')
+                    ->placeholder('—')
+                    ->sortable(),
                 Tables\Columns\IconColumn::make('is_active')
                     ->boolean(),
                 Tables\Columns\TextColumn::make('sort_order')

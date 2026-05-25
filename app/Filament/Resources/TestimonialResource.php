@@ -35,12 +35,57 @@ class TestimonialResource extends Resource
                             ->label('Country Emoji')
                             ->placeholder('🇦🇫')
                             ->maxLength(10),
+                    ])->columns(3),
+
+                Forms\Components\Section::make('Author & Image')
+                    ->schema([
+                        Forms\Components\FileUpload::make('image')
+                            ->label('Testimonial Image')
+                            ->directory('testimonials')
+                            ->previewable(false)
+                            ->deletable()
+                            ->helperText('Upload a photo related to this testimonial.')
+                            ->columnSpanFull(),
+                        Forms\Components\TextInput::make('author_name')
+                            ->label('Author Name')
+                            ->placeholder('e.g. John Doe')
+                            ->maxLength(255),
+                        Forms\Components\TextInput::make('author_role_en')
+                            ->label('Author Role (English)')
+                            ->placeholder('e.g. Former Military Advisor')
+                            ->maxLength(255),
+                        Forms\Components\TextInput::make('author_role_es')
+                            ->label('Author Role (Spanish)')
+                            ->placeholder('e.g. Ex Asesor Militar')
+                            ->maxLength(255),
+                    ])->columns(3),
+
+                Forms\Components\Section::make('Video (Optional)')
+                    ->description('Add a video file or a YouTube URL. If both are provided, the uploaded video takes priority.')
+                    ->schema([
+                        Forms\Components\FileUpload::make('video')
+                            ->label('Upload Video File')
+                            ->directory('testimonials/videos')
+                            ->acceptedFileTypes(['video/mp4', 'video/webm', 'video/quicktime'])
+                            ->maxSize(102400) // 100MB
+                            ->previewable(false)
+                            ->deletable()
+                            ->helperText('Max 100MB. Supports MP4, WebM, MOV.'),
+                        Forms\Components\TextInput::make('video_url')
+                            ->label('YouTube Video URL')
+                            ->placeholder('https://www.youtube.com/watch?v=...')
+                            ->url()
+                            ->helperText('Paste a YouTube URL. Supports standard, short, and Shorts links.'),
+                    ])->columns(2),
+
+                Forms\Components\Section::make('Settings')
+                    ->schema([
                         Forms\Components\TextInput::make('sort_order')
                             ->numeric()
                             ->default(fn () => (\App\Models\Testimonial::max('sort_order') ?? 0) + 1),
                         Forms\Components\Toggle::make('is_active')
                             ->default(true),
-                    ])->columns(3),
+                    ])->columns(2),
 
                 Forms\Components\Section::make('English Content')
                     ->schema([
@@ -62,6 +107,10 @@ class TestimonialResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\ImageColumn::make('image')
+                    ->label('Photo')
+                    ->circular()
+                    ->size(40),
                 Tables\Columns\TextColumn::make('country_emoji')
                     ->label('')
                     ->alignCenter(),

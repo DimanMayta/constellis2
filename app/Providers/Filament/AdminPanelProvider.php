@@ -47,6 +47,7 @@ class AdminPanelProvider extends PanelProvider
             ->sidebarCollapsibleOnDesktop()
             ->navigationGroups([
                 'Content Management',
+                'Recruitment',
                 'Store',
                 'Contact Us',
                 'User Management',

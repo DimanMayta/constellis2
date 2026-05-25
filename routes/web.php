@@ -24,7 +24,7 @@ use Illuminate\Support\Facades\Route;
 // Authentication
 // ──────────────────────────────────────────────
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
-Route::post('/login', [AuthController::class, 'login'])->name('login.submit');
+Route::post('/login', [AuthController::class, 'login'])->middleware('throttle:5,1')->name('login.submit');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // ──────────────────────────────────────────────
@@ -121,9 +121,11 @@ Route::prefix('store')->name('store.')->middleware(EnsureStoreAccess::class)->gr
     Route::get('/', [StoreController::class, 'index'])->name('index');
     Route::get('/cart', [StoreController::class, 'cart'])->name('cart');
     Route::post('/cart/add', [StoreController::class, 'addToCart'])->name('cart.add');
+    Route::post('/cart/update', [StoreController::class, 'updateCart'])->name('cart.update');
     Route::post('/cart/remove', [StoreController::class, 'removeFromCart'])->name('cart.remove');
     Route::get('/checkout', [StoreController::class, 'checkout'])->name('checkout');
     Route::post('/checkout', [StoreController::class, 'checkout'])->name('checkout.process');
+    Route::post('/logout', [StoreController::class, 'storeLogout'])->name('logout');
     Route::get('/{product}', [StoreController::class, 'show'])->name('show');
 });
 

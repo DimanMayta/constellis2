@@ -79,6 +79,7 @@ export default {
             fontFamily: {
                 sans: ['Open Sans', ...defaultTheme.fontFamily.sans],
                 display: ['Raleway', ...defaultTheme.fontFamily.sans],
+                price: ['Inter', 'Raleway', ...defaultTheme.fontFamily.sans],
             },
             animation: {
                 'fade-in': 'fadeIn 0.6s ease-out forwards',
