@@ -3,6 +3,10 @@
 @section('title', 'NSG — Global Security & Defense Solutions')
 @section('meta_description', 'A network of over 72,000 professionals working to safeguard freedom, democracy, and the rule of law worldwide.')
 
+@push('head')
+    <link rel="preload" as="image" href="{{ asset('images/2 carrusel-special forces.jpg.jpeg') }}">
+@endpush
+
 @section('content')
 
     {{-- ============================================================
@@ -35,7 +39,9 @@
                 @endphp
                 <style>
                     .hero-slide-bg-{{ $i }} {
+                        @if($i === 0)
                         background-image: url('{{ $imgEn }}');
+                        @endif
                         background-position:
                             {{ $pos }}
                         ;
@@ -54,7 +60,7 @@
                 <div class="absolute inset-0 transition-opacity duration-1000 ease-in-out"
                     :class="currentSlide === {{ $i }} ? 'opacity-100 z-10' : 'opacity-0 z-0'">
                     {{-- English background (or default if no Spanish version) --}}
-                    <div class="absolute inset-0 hero-slide-bg-{{ $i }}" @if($imgEs) x-show="$store.lang.current === 'en'"
+                    <div class="absolute inset-0 hero-slide-bg-{{ $i }}" data-bg="{{ $imgEn }}" @if($imgEs) x-show="$store.lang.current === 'en'"
                     x-transition.opacity.duration.500ms @endif>
                         <div
                             class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-black/20 max-md:bg-gradient-to-t max-md:from-black/90 max-md:via-black/60 max-md:to-black/30">
@@ -135,17 +141,35 @@
                     currentSlide: 0,
                     totalSlides: {{ $heroSlides->count() }},
                     interval: null,
+                    loadedSlides: new Set([0]),
+                    preloadSlide(index) {
+                        if (this.loadedSlides.has(index)) return;
+                        const slideEl = document.querySelector('.hero-slide-bg-' + index);
+                        if (slideEl && slideEl.dataset.bg) {
+                            slideEl.style.backgroundImage = "url('" + slideEl.dataset.bg + "')";
+                            this.loadedSlides.add(index);
+                        }
+                    },
+                    changeSlide(newIndex) {
+                        this.preloadSlide(newIndex);
+                        this.currentSlide = newIndex;
+                        // Preload the NEXT slide ahead of time
+                        const upcoming = (newIndex + 1) % this.totalSlides;
+                        setTimeout(() => this.preloadSlide(upcoming), 500);
+                    },
                     startAutoPlay() {
                         this.stopAutoPlay();
+                        // Preload slide 1 after initial load
+                        setTimeout(() => this.preloadSlide(1), 2000);
                         this.interval = setInterval(() => {
-                            this.currentSlide = (this.currentSlide + 1) % this.totalSlides;
+                            this.changeSlide((this.currentSlide + 1) % this.totalSlides);
                         }, 10000);
                     },
                     pauseAutoPlay() { clearInterval(this.interval); },
                     stopAutoPlay() { clearInterval(this.interval); },
-                    next() { this.stopAutoPlay(); this.currentSlide = (this.currentSlide + 1) % this.totalSlides; this.startAutoPlay(); },
-                    prev() { this.stopAutoPlay(); this.currentSlide = (this.currentSlide - 1 + this.totalSlides) % this.totalSlides; this.startAutoPlay(); },
-                    goTo(i) { this.stopAutoPlay(); this.currentSlide = i; this.startAutoPlay(); },
+                    next() { this.stopAutoPlay(); this.changeSlide((this.currentSlide + 1) % this.totalSlides); this.startAutoPlay(); },
+                    prev() { this.stopAutoPlay(); this.changeSlide((this.currentSlide - 1 + this.totalSlides) % this.totalSlides); this.startAutoPlay(); },
+                    goTo(i) { this.stopAutoPlay(); this.changeSlide(i); this.startAutoPlay(); },
                 }
             }
         </script>
