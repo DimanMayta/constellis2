@@ -62,14 +62,14 @@
                      x-data="{
                          current: 0,
                          images: [
-                             '{{ asset('images/footer1.png') }}',
-                             '{{ asset('images/footer2.png') }}',
-                             '{{ asset('images/footer3.jpeg') }}',
-                             '{{ asset('images/footer4.jpeg') }}',
-                             '{{ asset('images/footer5.jpeg') }}',
-                             '{{ asset('images/footer6.jpeg') }}',
-                             '{{ asset('images/footer7.jpeg') }}',
-                             '{{ asset('images/footer8.jpeg') }}'
+                             '{{ asset('images/footer1.webp') }}',
+                             '{{ asset('images/footer2.webp') }}',
+                             '{{ asset('images/footer3.webp') }}',
+                             '{{ asset('images/footer4.webp') }}',
+                             '{{ asset('images/footer5.webp') }}',
+                             '{{ asset('images/footer6.webp') }}',
+                             '{{ asset('images/footer7.webp') }}',
+                             '{{ asset('images/footer8.webp') }}'
                          ],
                          autoplay: null,
                          init() {

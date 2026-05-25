@@ -11,7 +11,7 @@ HERO — Careers with Background Image Watermark
 <section class="relative min-h-[520px] flex items-center overflow-hidden">
     {{-- Background image — subtle watermark --}}
     <div class="absolute inset-0">
-        <img src="{{ asset('images/careers.jpeg') }}" alt=""
+        <img src="{{ asset('images/careers.webp') }}" alt=""
              class="absolute inset-0 w-full h-full object-cover object-center"
              loading="eager">
         {{-- Heavy overlay for watermark effect --}}
@@ -140,7 +140,7 @@ CTA — Bottom Section with Background Image Watermark
 <section class="relative py-24 overflow-hidden">
     {{-- Background image watermark --}}
     <div class="absolute inset-0">
-        <img src="{{ asset('images/careers.jpeg') }}" alt=""
+        <img src="{{ asset('images/careers.webp') }}" alt=""
              class="absolute inset-0 w-full h-full object-cover"
              loading="lazy">
         <div class="absolute inset-0 bg-gradient-to-r from-[#1d345d]/95 via-[#1d345d]/92 to-[#1d345d]/88"></div>

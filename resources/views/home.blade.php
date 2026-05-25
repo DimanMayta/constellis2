@@ -4,7 +4,7 @@
 @section('meta_description', 'A network of over 72,000 professionals working to safeguard freedom, democracy, and the rule of law worldwide.')
 
 @push('head')
-    <link rel="preload" as="image" href="{{ asset('images/2 carrusel-special forces.jpg.jpeg') }}">
+    <link rel="preload" as="image" href="{{ asset('images/2 carrusel-special forces.jpg.webp') }}" type="image/webp" fetchpriority="high">
 @endpush
 
 @section('content')
@@ -19,14 +19,14 @@
             {{-- Slides --}}
             @php
                 $carouselBgs = [
-                    ['url' => asset('images/2 carrusel-special forces.jpg.jpeg'), 'pos' => 'left top', 'mobilePos' => '80% center', 'size' => 'cover'],       // Slide 1: "Freedom Through Strength"
-                    ['url' => asset('images/carrucel12.jpeg'), 'pos' => 'center 20%', 'mobilePos' => 'center center', 'size' => 'cover'],                         // Slide 2: "World-Class Training"
-                    ['url' => asset('images/carrucel14.jpeg'), 'pos' => 'center 15%', 'mobilePos' => 'center top', 'size' => 'cover'],                             // Slide 3: "Veterans For Veterans"
-                    ['url' => asset('images/carrucel11.jpeg'), 'pos' => 'center 15%', 'mobilePos' => 'center center', 'size' => 'cover'],                          // Slide 4: "Protecting Nations"
-                    ['url' => asset('images/3carrusel-shaking hands.jpg.jpeg'), 'pos' => 'top', 'mobilePos' => 'center center', 'size' => 'cover'],               // Slide 5: "Career Opportunities"
-                    ['url' => asset('images/carrucel13.avif'), 'pos' => 'center 15%', 'mobilePos' => 'center center', 'size' => 'cover'],                          // Slide 6: "Justice & Rule of Law"
-                    ['url' => asset('images/5carrusel-help.jpg.jpeg'), 'pos' => 'top', 'mobilePos' => 'center center', 'size' => 'cover'],                         // Slide 7: "Building Global Partnerships"
-                    ['url' => asset('images/4carrusel-ayuda medica2.jpg.jpeg'), 'pos' => 'top', 'mobilePos' => '50% 30%', 'size' => 'cover'],                // Slide 8: "Rapid Response"
+                    ['url' => asset('images/2 carrusel-special forces.jpg.webp'), 'pos' => 'left top', 'mobilePos' => '80% center', 'size' => 'cover'],       // Slide 1: "Freedom Through Strength"
+                    ['url' => asset('images/carrucel12.webp'), 'pos' => 'center 20%', 'mobilePos' => 'center center', 'size' => 'cover'],                         // Slide 2: "World-Class Training"
+                    ['url' => asset('images/carrucel14.webp'), 'pos' => 'center 15%', 'mobilePos' => 'center top', 'size' => 'cover'],                             // Slide 3: "Veterans For Veterans"
+                    ['url' => asset('images/carrucel11.webp'), 'pos' => 'center 15%', 'mobilePos' => 'center center', 'size' => 'cover'],                          // Slide 4: "Protecting Nations"
+                    ['url' => asset('images/3carrusel-shaking hands.jpg.webp'), 'pos' => 'top', 'mobilePos' => 'center center', 'size' => 'cover'],               // Slide 5: "Career Opportunities"
+                    ['url' => asset('images/carrucel13.avif'), 'pos' => 'center 15%', 'mobilePos' => 'center center', 'size' => 'cover'],                          // Slide 6: "Justice & Rule of Law" (avif ya es pequeño)
+                    ['url' => asset('images/5carrusel-help.jpg.webp'), 'pos' => 'top', 'mobilePos' => 'center center', 'size' => 'cover'],                         // Slide 7: "Building Global Partnerships"
+                    ['url' => asset('images/4carrusel-ayuda medica2.jpg.webp'), 'pos' => 'top', 'mobilePos' => '50% 30%', 'size' => 'cover'],                // Slide 8: "Rapid Response"
                 ];
             @endphp
             @foreach($heroSlides as $i => $slide)
@@ -242,7 +242,7 @@
                                     $whoSection = $aboutSections->firstWhere('tab_key', 'who');
                                     $whoCarousel = $whoSection && $whoSection->carousel_images ? $whoSection->carousel_images : [];
                                     if (empty($whoCarousel)) {
-                                        $whoCarousel = ['images/About Us.png', 'images/sobre1.jpeg', 'images/sobre2.png', 'images/sobre3.png', 'images/sobre4.png', 'images/sobre5.png', 'images/sobre6.png', 'images/about us5.png', 'images/about us2.png', 'images/about us3.png', 'images/about us4.png', 'images/us1.jpeg', 'images/us2.jpeg', 'images/us3.jpeg'];
+                                        $whoCarousel = ['images/About Us.webp', 'images/sobre1.webp', 'images/sobre2.webp', 'images/sobre3.webp', 'images/sobre4.webp', 'images/sobre5.webp', 'images/sobre6.webp', 'images/about us5.webp', 'images/about us2.webp', 'images/about us3.webp', 'images/about us4.webp', 'images/us1.webp', 'images/us2.webp', 'images/us3.webp'];
                                         $whoFromStorage = false;
                                     } else {
                                         $whoFromStorage = true;
@@ -475,9 +475,9 @@
                     @php $visionSection = $aboutSections->firstWhere('tab_key', 'vision'); @endphp
                     @php
                         $visionCarousel = [
-                            asset('images/carrusel7.png'),
-                            asset('images/carrusel8.png'),
-                            asset('images/carrusel6.png'),
+                            asset('images/carrusel7.webp'),
+                            asset('images/carrusel8.webp'),
+                            asset('images/carrusel6.webp'),
                         ];
                         $visionCarouselEs = $visionSection && $visionSection->carousel_images_es && count($visionSection->carousel_images_es) > 0
                             ? array_map(fn($img) => asset('storage/' . $img), $visionSection->carousel_images_es)

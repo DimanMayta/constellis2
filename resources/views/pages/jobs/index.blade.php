@@ -6,7 +6,7 @@
 <div class="relative">
     {{-- Fixed watermark image behind everything --}}
     <div class="fixed inset-0 z-0 pointer-events-none">
-        <img src="{{ asset('images/careers.jpeg') }}" alt=""
+        <img src="{{ asset('images/careers.webp') }}" alt=""
              class="absolute inset-0 w-full h-full object-cover"
              loading="eager">
         <div class="absolute inset-0 bg-[#1d345d]/[0.88]"></div>
