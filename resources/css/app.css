@@ -21,6 +21,10 @@
     html {
         zoom: 0.9;
     }
+    /* Compensate h-screen for zoom so hero fills full viewport */
+    #hero > div {
+        height: calc(100vh / 0.9) !important;
+    }
 }
 
 @layer base {
