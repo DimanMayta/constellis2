@@ -14,6 +14,16 @@
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
     }
+}
+
+/* Auto-zoom 90% on laptop screens to prevent navbar overlap */
+@media (min-width: 1280px) and (max-width: 1536px) {
+    html {
+        zoom: 0.9;
+    }
+}
+
+@layer base {
 
     body {
         @apply bg-white text-slate-700 font-sans;
