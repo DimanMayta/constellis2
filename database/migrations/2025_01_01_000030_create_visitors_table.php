@@ -34,7 +34,7 @@ return new class extends Migration
             $table->index('country');
             $table->index('browser');
             $table->index('device_type');
-            $table->index([DB::raw('url(191)')]);
+            $table->rawIndex('url(191)', 'visitors_url_index');
         });
     }
 
