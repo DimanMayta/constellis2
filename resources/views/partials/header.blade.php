@@ -43,19 +43,19 @@
         class="fixed top-0 left-0 right-0 z-50 transition-all duration-500"
         id="main-header">
 
-    {{-- Logo — positioned at far left of viewport --}}
-    <a href="/" class="absolute left-4 sm:left-6 lg:left-8 top-[36px] -translate-y-1/2 z-10 flex items-center gap-3 group" id="logo-link">
-        <img src="{{ asset('images/NSG.png') }}"
-             alt="National Security Group"
-             class="h-14 w-auto transition-all duration-300 drop-shadow-lg">
-    </a>
-
-    {{-- Nav + Controls — aligned with max-w-7xl content --}}
+    {{-- Nav + Controls --}}
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
         <div class="flex items-center justify-between h-[72px]">
 
+            {{-- Logo — part of flex flow --}}
+            <a href="/" class="flex-shrink-0 flex items-center gap-3 group mr-4" id="logo-link">
+                <img src="{{ asset('images/NSG.png') }}"
+                     alt="National Security Group"
+                     class="h-14 w-auto transition-all duration-300 drop-shadow-lg">
+            </a>
+
             {{-- Desktop Navigation --}}
-            <nav class="hidden xl:flex items-center gap-1 flex-1 justify-start whitespace-nowrap pl-20" id="desktop-nav">
+            <nav class="hidden xl:flex items-center gap-1 flex-1 justify-start whitespace-nowrap" id="desktop-nav">
                 <a href="/"
                    class="relative px-3 py-2 rounded-lg text-[13px] font-bold text-white hover:bg-white/10 transition-all duration-300"
                    :class="activeSection === 'hero' ? 'text-white !bg-white/5' : ''">
@@ -200,8 +200,8 @@
                 </a>
             </nav>
 
-            {{-- Right Side — positioned at far right --}}
-            <div class="hidden xl:flex items-center gap-3 absolute right-4 sm:right-6 lg:right-8 top-1/2 -translate-y-1/2">
+            {{-- Right Side --}}
+            <div class="hidden xl:flex items-center gap-3 flex-shrink-0">
                 {{-- Language Toggle Switch --}}
                 <div class="flex items-center gap-2" id="lang-toggle-desktop">
                     <span class="text-xs font-bold tracking-wide transition-colors duration-300"
