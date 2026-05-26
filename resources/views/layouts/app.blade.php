@@ -33,6 +33,19 @@
             });
             Alpine.store('sections', {
                 active: null,
+                init() {
+                    // Detect hash in URL to activate the correct section
+                    // This handles navigation from other pages (e.g., /careers -> /#testimonials)
+                    const hash = window.location.hash.replace('#', '');
+                    const validSections = ['services', 'opportunities', 'events', 'testimonials', 'clients', 'contact'];
+                    if (hash && validSections.includes(hash)) {
+                        this.active = hash;
+                        setTimeout(() => {
+                            const el = document.getElementById(hash);
+                            if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        }, 300);
+                    }
+                },
                 show(section) {
                     this.active = section;
                     setTimeout(() => {
