@@ -21,7 +21,7 @@
     @stack('head')
     @stack('styles')
 
-    {{-- Nav fix v2: hash-based section activation --}}
+    {{-- Nav fix v3 (2026-05-26): hash-based section activation for cross-page nav --}}
     <script>
         document.addEventListener('alpine:init', () => {
             Alpine.store('lang', {
